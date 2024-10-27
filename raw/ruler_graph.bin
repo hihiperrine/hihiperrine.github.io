@@ -1,0 +1,857 @@
+100,111,131,2595,52522,53496,                                                                       Ruler Graphraw.ruler_graph_iconnew Object[][]{
+	new Object[]{"Ratio Calibrate","double",99,1.033, 1,0,2,0.001}
+	,new Object[]{"Background Color","string",0,"hsl(120,100,10)",  3}
+	,new Object[]{"Opacity","double",100,0.5, 1,0,1,0.01}
+	,new Object[]{"Grid Color","string",1,"hsl(120,100,50)",  3}
+	,new Object[]{"Text Color","string",2,"hsl(120,100,50)",  3}
+	,new Object[]{"Auto Color","int",100,5,  2,new Object[]{"Off",0,"Clear",1,"Book",2,"On Bed",3,"Pilot",4,"Sci Fi",5,"Sport",6}}
+	,new Object[]{"",7,7,7}
+	,new Object[]{"Unit","int",101,1,  2,new Object[]{"mm",0,"cm",1,"inch",2,"pica",3,"lps",4,"px",5}}
+	,new Object[]{"Vertical Axis","int",102,0,  2,new Object[]{"Left",0,"Center",1,"Right",2}}
+	,new Object[]{"Horizontal Axis","int",103,2,  2,new Object[]{"Top",0,"Center",1,"Bottom",2}}
+	,new Object[]{"Grid","int",106,3,  2,new Object[]{"Off",0,"X",1,"Y",2,"XY",3}}
+	,new Object[]{"Circular","int",105,0,  2,new Object[]{"Off",0,"On",1}}
+	,new Object[]{"Angle Line","int",104,1,  2,new Object[]{"Off",0,"Normal",1,"10°",2,"15°",3,"30°",4,"45°",5}}
+	,new Object[]{"Full Angle Grid","int",114,0,  2,new Object[]{"Off",0,"On",1}}
+	,new Object[]{"Root Axis & Text ","int",121,2,  2,new Object[]{"Hide",0,"Axis Only",1,"Show All",2}}
+	,new Object[]{"",7,7,7}
+	,new Object[]{"Polygon","int",107,0,  2,new Object[]{"Off",0,"On",1}}
+	,new Object[]{"n sides of polygon","int",117,3,  1,3,100,1}
+	,new Object[]{"Radius apply to","int",118,0,  2,new Object[]{"Point",0,"Edge",1,"Average",2}}
+	,new Object[]{"Jump step draw polygon","int",119,1,  1,1,100,1}
+	,new Object[]{"Rotate polygon","double",101,0, 1,0,360,0.5}
+	,new Object[]{"Resolution Polygon Ruler","int",120,4,  2,new Object[]{"Single",0,"Low",1,"Medium",2,"High",3,"Full",4}}
+	,new Object[]{"Polygon Angle Line","int",108,1,  2,new Object[]{"Off",0,"On",1}}
+	,new Object[]{"",7,7,7}
+	,new Object[]{"Graph Function Cordinate","int",130,0,  2,new Object[]{"Cartesian",0,"Polar",1}}
+	,new Object[]{"Start t At","double",102,-5,  1,-1000,1000,0.01}
+	,new Object[]{"Stop t At","double",103,5,  1,-1000,1000,0.01}
+	,new Object[]{"Jump Step","double",104,0.1,  1,0,1000,0.001}
+	,new Object[]{"",7,7,7}
+	,new Object[]{"",7,7,7}
+	,new Object[]{"",7,7,7}
+	,new Object[]{"Overclock Resolution 😬 😹 😬 ","double",110,1,  1,0,10,0.1}
+	,new Object[]{"Keep Ruler Ratio","int",70,1,  2,new Object[]{"Off",0,"On",1}}
+	,new Object[]{"Blend Logic Mode","int",71,0,  2,new Object[]{"Normal",4,"Add",15,"Light",14,"Dark",13,"Multiply",12,"Xor",17}}
+	
+}double rReso=D.get(110); if (rReso<0.1){D.set(110,0.1);rReso=0.1;$.save(WD,"d",1,110,0.1);Cmd.add("ReloadSetting");}
+W=(int)(W*rReso); H=(int)(H*rReso);
+$.PXpMM1=$.PXpMM*rReso;
+
+$.updateFPS(10,FPS);  //Cmd.add("deco");
+//$.trace(WD,$.screenW_px-$.mm(30));
+$.XYWH(WD,$.screenW_px-$.mm(8),0,$.mm(8),$.mm(20)+$.statusBarH_px);
+
+//$.eLay(Touch,new Object[]{"bacolo",$.hsla(120,100,50,0.1)});
+$.RatRun(Touch,$.ERUN,new Runnable(){public void run(){if (!kFull){$.hide(WD);}}},$.ERUN);
+
+double rGrid=D.get(99); if (rGrid<0.01){rGrid=0.01;$.save(WD,"d",1,99,0.01);Cmd.add("ReloadSetting");}
+int autoColor=I.get(100);
+double aBacolo=D.get(100);
+String sBacolo=S.get(0);
+int bacolo=$.coloReplaceA($.hsl(S.get(0)),aBacolo);
+int gridColo=$.hsl(S.get(1));
+int teColo=$.hsl(S.get(2));
+int color=$.CL.T;
+
+int color1=$.coloReplaceA(gridColo,0.5);
+int color2=$.coloReplaceA(gridColo,0.99);
+int color0=$.coloReplaceA(gridColo,0.3);
+int CLBT0=$.coloReplaceA(bacolo,0.7);
+void bacolo(Object o, int colo){$.eLay(o,new Object[]{"bacolo",colo});}
+void colo(Object o, int iColo){$.eText(o,new Object[]{"colo",iColo});}
+
+Object TouchBT=$.aFrLay(Touch,new Object[]{"bacolo",$.coloReplaceA(color2,0.5),"lapa",new int[]{$.mm(29.5),$.mm(44.5),$.GRA.RT},"dipl",-1});
+$.RatRun(TouchBT,$.ERUN,$.ERUN,$.ERUN);
+//　ＵＩ　ＳＥＴＴＩＮＧ
+Object BTSetting=$.aFrLay(Touch,new Object[]{"lapa",new int[]{$.mm(8),$.mm(8),$.GRA.RT},"magi",new int[]{0,$.mm(4),0,0}});
+boolean kSetting=false;
+$.RatRun(BTSetting,$.ERUN,new Runnable(){public void run(){kSetting=!kSetting;
+	if (kSetting){$.XYWH(WD,$.screenW_px-$.mm(29.5),0,$.mm(29.5),$.mm(38+7)+$.statusBarH_px); $.eLay(TouchBT,new Object[]{"dipl",1});updateUI();  $.load(Screen,BMP.get(1)); $.load(IMG.get(0),BMP.get(0)); }
+	else {$.XYWH(WD,$.screenW_px-$.mm(8),0,$.mm(8),$.mm(20)+$.statusBarH_px); $.eLay(TouchBT,new Object[]{"dipl",-1});  $.load(Screen,BMP.get(0)); $.load(IMG.get(0),BMP.get(1)); }
+}},$.ERUN);
+$.aPic(BTSetting,new Object[]{"lapa",new int[]{$.FR.M,$.FR.M,$.GRA.C},"src",raw.setting,"scx",0.7,"scy",0.7});
+
+Object BTView=$.aFrLay(Touch,new Object[]{"lapa",new int[]{$.mm(8),$.mm(8),$.GRA.RT},"magi",new int[]{0,$.mm(12),0,0}});
+int kView=3;
+$.RatRun(BTView,$.ERUN,new Runnable(){public void run(){
+	kView-=1; if (kView<0){kView=3;}
+	if (kView==0){$.ePic(PicBTView,new Object[]{"src",raw.eye_0}); $.edit(Display,new Object[]{"opac",0});$.edit(Screen,new Object[]{"opac",0});}
+	else if (kView==1){$.ePic(PicBTView,new Object[]{"src",raw.eye_50}); $.edit(Display,new Object[]{"opac",0.5});$.edit(Screen,new Object[]{"opac",0.5});}
+	else if (kView==2){$.ePic(PicBTView,new Object[]{"src",raw.eye_75});  $.edit(Display,new Object[]{"opac",0.75});$.edit(Screen,new Object[]{"opac",0.75});}
+	else if (kView==3){$.ePic(PicBTView,new Object[]{"src",raw.eye_100});  $.edit(Display,new Object[]{"opac",1});$.edit(Screen,new Object[]{"opac",1});}
+}},$.ERUN);
+Object PicBTView=$.aPic(BTView,new Object[]{"lapa",new int[]{$.FR.M,$.FR.M,$.GRA.C},"src",raw.eye_100,"scx",0.6,"scy",0.6});
+
+
+//　ＵＩ　ＵＮＩＴ
+Object FrUnit=$.aFrLay(TouchBT,new Object[]{"lapa",new int[]{$.mm(21),$.mm(7),$.GRA.RT} ,"magi",new int[]{0,0,$.mm(8),0}});
+Object BTUnit(int x, int y, int v){
+	Object zObj=$.aFrLay(FrUnit,new Object[]{"lapa",new int[]{$.mm(7),$.mm(3.5),$.GRA.LT} ,"magi",new int[]{$.mm(7*x),$.mm(3.5*y),0,0}});
+	$.RatRun(zObj,$.ERUN,new Runnable(){public void run(){I.set(101,v);$.save(WD,"i",2,101,v); }},$.ERUN);
+	return zObj;
+}
+Object UnitText(Object Mom, String s){return $.aText(Mom,new Object[]{"lapa",new int[]{$.FR.W,$.FR.W,$.GRA.C},"colo",color2,"fosi",$.mm(1.5)*(rFosi/100),"te",s });}
+Object UnitMM=BTUnit(0,0,0), UnitCM=BTUnit(1,0,1), UnitINCH=BTUnit(2,0,2), UnitPICA=BTUnit(0,1,3), UnitLPS=BTUnit(1,1,4), UnitPX=BTUnit(2,1,5);
+Object TeMMBT=UnitText(UnitMM,"mm"), TeCMBT=UnitText(UnitCM,"cm"), TeINCHBT=UnitText(UnitINCH,"inch"), TePICABT=UnitText(UnitPICA,"pica"), TeLPSBT=UnitText(UnitLPS,"lps"), TePXBT=UnitText(UnitPX,"px");
+Object BMPBorder3x2=$.Bitmap($.mm(21),$.mm(7),new Object[]{"stco",color2,"stwi",$.mm(0.25),"r",new int[]{$.mm(0.125),$.mm(0.125),$.mm(21-0.12),$.mm(7-0.12)}, "ls",new float[]{0,$.mm(3.5),$.mm(21),$.mm(3.5),  $.mm(7),$.mm(0),$.mm(7),$.mm(7),  $.mm(14),$.mm(0),$.mm(14),$.mm(7)} });
+Object PicBodeUnit=$.aPic(FrUnit,new Object[]{"lapa",new int[]{$.FR.M,$.FR.M,$.GRA.C},"src",BMPBorder3x2 });
+void updateUnitBT(int i){
+	bacolo(UnitMM,i==0?color2:CLBT0); bacolo(UnitCM,i==1?color2:CLBT0); bacolo(UnitINCH,i==2?color2:CLBT0); bacolo(UnitPICA,i==3?color2:CLBT0); bacolo(UnitLPS,i==4?color2:CLBT0); bacolo(UnitPX,i==5?color2:CLBT0);
+	colo(TeMMBT,i==0?CLBT0:color2); colo(TeCMBT,i==1?CLBT0:color2); colo(TeINCHBT,i==2?CLBT0:color2); colo(TePICABT,i==3?CLBT0:color2); colo(TeLPSBT,i==4?CLBT0:color2); colo(TePXBT,i==5?CLBT0:color2);
+}
+
+//　ＵＩ	ＡＸＩＳ
+Object FrAxisPosi=$.aFrLay(TouchBT,new Object[]{"lapa",new int[]{$.mm(12),$.mm(12),$.GRA.RT} ,"magi",new int[]{0,$.mm(8),$.mm(8),0}});
+Object BTAxis(int x, int y, int vx, int vy){
+	Object zObj=$.aFrLay(FrAxisPosi,new Object[]{"lapa",new int[]{$.mm(4),$.mm(4),$.GRA.LT} ,"magi",new int[]{$.mm(4*x),$.mm(4*y),0,0}});
+	$.RatRun(zObj,$.ERUN,new Runnable(){public void run(){I.set(102,vx);I.set(103,vy);$.save(WD,"i",2,102,vx);$.save(WD,"i",2,103,vy);}},$.ERUN);
+	return zObj;
+}
+Object Axis00=BTAxis(0,0,0,0), Axis10=BTAxis(1,0,1,0), Axis20=BTAxis(2,0,2,0),  Axis01=BTAxis(0,1,0,1), Axis11=BTAxis(1,1,1,1), Axis21=BTAxis(2,1,2,1),  Axis02=BTAxis(0,2,0,2), Axis12=BTAxis(1,2,1,2), Axis22=BTAxis(2,2,2,2);
+Object BMPBorder3x3=$.Bitmap($.mm(12),$.mm(12),new Object[]{"stco",color2,"stwi",$.mm(0.25),"r",new int[]{$.mm(0.125),$.mm(0.125),$.mm(12-0.12),$.mm(12-0.12)} });
+Object PicBodeAxis=$.aPic(FrAxisPosi,new Object[]{"lapa",new int[]{$.FR.M,$.FR.M,$.GRA.C},"src",BMPBorder3x3 });
+Object BMPAxisPosi(int vx,int vy){return $.Bitmap($.mm(12),$.mm(12),new Object[]{"stwi",$.mm(0.25),
+	"stco",(vx==0&&vy==0)?CLBT0:color2,"ls",new float[]{$.mm(1),$.mm(1),$.mm(3.5),$.mm(1),  $.mm(1),$.mm(1),$.mm(1),$.mm(3.5)  },
+	"stco",(vx==1&&vy==0)?CLBT0:color2,"ls",new float[]{$.mm(4.5),$.mm(1),$.mm(7.5),$.mm(1),  $.mm(6),$.mm(1),$.mm(6),$.mm(3.5)  } ,
+	"stco",(vx==2&&vy==0)?CLBT0:color2,"ls",new float[]{$.mm(8.5),$.mm(1),$.mm(11),$.mm(1),  $.mm(11),$.mm(1),$.mm(11),$.mm(3.5)  } ,
+	"stco",(vx==0&&vy==1)?CLBT0:color2,"ls",new float[]{$.mm(1),$.mm(6),$.mm(3.5),$.mm(6),  $.mm(1),$.mm(4.5),$.mm(1),$.mm(7.5)  } ,
+	"stco",(vx==1&&vy==1)?CLBT0:color2,"ls",new float[]{$.mm(4.5),$.mm(6),$.mm(7.5),$.mm(6),  $.mm(6),$.mm(4.5),$.mm(6),$.mm(7.5)  } ,
+	"stco",(vx==2&&vy==1)?CLBT0:color2,"ls",new float[]{$.mm(8.5),$.mm(6),$.mm(11),$.mm(6),  $.mm(11),$.mm(4.5),$.mm(11),$.mm(7.5)  } ,
+	"stco",(vx==0&&vy==2)?CLBT0:color2,"ls",new float[]{$.mm(1),$.mm(11),$.mm(3.5),$.mm(11),  $.mm(1),$.mm(8.5),$.mm(1),$.mm(11)  } ,
+	"stco",(vx==1&&vy==2)?CLBT0:color2,"ls",new float[]{$.mm(4.5),$.mm(11),$.mm(7.5),$.mm(11),  $.mm(6),$.mm(8.5),$.mm(6),$.mm(11)  } ,
+	"stco",(vx==2&&vy==2)?CLBT0:color2,"ls",new float[]{$.mm(8.5),$.mm(11),$.mm(11),$.mm(11),  $.mm(11),$.mm(8.5),$.mm(11),$.mm(11)  }
+});
+}
+Object CtBTAxis=$.aPic(FrAxisPosi,new Object[]{"lapa",new int[]{$.FR.M,$.FR.M,$.GRA.C} });
+void updateAxisBT(int i, int j){
+	bacolo(Axis00,CLBT0); bacolo(Axis10,CLBT0); bacolo(Axis20,CLBT0);   bacolo(Axis01,CLBT0); bacolo(Axis11,CLBT0); bacolo(Axis21,CLBT0);   bacolo(Axis02,CLBT0); bacolo(Axis12,CLBT0); bacolo(Axis22,CLBT0);
+	if (j==0){if (i==0){bacolo(Axis00,color2);}else if (i==1){bacolo(Axis10,color2);}else if (i==2){bacolo(Axis20,color2);}}
+	else if (j==1){if (i==0){bacolo(Axis01,color2);}else if (i==1){bacolo(Axis11,color2);}else if (i==2){bacolo(Axis21,color2);}}
+	else if (j==2){if (i==0){bacolo(Axis02,color2);}else if (i==1){bacolo(Axis12,color2);}else if (i==2){bacolo(Axis22,color2);}}
+	$.ePic(CtBTAxis,new Object[]{"src",BMPAxisPosi(i,j) });
+}
+
+
+//　ＵＩ　ＲＵＬＥＲ　ＴＹＰＥ
+Object FrRulerType=$.aFrLay(TouchBT,new Object[]{"lapa",new int[]{$.mm(8),$.mm(8),$.GRA.RT} ,"magi",new int[]{0,$.mm(8),$.mm(21),0}});
+boolean kGrX=false,kGrY=false;
+Object FrGridX=$.aFrLay(FrRulerType,new Object[]{"lapa",new int[]{$.mm(4),$.mm(4),$.GRA.LT} });
+$.RatRun(FrGridX,$.ERUN,new Runnable(){public void run(){ kGrX=!kGrX; applykGrid(); }},$.ERUN);
+Object FrGridY=$.aFrLay(FrRulerType,new Object[]{"lapa",new int[]{$.mm(4),$.mm(4),$.GRA.RT} });
+$.RatRun(FrGridY,$.ERUN,new Runnable(){public void run(){ kGrY=!kGrY; applykGrid(); }},$.ERUN);
+void applykGrid(){if (!kGrX&&!kGrY){I.set(106,0);$.save(WD,"i",2,106,0);}else if (kGrX&&!kGrY){I.set(106,1);$.save(WD,"i",2,106,1);}else if (!kGrX&&kGrY){I.set(106,2);$.save(WD,"i",2,106,2);}else {I.set(106,3);$.save(WD,"i",2,106,3);}}
+boolean kCir=false;
+Object FrCircularBT=$.aFrLay(FrRulerType,new Object[]{"lapa",new int[]{$.mm(4),$.mm(4),$.GRA.LB} });
+$.RatRun(FrCircularBT,$.ERUN,new Runnable(){public void run(){ kCir=!kCir; I.set(105,kCir?1:0); $.save(WD,"i",2,105,kCir?1:0); }},$.ERUN);
+boolean kFullAng=false;
+Object FrFullAngBT=$.aFrLay(FrRulerType,new Object[]{"lapa",new int[]{$.mm(4),$.mm(4),$.GRA.RB} });
+$.RatRun(FrFullAngBT,$.ERUN,new Runnable(){public void run(){ kFullAng=!kFullAng; I.set(114,kFullAng?1:0); $.save(WD,"i",2,114,kFullAng?1:0); }},$.ERUN);
+Object BMPBorder2x2=$.Bitmap($.mm(8),$.mm(8),new Object[]{"stco",color2,"stwi",$.mm(0.25),"r",new int[]{$.mm(0.125),$.mm(0.125),$.mm(8-0.12),$.mm(8-0.12)}, "ls",new float[]{$.mm(0),$.mm(4),$.mm(8),$.mm(4),  $.mm(4),$.mm(0),$.mm(4),$.mm(8) } });
+Object PicBodeRulerT=$.aPic(FrRulerType,new Object[]{"lapa",new int[]{$.FR.M,$.FR.M,$.GRA.C},"src",BMPBorder2x2 });
+Object BMPRulerType(){return $.Bitmap($.mm(8),$.mm(8),new Object[]{"stwi",$.mm(0.25),
+	"stco",kGrX?CLBT0:color2,"ls",new float[]{$.mm(1),$.mm(0.7),$.mm(1),$.mm(3.3),  $.mm(2),$.mm(0.7),$.mm(2),$.mm(3.3),  $.mm(3),$.mm(0.7),$.mm(3),$.mm(3.3)  },
+	"stco",kGrY?CLBT0:color2,"ls",new float[]{$.mm(4.7),$.mm(1),$.mm(7.3),$.mm(1),  $.mm(4.7),$.mm(2),$.mm(7.3),$.mm(2),  $.mm(4.7),$.mm(3),$.mm(7.3),$.mm(3)  } ,
+	"stco",kCir?CLBT0:color2,"cs",new float[]{$.mm(2),$.mm(6),$.mm(1.2),  $.mm(2),$.mm(6),$.mm(0.7),  $.mm(2),$.mm(6),$.mm(0.2)  } ,
+	"stco",kFullAng?CLBT0:color2,"ls",new float[]{$.mm(4.5),$.mm(6),$.mm(7.5),$.mm(6),  $.mm(6),$.mm(4.5),$.mm(6),$.mm(7.5),  $.mm(5),$.mm(5),$.mm(7),$.mm(7),  $.mm(5),$.mm(7),$.mm(7),$.mm(5)}, "er","","fico",$.CL.W,"c",new int[]{$.mm(6),$.mm(6),$.mm(0.7)}
+});
+}
+Object CtBTRulerType=$.aPic(FrRulerType,new Object[]{"lapa",new int[]{$.FR.M,$.FR.M,$.GRA.C} });
+void updateRTBT(){
+	bacolo(FrGridX,kGrX?color2:CLBT0);
+	bacolo(FrGridY,kGrY?color2:CLBT0);
+	bacolo(FrCircularBT,kCir?color2:CLBT0);
+	bacolo(FrFullAngBT,kFullAng?color2:CLBT0);
+	$.ePic(CtBTRulerType,new Object[]{"src",BMPRulerType() });
+}
+
+//　ＵＩ　ＡＮＧＬＥ　ＲＵＬＥＲ
+Object FrAngleRuler=$.aFrLay(TouchBT,new Object[]{"lapa",new int[]{$.mm(8),$.mm(12),$.GRA.RT} ,"magi",new int[]{0,$.mm(17),$.mm(21),0}});
+Object BTAngle(int x, int y, int v){
+	Object zObj=$.aFrLay(FrAngleRuler,new Object[]{"lapa",new int[]{$.mm(4),$.mm(4),$.GRA.LT} ,"magi",new int[]{$.mm(4*x),$.mm(4*y),0,0}});
+	$.RatRun(zObj,$.ERUN,new Runnable(){public void run(){
+		if (I.get(104)!=v){I.set(104,v);$.save(WD,"i",2,104,v); I.set(121,2);$.save(WD,"i",2,121,2);}
+		else if (I.get(121)==2){I.set(104,0);$.save(WD,"i",2,104,0); I.set(121,0);$.save(WD,"i",2,121,0);}
+		else {I.set(121,2);$.save(WD,"i",2,121,2);}
+	}},$.ERUN);
+	return zObj;
+}
+Object Ang0=BTAngle(0,0,0), Ang1=BTAngle(1,0,1), Ang2=BTAngle(0,1,2), Ang3=BTAngle(1,1,3), Ang4=BTAngle(0,2,4), Ang5=BTAngle(1,2,5); 
+Object BMPBorder2x3=$.Bitmap($.mm(8),$.mm(12),new Object[]{"stco",color2,"stwi",$.mm(0.25),"r",new int[]{$.mm(0.125),$.mm(0.125),$.mm(8-0.12),$.mm(12-0.12)} });//, "ls",new float[]{$.mm(0),$.mm(4),$.mm(8),$.mm(4),  $.mm(4),$.mm(0),$.mm(4),$.mm(8) } });
+Object PicBodeAngle=$.aPic(FrAngleRuler,new Object[]{"lapa",new int[]{$.FR.M,$.FR.M,$.GRA.C},"src",BMPBorder2x3 });
+Object CtBTAngle=$.aPic(FrAngleRuler,new Object[]{"lapa",new int[]{$.FR.M,$.FR.M,$.GRA.C} });
+//double dcos(double a){return Math.cos(a/180.0*Math.PI);}
+//double dsin(double a){return Math.sin(a/180.0*Math.PI);}
+int dX(int x, double deg){return $.mm(4*x+1+2*Math.cos(deg/180.0*Math.PI));}
+int dY(int y, double deg){return $.mm(4*y+3-2*Math.sin(deg/180.0*Math.PI));}
+int aX(int x, double deg){return $.mm(4*x+2+1.5*Math.cos(deg/180.0*Math.PI));}
+int aY(int y, double deg){return $.mm(4*y+2-1.5*Math.sin(deg/180.0*Math.PI));}
+
+Object BMPAngle(int v){return $.Bitmap($.mm(8),$.mm(12),new Object[]{"stwi",$.mm(0.25),
+	"stco",(I.get(121)!=0&&v==0)?CLBT0:color2,"ls",new float[]{$.mm(1),$.mm(3),$.mm(3),$.mm(3),  $.mm(1),$.mm(3),$.mm(1),$.mm(1)  },
+	"stco",(v==1)?CLBT0:color2,"ls",new float[]{$.mm(5),$.mm(3),$.mm(7),$.mm(3),  $.mm(5),$.mm(3),$.mm(5),$.mm(1),  $.mm(5),$.mm(3),dX(1,5),dY(0,5),  $.mm(5),$.mm(3),dX(1,10),dY(0,10),  $.mm(5),$.mm(3),dX(1,15),dY(0,15),  $.mm(5),$.mm(3),dX(1,30),dY(0,30),  $.mm(5),$.mm(3),dX(1,45),dY(0,45),  $.mm(5),$.mm(3),dX(1,60),dY(0,60)  },
+	"stco",(v==2)?CLBT0:color2,"ls",new float[]{$.mm(1),$.mm(7),$.mm(3),$.mm(7),  $.mm(1),$.mm(7),$.mm(1),$.mm(5),  $.mm(1),$.mm(7),dX(0,10),dY(1,10),  $.mm(1),$.mm(7),dX(0,20),dY(1,20),  $.mm(1),$.mm(7),dX(0,30),dY(1,30),  $.mm(1),$.mm(7),dX(0,40),dY(1,40),  $.mm(1),$.mm(7),dX(0,50),dY(1,50),  $.mm(1),$.mm(7),dX(0,60),dY(1,60),  $.mm(1),$.mm(7),dX(0,70),dY(1,70),  $.mm(1),$.mm(7),dX(0,80),dY(1,80), },
+	"stco",(v==3)?CLBT0:color2,"ls",new float[]{$.mm(5),$.mm(7),$.mm(7),$.mm(7),  $.mm(5),$.mm(7),$.mm(5),$.mm(5),  $.mm(5),$.mm(7),dX(1,15),dY(1,15),  $.mm(5),$.mm(7),dX(1,30),dY(1,30),  $.mm(5),$.mm(7),dX(1,45),dY(1,45),  $.mm(5),$.mm(7),dX(1,60),dY(1,60),  $.mm(5),$.mm(7),dX(1,75),dY(1,75) },
+	"stco",(v==4)?CLBT0:color2,"ls",new float[]{aX(0,0),aY(2,0),aX(0,180),aY(2,180),  aX(0,30),aY(2,30),aX(0,210),aY(2,210),  aX(0,60),aY(2,60),aX(0,240),aY(2,240),  aX(0,90),aY(2,90),aX(0,270),aY(2,270),  aX(0,120),aY(2,120),aX(0,300),aY(2,300),  aX(0,150),aY(2,150),aX(0,330),aY(2,330)},
+	"stco",(v==5)?CLBT0:color2,"ls",new float[]{aX(1,0),aY(2,0),aX(1,180),aY(2,180), aX(1,45),aY(2,45),aX(1,225),aY(2,225), aX(1,90),aY(2,90),aX(1,270),aY(2,270), aX(1,135),aY(2,135),aX(1,315),aY(2,315) }
+});
+}
+void updateAngleBT(int v){
+	bacolo(Ang0,CLBT0); bacolo(Ang1,CLBT0); bacolo(Ang2,CLBT0); bacolo(Ang3,CLBT0); bacolo(Ang4,CLBT0); bacolo(Ang5,CLBT0);
+	if (v!=0||I.get(121)!=0){if (v==0){bacolo(Ang0,color2);}else if (v==1){bacolo(Ang1,color2);}else if (v==2){bacolo(Ang2,color2);}else if (v==3){bacolo(Ang3,color2);}else if (v==4){bacolo(Ang4,color2);}else if (v==5){bacolo(Ang5,color2);}}
+	$.ePic(CtBTAngle,new Object[]{"src",BMPAngle(v) });
+}
+
+//　ＵＩ　ＰＯＬＹＧＯＮ
+Object FrPoly=$.aFrLay(TouchBT,new Object[]{"lapa",new int[]{$.mm(20),$.mm(16),$.GRA.RT} ,"magi",new int[]{0,$.mm(21),$.mm(0),0}});
+Object BTnSide(int x, int y, int v){
+	Object zObj=$.aFrLay(FrPoly,new Object[]{"lapa",new int[]{$.mm(4),$.mm(4),$.GRA.LT} ,"magi",new int[]{$.mm(4*x),$.mm(4*y),0,0}});
+	$.RatRun(zObj,$.ERUN,new Runnable(){public void run(){
+		if (I.get(117)!=v){I.set(117,v);$.save(WD,"i",1,117,v); I.set(107,1);$.save(WD,"i",2,107,1);}
+		else if (I.get(107)==0){I.set(107,1);$.save(WD,"i",2,107,1);}
+		else {I.set(107,0);$.save(WD,"i",2,107,0);}
+	}},$.ERUN);
+	return zObj;
+}
+Object nSide0=BTnSide(0,0,3), nSide1=BTnSide(1,0,4), nSide2=BTnSide(2,0,5), nSide3=BTnSide(0,1,6), nSide4=BTnSide(1,1,7), nSide5=BTnSide(2,1,8);
+Object BTnJump(int x, int y, int v){
+	Object zObj=$.aFrLay(FrPoly,new Object[]{"lapa",new int[]{$.mm(4),$.mm(4),$.GRA.LT} ,"magi",new int[]{$.mm(4*x),$.mm(4*y),0,0}});
+	$.RatRun(zObj,$.ERUN,new Runnable(){public void run(){ I.set(119,v); $.save(WD,"i",1,119,v); }},$.ERUN);
+	return zObj;
+}
+Object nJump0=BTnJump(3,0,1), nJump1=BTnJump(4,0,2), nJump2=BTnJump(3,1,3), nJump3=BTnJump(4,1,4);
+Object BTnPoly(int x, int y, int v){
+	Object zObj=$.aFrLay(FrPoly,new Object[]{"lapa",new int[]{$.mm(4),$.mm(4),$.GRA.LT} ,"magi",new int[]{$.mm(4*x),$.mm(4*y),0,0}});
+	$.RatRun(zObj,$.ERUN,new Runnable(){public void run(){ I.set(120,v); $.save(WD,"i",2,120,v); }},$.ERUN);
+	return zObj;
+}
+Object nPoly0=BTnPoly(0,2,0), nPoly1=BTnPoly(1,2,1), nPoly2=BTnPoly(2,2,2), nPoly3=BTnPoly(3,2,3), nPoly4=BTnPoly(4,2,4);
+Object BTsPoly(int x, int y, int v){
+	Object zObj=$.aFrLay(FrPoly,new Object[]{"lapa",new int[]{$.mm(4),$.mm(4),$.GRA.LT} ,"magi",new int[]{$.mm(4*x),$.mm(4*y),0,0}});
+	$.RatRun(zObj,$.ERUN,new Runnable(){public void run(){ I.set(118,v); $.save(WD,"i",2,118,v); }},$.ERUN);
+	return zObj;
+}
+Object sPoly0=BTsPoly(2,3,0), sPoly1=BTsPoly(3,3,1), sPoly2=BTsPoly(4,3,2);
+
+Object FrAPoly=$.aFrLay(FrPoly,new Object[]{"lapa",new int[]{$.mm(8),$.mm(4),$.GRA.LT} ,"magi",new int[]{0,$.mm(12),0,0}});
+$.RatRun(FrAPoly,$.ERUN,new Runnable(){public void run(){ if (I.get(108)==0){ I.set(108,1); $.save(WD,"i",2,108,1); } else { I.set(108,0); $.save(WD,"i",2,108,0); } }},$.ERUN);
+
+
+void updatenSideBT(int v){
+	bacolo(nSide0,CLBT0); bacolo(nSide1,CLBT0); bacolo(nSide2,CLBT0); bacolo(nSide3,CLBT0); bacolo(nSide4,CLBT0); bacolo(nSide5,CLBT0);
+	if (I.get(107)==1){if (v==3){bacolo(nSide0,color2);}else if (v==4){bacolo(nSide1,color2);}else if (v==5){bacolo(nSide2,color2);}else if (v==6){bacolo(nSide3,color2);}else if (v==7){bacolo(nSide4,color2);}else if (v==8){bacolo(nSide5,color2);}}
+}
+void updatenJumpBT(int v){
+	bacolo(nJump0,CLBT0); bacolo(nJump1,CLBT0); bacolo(nJump2,CLBT0); bacolo(nJump3,CLBT0);
+	if (v==1){bacolo(nJump0,color2);}else if (v==2){bacolo(nJump1,color2);}else if (v==3){bacolo(nJump2,color2);}else if (v==4){bacolo(nJump3,color2);}
+}
+void updatenPolyBT(int v){
+	bacolo(nPoly0,CLBT0); bacolo(nPoly1,CLBT0); bacolo(nPoly2,CLBT0); bacolo(nPoly3,CLBT0); bacolo(nPoly4,CLBT0);
+	if (v==0){bacolo(nPoly0,color2);}else if (v==1){bacolo(nPoly1,color2);}else if (v==2){bacolo(nPoly2,color2);}else if (v==3){bacolo(nPoly3,color2);}else if (v==4){bacolo(nPoly4,color2);}
+}
+void updatesPolyBT(int v){
+	bacolo(sPoly0,CLBT0); bacolo(sPoly1,CLBT0); bacolo(sPoly2,CLBT0);
+	if (v==0){bacolo(sPoly0,color2);}else if (v==1){bacolo(sPoly1,color2);}else if (v==2){bacolo(sPoly2,color2);}
+}
+void updateAPolyBT(int v){bacolo(FrAPoly,v==0?CLBT0:color2);}
+
+Object BMPBorder5x4=$.Bitmap($.mm(20),$.mm(16),new Object[]{"stco",color2,"stwi",$.mm(0.25),"r",new int[]{$.mm(0.125),$.mm(0.125),$.mm(20-0.12),$.mm(16-0.12)} , "ls",new float[]{$.mm(0),$.mm(8),$.mm(20),$.mm(8),  $.mm(12),$.mm(0),$.mm(12),$.mm(8), $.mm(0),$.mm(12),$.mm(20),$.mm(12), $.mm(8),$.mm(12),$.mm(8),$.mm(16) } });
+Object PicBodePoly=$.aPic(FrPoly,new Object[]{"lapa",new int[]{$.FR.M,$.FR.M,$.GRA.C},"src",BMPBorder5x4 });
+
+Object CtBTPoly=$.aPic(FrPoly,new Object[]{"lapa",new int[]{$.FR.M,$.FR.M,$.GRA.C} });
+int pX(double x, double deg){return $.mm(4*x+2+Math.cos((deg+90)/180.0*Math.PI));}
+int pY(double y, double deg){return $.mm(4*y+2-Math.sin((deg+90)/180.0*Math.PI));}
+int PX(double x, double r, double deg){return $.mm(4*x+2+r*Math.cos((deg+45)/180.0*Math.PI));}
+int PY(double y, double r, double deg){return $.mm(4*y+2-r*Math.sin((deg+45)/180.0*Math.PI));}
+
+Object BMPPoly(){return $.Bitmap($.mm(20),$.mm(16),new Object[]{"stwi",$.mm(0.25),
+	"stco",(I.get(107)==1&&I.get(117)==3)?CLBT0:color2,"z",new float[]{ pX(0,0),pY(0,0), pX(0,120),pY(0,120), pX(0,240),pY(0,240), pX(0,0),pY(0,0) },
+	"stco",(I.get(107)==1&&I.get(117)==4)?CLBT0:color2,"z",new float[]{ pX(1,0),pY(0,0), pX(1,90),pY(0,90), pX(1,180),pY(0,180), pX(1,270),pY(0,270), pX(1,0),pY(0,0) },
+	"stco",(I.get(107)==1&&I.get(117)==5)?CLBT0:color2,"z",new float[]{ pX(2,0),pY(0,0), pX(2,72),pY(0,72), pX(2,144),pY(0,144), pX(2,216),pY(0,216), pX(2,288),pY(0,288), pX(2,0),pY(0,0) },
+	"stco",(I.get(107)==1&&I.get(117)==6)?CLBT0:color2,"z",new float[]{ pX(0,0),pY(1,0), pX(0,60),pY(1,60), pX(0,120),pY(1,120), pX(0,180),pY(1,180), pX(0,240),pY(1,240), pX(0,300),pY(1,300), pX(0,0),pY(1,0)  },
+	"stco",(I.get(107)==1&&I.get(117)==7)?CLBT0:color2,"z",new float[]{ pX(1,0),pY(1,0), pX(1,360/7.0),pY(1,360/7.0), pX(1,720/7.0),pY(1,720/7.0), pX(1,3*360/7.0),pY(1,3*360/7.0), pX(1,4*360/7.0),pY(1,4*360/7.0), pX(1,5*360/7.0),pY(1,5*360/7.0), pX(1,6*360/7.0),pY(1,6*360/7.0), pX(1,0),pY(1,0)},
+	"stco",(I.get(107)==1&&I.get(117)==8)?CLBT0:color2,"z",new float[]{ pX(2,0),pY(1,0), pX(2,45),pY(1,45), pX(2,90),pY(1,90), pX(2,135),pY(1,135), pX(2,180),pY(1,180), pX(2,225),pY(1,225), pX(2,270),pY(1,270), pX(2,315),pY(1,315), pX(2,0),pY(1,0)},
+	
+	"stco",(I.get(119)==1)?CLBT0:color2,"l",new float[]{ $.mm(14),$.mm(1),$.mm(14),$.mm(3) },
+	"stco",(I.get(119)==2)?CLBT0:color2,"ls",new float[]{ $.mm(18),$.mm(1),$.mm(17),$.mm(3), $.mm(18),$.mm(1),$.mm(19),$.mm(3) },
+	"stco",(I.get(119)==3)?CLBT0:color2,"ls",new float[]{ $.mm(14),$.mm(5),$.mm(13),$.mm(7), $.mm(14),$.mm(5),$.mm(15),$.mm(7), $.mm(14),$.mm(5),$.mm(14),$.mm(7) },
+	"stco",(I.get(119)==4)?CLBT0:color2,"ls",new float[]{ $.mm(18),$.mm(5),$.mm(17),$.mm(7), $.mm(18),$.mm(5),$.mm(19),$.mm(7), $.mm(18),$.mm(5),$.mm(17.66),$.mm(7), $.mm(18),$.mm(5),$.mm(18.33),$.mm(7) },
+	
+	"stco",(I.get(118)==0)?CLBT0:color2,"z",new float[]{ $.mm(10),$.mm(14),PX(2,1.5,45),PY(3,1.5,45), PX(2,1.5,165),PY(3,1.5,165), PX(2,1.5,285),PY(3,1.5,285), PX(2,1.5,45),PY(3,1.5,45) },
+	"stco",(I.get(118)==1)?CLBT0:color2,"l",new int[]{$.mm(14),$.mm(14),$.mm(14),$.mm(13.2)},"z",new float[]{ PX(3,1.5,225),PY(3,1.5,225), PX(3,1.5,345),PY(3,1.5,345), PX(3,1.5,105),PY(3,1.5,105), PX(3,1.5,225),PY(3,1.5,225) },
+	"stco",(I.get(118)==2)?CLBT0:color2,"l",new int[]{$.mm(18),$.mm(14),$.mm(18),$.mm(13)},"z",new float[]{ PX(4,1.5,45),PY(3,1.5,45), PX(4,1.5,165),PY(3,1.5,165), PX(4,1.5,285),PY(3,1.5,285), PX(4,1.5,45),PY(3,1.5,45) },"z",new float[]{ PX(4,1.5,225),PY(3,1.5,225), PX(4,1.5,345),PY(3,1.5,345), PX(4,1.5,105),PY(3,1.5,105), PX(4,1.5,225),PY(3,1.5,225) },
+
+	"stco",(I.get(108)==1)?CLBT0:color2,"ls",new float[]{ $.mm(4),$.mm(14),PX(0.5,1.5,45),PY(3,1.5,45), $.mm(4),$.mm(14),PX(0.5,1.5,117),PY(3,1.5,117), $.mm(4),$.mm(14),PX(0.5,1.5,189),PY(3,1.5,189), $.mm(4),$.mm(14),PX(0.5,1.5,261),PY(3,1.5,261), $.mm(4),$.mm(14),PX(0.5,1.5,333),PY(3,1.5,333) },
+
+	"stco",(I.get(120)==0)?CLBT0:color2,"z",new float[]{ PX(0,1.7,0),PY(2,1.7,0), PX(0,1.7,120),PY(2,1.7,120), PX(0,1.7,240),PY(2,1.7,240), PX(0,1.7,0),PY(2,1.7,0) },
+	"stco",(I.get(120)==1)?CLBT0:color2,"z",new float[]{ PX(1,1.7,0),PY(2,1.7,0), PX(1,1.7,120),PY(2,1.7,120), PX(1,1.7,240),PY(2,1.7,240), PX(1,1.7,0),PY(2,1.7,0) },  "z",new float[]{ PX(1,0.3,0),PY(2,0.3,0), PX(1,0.3,120),PY(2,0.3,120), PX(1,0.3,240),PY(2,0.3,240), PX(1,0.3,0),PY(2,0.3,0) },  
+	"stco",(I.get(120)==2)?CLBT0:color2,"z",new float[]{ PX(2,1.7,0),PY(2,1.7,0), PX(2,1.7,120),PY(2,1.7,120), PX(2,1.7,240),PY(2,1.7,240), PX(2,1.7,0),PY(2,1.7,0) },  "z",new float[]{ PX(2,0.3,0),PY(2,0.3,0), PX(2,0.3,120),PY(2,0.3,120), PX(2,0.3,240),PY(2,0.3,240), PX(2,0.3,0),PY(2,0.3,0) },  "z",new float[]{ PX(2,1,0),PY(2,1,0), PX(2,1,120),PY(2,1,120), PX(2,1,240),PY(2,1,240), PX(2,1,0),PY(2,1,0) },  
+	"bl",new int[]{1,1},"stco",(I.get(120)==3)?CLBT0:color2,"z",new float[]{ PX(3,1.7,0),PY(2,1.7,0), PX(3,1.7,120),PY(2,1.7,120), PX(3,1.7,240),PY(2,1.7,240), PX(3,1.7,0),PY(2,1.7,0) },  "z",new float[]{ PX(3,0.3,0),PY(2,0.3,0), PX(3,0.3,120),PY(2,0.3,120), PX(3,0.3,240),PY(2,0.3,240), PX(3,0.3,0),PY(2,0.3,0) },  "z",new float[]{ PX(3,1,0),PY(2,1,0), PX(3,1,120),PY(2,1,120), PX(3,1,240),PY(2,1,240), PX(3,1,0),PY(2,1,0) },  
+	"stwi",$.mm(0.5),"stco",(I.get(120)==4)?CLBT0:color2,"z",new float[]{ PX(4,1.7,0),PY(2,1.7,0), PX(4,1.7,120),PY(2,1.7,120), PX(4,1.7,240),PY(2,1.7,240), PX(4,1.7,0),PY(2,1.7,0) },  "z",new float[]{ PX(4,0.3,0),PY(2,0.3,0), PX(4,0.3,120),PY(2,0.3,120), PX(4,0.3,240),PY(2,0.3,240), PX(4,0.3,0),PY(2,0.3,0) },  "z",new float[]{ PX(4,1,0),PY(2,1,0), PX(4,1,120),PY(2,1,120), PX(4,1,240),PY(2,1,240), PX(4,1,0),PY(2,1,0) },  
+	
+	});
+}
+
+//　ＵＩ　ＳＮＡＰＳＨＯＴ
+Object FrSnap=$.aFrLay(TouchBT,new Object[]{"lapa",new int[]{$.mm(8),$.mm(8),$.GRA.RT} ,"magi",new int[]{0,$.mm(29),$.mm(21),0}});
+
+$.RatRun(FrSnap,$.ERUN,new Runnable(){public void run(){
+	/*String s64="data:image/png;base64,"+$.toBase64(BMP.get(0));
+	$.openWebsite(s64);$.setClipboard(s64);*/
+	$.FILE();
+	boolean k0=$.SAVE(BMP.get(0));
+	Object zBmp=$.Bitmap(BMP.get(0),new Object[]{"mode","dst_over","fico",bacolo,"r",new int[]{0,0,W,H} });
+	if ($.SAVE(zBmp)&&k0){$.sig("Saved");}
+	else {$.sig("Unable to save"+$.E10+"Please Setup Permission"); }
+}},$.ERUN);
+$.aPic(FrSnap,new Object[]{"lapa",new int[]{$.FR.M,$.FR.M,$.GRA.C},"src",raw.camera,"scx",0.7,"scy",0.7});
+
+
+//　ＵＩ　ＦＵＮＣＴＩＯＮ
+int CLEdTe=CLBT0;//$.coloReplaceA(bacolo,0.45);
+Object FrFunction=$.aFrLay(TouchBT,new Object[]{"lapa",new int[]{$.mm(29),$.mm(6.5),$.GRA.RB} ,"magi",new int[]{0,0,0,$.mm(0.5) }});
+Object EdClear= $.aEdText(FrFunction,new Object[]{"lapa",new int[]{3,3,$.GRA.LT},"fosi",1,"padi",new int[]{0,0,0,0},"tx",-6  });
+Object EdFuX= $.TextBox(FrFunction,new Object[]{"lapa",new int[]{$.mm(21),$.mm(3),$.GRA.LT},"colo",color2,"fosi",$.mm(1.2)*(rFosi/100),"te","X(t,-5,5,0.1)=0","padi",new int[]{$.mm(0.5),0,$.mm(0.5),0}  });
+EdFuX.noEnter().graColor(3,new int[]{CLEdTe,CLEdTe},0);
+Object EdFuY= $.TextBox(FrFunction,new Object[]{"lapa",new int[]{$.mm(21),$.mm(3),$.GRA.LB},"colo",color2,"fosi",$.mm(1.2)*(rFosi/100),"te","Y(t)=0","padi",new int[]{$.mm(0.5),0,$.mm(0.5),0}  });
+EdFuY.noEnter().graColor(3,new int[]{CLEdTe,CLEdTe},0);
+void closeKeyboard(){EdClear.requestFocus();}
+EdFuX.Keyboard.R_onRunEnter=new Runnable(){public void run(){closeKeyboard();}};
+EdFuY.Keyboard.R_onRunEnter=new Runnable(){public void run(){closeKeyboard();}};
+WD.reg_remove(EdFuX);
+WD.reg_remove(EdFuY);
+
+Object FrCordF=$.aFrLay(FrFunction,new Object[]{"lapa",new int[]{$.mm(8),$.mm(3.25),$.GRA.RT} });
+Object TeCordF=$.aText(FrCordF,new Object[]{"lapa",new int[]{$.FR.W,$.FR.W,$.GRA.C},"colo",$.CL.W,"font","mono","fosi",$.mm(1.5)*(rFosi/100),"te",I.get(130)==0?"[X;Y]":"[R;Θ]" });
+$.RatRun(FrCordF,$.ERUN,new Runnable(){public void run(){
+	if (I.get(130)==0){I.set(130,1);updateCordBT();}
+	else {I.set(130,0);updateCordBT();}
+	$.save(WD,"i",2,130,CordMode);
+	loadPattern();functionLine(color2);
+}},$.ERUN);
+Object FrPlayF=$.aFrLay(FrFunction,new Object[]{"lapa",new int[]{$.mm(8),$.mm(3.25),$.GRA.RB} });
+$.aPic(FrPlayF,new Object[]{"lapa",new int[]{$.FR.M,$.FR.M,$.GRA.C},"src",raw.play,"scx",0.7,"scy",0.7});
+int kHold=0,kRedraw=0;
+$.RatRun(FrPlayF,new Runnable(){public void run(){kRedraw=0;
+	kHold+=1; if (kHold>9){kHold=0;}
+	int ikh=kHold;
+	$.delayF(new Runnable(){public void run(){if (ikh==kHold){kRedraw=1;functionLine(color2);} }},500);
+}},new Runnable(){public void run(){
+	kHold+=1; if (kHold>9){kHold=0;}
+	if (kRedraw==0){loadPattern();functionLine(color2);}
+}},$.ERUN);
+void updateCordBT(){CordMode=I.get(130);
+	if (I.get(130)==0){ $.eText(TeCordF,new Object[]{"te","[X;Y]"}); String zS=EdFuX.getText(); EdFuX.setText("X"+zS.substring(1,zS.length())); zS=EdFuY.getText();EdFuY.setText("Y"+zS.substring(1,zS.length())); }
+	else{ $.eText(TeCordF,new Object[]{"te","[R;Θ]"}); String zS=EdFuX.getText(); EdFuX.setText("R"+zS.substring(1,zS.length())); zS=EdFuY.getText();EdFuY.setText("Θ"+zS.substring(1,zS.length())); }
+}
+
+void loadDataF(){
+	String s=""; s=$.loadStringData("Ruler_Graph_X"); if (s.length()>0){EdFuX.setText(s);}
+	s=""; s=$.loadStringData("Ruler_Graph_Y"); if (s.length()>0){EdFuY.setText(s);}
+}
+loadDataF();
+void saveDataF(){$.saveData(new Object[]{"Ruler_Graph_X",EdFuX.getText(),"Ruler_Graph_Y",EdFuY.getText()});}
+
+
+Object Fo=$.Gear(); Fo.set("D",D).eval("double t,x,y;");
+Fo.eval("double abs(double v){return Math.abs(v);}"
+	+$.E10+"double sin(double v){return Math.sin(v);}"
+	+$.E10+"double cos(double v){return Math.cos(v);}"
+	+$.E10+"double tan(double v){return Math.tan(v);}"
+	+$.E10+"double cot(double v){return 1/Math.tan(v);}"
+	+$.E10+"double csc(double v){return 1/Math.sin(v);}"
+	+$.E10+"double sec(double v){return 1/Math.cos(v);}"
+	+$.E10+"double sinh(double v){return Math.sinh(v);}"
+	+$.E10+"double cosh(double v){return Math.cosh(v);}"
+	+$.E10+"double tanh(double v){return Math.tanh(v);}"
+	+$.E10+"double coth(double v){return 1/Math.tanh(v);}"
+	+$.E10+"double asin(double v){return Math.asin(v);}"
+	+$.E10+"double acos(double v){return Math.acos(v);}"
+	+$.E10+"double atan(double v){return Math.atan(v);}"
+	+$.E10+"double acot(double v){return Math.atan(1/v);}"
+	+$.E10+"double asinh(double x){return Math.log(x+Math.sqrt(x*x+1));}"
+	+$.E10+"double acosh(double x){return Math.log(x+Math.sqrt(x*x-1));}"
+	+$.E10+"double atanh(double x){return 0.5*Math.log((1+x)/(1-x)); }"
+	+$.E10+"double acoth(double x){return atanh(1/x); }"
+	+$.E10+"double log(double base,double x){return Math.log(x)/Math.log(base);}"
+	+$.E10+"double pow(double a,double b){return Math.pow(a,b);}"
+	+$.E10+"double root(double a,double b){return Math.pow(a,1/b);}"
+	+$.E10+"double sqrt(double a){return Math.pow(a,0.5);}"
+	+$.E10+"double sqr(double a){return a*a;}"
+	+$.E10+"double pi=Math.PI,Pi=pi,PI=Pi,e=Math.E,E=e;"
+	+$.E10+"double div(double x, double y){double d=x/y;if (d<0){return Math.ceil(d);}return Math.floor(d);}"
+	+$.E10+"double mod(double x, double y){double d=div(x,y);return Math.round(x-y*d);}"
+);
+
+void functionLine(int colorLine){
+	String CalcA="0",CalcB="0"; double ft=0;
+	String[] zS=EdFuX.getText().split("=");int kCorrect=0;
+	if (zS.length>1&&zS[1].length()>0){
+		CalcA=zS[1];kCorrect+=1;
+		String[] zS1=zS[0].split(",");
+		if (zS1.length>3){staT=$.doubleS(zS1[1]); endT=$.doubleS(zS1[2]);stepT=$.doubleS(zS1[3]);}
+	}
+	zS=EdFuY.getText().split("=");
+	if (zS.length>1&&zS[1].length()>0){CalcB=zS[1];kCorrect+=1;}
+	if (kCorrect==2){saveDataF();}
+
+	double Fsta=$.Min(staT,endT),Fend=$.Max(staT,endT); int lzz=Math.round((Fend-Fsta)/stepT+1);
+	double[] zz=new double[lzz*2];
+	double zX=0,zY=0;
+
+	switch (Xmode){case 1:zX=hW;break;   case 2:zX=W-1;break; }
+	switch (Ymode){case 1:zY=hH;break;   case 2:zY=H-1;break; }
+	if (CordMode==0){
+	if (Xmode<2&&Ymode>0){
+		for (int i=0;i<lzz;i++){ft=Fsta+stepT*i;
+			Fo.eval("t="+ft+";x="+CalcA+";y="+CalcB+";D.set(50,x);D.set(51,y);");
+			zz[i*2]=20*hMM*D.get(50)/x10+zX; zz[i*2+1]=zY-20*hMM*D.get(51)/x10;
+		}
+	}
+	else if (Xmode==2&&Ymode>0){
+		for (int i=0;i<lzz;i++){ft=Fsta+stepT*i;
+			Fo.eval("t="+ft+";x="+CalcA+";y="+CalcB+";D.set(50,x);D.set(51,y);");
+			zz[i*2]=zX-20*hMM*D.get(50)/x10; zz[i*2+1]=zY-20*hMM*D.get(51)/x10;
+		}
+	}
+	else if (Xmode<2&&Ymode==0){
+		for (int i=0;i<lzz;i++){ft=Fsta+stepT*i;
+			Fo.eval("t="+ft+";x="+CalcA+";y="+CalcB+";D.set(50,x);D.set(51,y);");
+			zz[i*2]=20*hMM*D.get(50)/x10+zX; zz[i*2+1]=20*hMM*D.get(51)/x10;
+		}
+	}
+	else if (Xmode==2&&Ymode==0){
+		for (int i=0;i<lzz;i++){ft=Fsta+stepT*i;
+			Fo.eval("t="+ft+";x="+CalcA+";y="+CalcB+";D.set(50,x);D.set(51,y);");
+			zz[i*2]=zX-20*hMM*D.get(50)/x10; zz[i*2+1]=20*hMM*D.get(51)/x10;
+		}
+	}
+	}
+	else if (CordMode==1){
+	if (Xmode<2&&Ymode>0){double r,p;
+		for (int i=0;i<lzz;i++){ft=Fsta+stepT*i;
+			Fo.eval("t="+ft+";x="+CalcA+";y="+CalcB+";D.set(50,x);D.set(51,y);");
+			r=D.get(50); p=D.get(51);
+			zz[i*2]=20*hMM*r*Math.cos(p)/x10+zX; zz[i*2+1]=zY-20*hMM*r*Math.sin(p)/x10;
+		}
+	}
+	else if (Xmode==2&&Ymode>0){
+		for (int i=0;i<lzz;i++){ft=(Fsta+stepT*i)/x10;
+			Fo.eval("t="+ft+";x="+CalcA+";y="+CalcB+";D.set(50,x);D.set(51,y);");
+			r=D.get(50); p=D.get(51);
+			zz[i*2]=zX-20*hMM*r*Math.cos(p)/x10; zz[i*2+1]=zY-20*hMM*r*Math.sin(p)/x10;
+		}
+	}
+	else if (Xmode<2&&Ymode==0){
+		for (int i=0;i<lzz;i++){ft=(Fsta+stepT*i)/x10;
+			Fo.eval("t="+ft+";x="+CalcA+";y="+CalcB+";D.set(50,x);D.set(51,y);");
+			r=D.get(50); p=D.get(51);
+			zz[i*2]=20*hMM*r*Math.cos(p)/x10+zX; zz[i*2+1]=20*hMM*r*Math.sin(p)/x10;
+		}
+	}
+	else if (Xmode==2&&Ymode==0){
+		for (int i=0;i<lzz;i++){ft=(Fsta+stepT*i)/x10;
+			Fo.eval("t="+ft+";x="+CalcA+";y="+CalcB+";D.set(50,x);D.set(51,y);");
+			r=D.get(50); p=D.get(51);
+			zz[i*2]=zX-20*hMM*r*Math.cos(p)/x10; zz[i*2+1]=20*hMM*r*Math.sin(p)/x10;
+		}
+	}
+	}
+	$.Bitmap(BMP.get(0), new Object[]{"mode",blendMode,"stco", colorLine,"stwi",stwi*2,"z",zz} );
+	if (!kSetting){	$.load(Screen,BMP.get(0));}
+	else {$.load(IMG.get(0),BMP.get(0));}
+}
+
+
+$.addBitmap(0,W,H,BMP);
+$.addBitmap(1,W,H,BMP);
+$.addImage(0,Display,IMG);
+
+
+
+int unit=I.get(101);
+int Xmode=I.get(102), Ymode=I.get(103);
+int angleType=I.get(104);
+boolean kAngle=I.get(104)>0;
+boolean kFullAngle=I.get(114)==1;
+int kCircular=I.get(105);
+int kGrid=I.get(106);
+int kRootText=I.get(121);
+
+boolean kPolygon=I.get(107)==1;
+int nSidePoly=I.get(117);
+int polySizeMode=I.get(118);
+int polyJumpStep=I.get(119);
+double polyRotate=D.get(101);
+int polyResolution=I.get(120);
+int kPolyALine=I.get(108);
+int CordMode=I.get(130);
+double staT=D.get(102),endT=D.get(103),stepT=D.get(104);
+int blendMode=I.get(71);
+
+void updateUI(){
+	$.eLay(TouchBT,new Object[]{"bacolo",color1});
+	updateUnitBT(unit);updateAxisBT(Xmode,Ymode);updateAngleBT(angleType);updateRTBT();
+	updatenSideBT(nSidePoly);updatesPolyBT(polySizeMode);updatenJumpBT(polyJumpStep);updatenPolyBT(polyResolution);updateAPolyBT(kPolyALine);$.ePic(CtBTPoly,new Object[]{"src",BMPPoly() });
+	updateCordBT();
+	CLEdTe=CLBT0;
+	$.eEdText(EdFuX.EdTe,new Object[]{"colo",color2}); EdFuX.graColor(3,new int[]{CLEdTe,CLEdTe},0);
+	$.eEdText(EdFuY.EdTe,new Object[]{"colo",color2}); EdFuY.graColor(3,new int[]{CLEdTe,CLEdTe},0);
+}
+
+float hW=W/2.0f, hH=H/2.0f;
+String textUnit="mm"; float rUnit=1.0f; int x10=10;
+int kRulerRatio=I.get(70);
+float hMM=($.MM(100)/200.0f)*(float)rGrid*rUnit; // $.number $.pixel $.each $.smallest $.half
+double stwi=1;
+float zV=0; int zV1=0;// $.temp $.value
+float[] AOut,ADeg;
+
+void loadColor(){
+	if (autoColor!=I.get(100)){ autoColor=I.get(100); Cmd.add("ReloadSetting"); }
+	else if (autoColor!=0){autoColor=0; $.save(WD,"i",2,100,0); Cmd.add("ReloadSetting");}
+	switch(autoColor){
+		case 0: {break;}
+		case 1: {S.set(1,"hsla(0,0,0,0.6)"); S.set(2,"hsla(0,100,0,0.8)"); S.set(0,"hsla(0,0,100,0)"); D.set(100,0.6); break;}
+		case 2: {S.set(1,"hsla(27,100,12,0.8)"); S.set(2,"hsla(27,100,10,0.8)"); S.set(0,"hsla(27,100,80,0.65)"); D.set(100,0.65); break;}
+		case 3: {S.set(1,"hsla(0,0,70,1)"); S.set(2,"hsla(0,0,70,0.8)"); S.set(0,"hsla(0,0,0,0.5)"); D.set(100,0.5); break;}
+		case 4: {S.set(1,"hsla(0,100,50,1)"); S.set(2,"hsla(120,100,50,0.8)"); S.set(0,"hsla(0,90,20,0.7)"); D.set(100,0.7); break;}
+		case 5: {S.set(1,"hsla(175,100,70,1)"); S.set(2,"hsla(180,100,80,0.8)"); S.set(0,"hsla(175,100,25,0.5)"); D.set(100,0.5); break;}
+		case 6: {S.set(1,"hsla(240,100,50,0.7)"); S.set(2,"hsla(240,100,95,0.8)"); S.set(0,"hsla(240,80,30,0.4)"); D.set(100,0.4); break;}
+	}
+	aBacolo=D.get(100);
+	sBacolo=S.get(0);
+	bacolo=$.coloReplaceA($.hsl(sBacolo),$.Min(0.99,aBacolo));
+	gridColo=$.hsl(S.get(1));
+	teColo=$.hsl(S.get(2));
+	$.save(WD,"s",1,0,S.get(0)); $.save(WD,"s",1,1,S.get(1)); $.save(WD,"s",1,2,S.get(2)); $.save(WD,"d",1,100,D.get(100));
+	color1=$.coloReplaceA(gridColo,0.5);
+	color2=$.coloReplaceA(gridColo,0.99);
+	color0=$.coloReplaceA(gridColo,0.3);
+	CLBT0=$.coloReplaceA(bacolo,0.7);
+
+	$.edit(Display,new Object[]{"bacolo",bacolo});
+
+	BMPBorder3x2=$.Bitmap($.mm(21),$.mm(7),new Object[]{"stco",color2,"stwi",$.mm(0.25),"r",new int[]{$.mm(0.125),$.mm(0.125),$.mm(21-0.12),$.mm(7-0.12)}, "ls",new float[]{0,$.mm(3.5),$.mm(21),$.mm(3.5),  $.mm(7),$.mm(0),$.mm(7),$.mm(7),  $.mm(14),$.mm(0),$.mm(14),$.mm(7)} });
+	$.ePic(PicBodeUnit,new Object[]{"lapa",new int[]{$.FR.M,$.FR.M,$.GRA.C},"src",BMPBorder3x2 });
+	BMPBorder3x3=$.Bitmap($.mm(12),$.mm(12),new Object[]{"stco",color2,"stwi",$.mm(0.25),"r",new int[]{$.mm(0.125),$.mm(0.125),$.mm(12-0.12),$.mm(12-0.12)} });
+	$.ePic(PicBodeAxis,new Object[]{"lapa",new int[]{$.FR.M,$.FR.M,$.GRA.C},"src",BMPBorder3x3 });
+	BMPBorder2x2=$.Bitmap($.mm(8),$.mm(8),new Object[]{"stco",color2,"stwi",$.mm(0.25),"r",new int[]{$.mm(0.125),$.mm(0.125),$.mm(8-0.12),$.mm(8-0.12)}, "ls",new float[]{$.mm(0),$.mm(4),$.mm(8),$.mm(4),  $.mm(4),$.mm(0),$.mm(4),$.mm(8) } });
+	$.ePic(PicBodeRulerT,new Object[]{"lapa",new int[]{$.FR.M,$.FR.M,$.GRA.C},"src",BMPBorder2x2 });
+	BMPBorder2x3=$.Bitmap($.mm(8),$.mm(12),new Object[]{"stco",color2,"stwi",$.mm(0.25),"r",new int[]{$.mm(0.125),$.mm(0.125),$.mm(8-0.12),$.mm(12-0.12)} });//, "ls",new float[]{$.mm(0),$.mm(4),$.mm(8),$.mm(4),  $.mm(4),$.mm(0),$.mm(4),$.mm(8) } });
+	$.ePic(PicBodeAngle,new Object[]{"lapa",new int[]{$.FR.M,$.FR.M,$.GRA.C},"src",BMPBorder2x3 });
+	BMPBorder5x4=$.Bitmap($.mm(20),$.mm(16),new Object[]{"stco",color2,"stwi",$.mm(0.25),"r",new int[]{$.mm(0.125),$.mm(0.125),$.mm(20-0.12),$.mm(16-0.12)} , "ls",new float[]{$.mm(0),$.mm(8),$.mm(20),$.mm(8),  $.mm(12),$.mm(0),$.mm(12),$.mm(8), $.mm(0),$.mm(12),$.mm(20),$.mm(12), $.mm(8),$.mm(12),$.mm(8),$.mm(16) } });
+	$.ePic(PicBodePoly,new Object[]{"lapa",new int[]{$.FR.M,$.FR.M,$.GRA.C},"src",BMPBorder5x4 });
+}
+loadColor();
+
+void verticalLine(int xHalfUnit, int colorLine, boolean kBlur){
+		float stp=hMM*xHalfUnit; int l=(int)Math.ceil(W/stp)+1; int AL=l*4;  AOut=new float[AL];
+		for (int i=0;i<l;i++){
+			switch (Xmode){ case 0:zV=i*stp;break;   case 1:zV=(i-l/2)*stp+hW;break;   case 2:zV=W-1-i*stp;break; }
+			AOut[i*4]=zV; AOut[i*4+2]=zV; AOut[i*4+3]=H;
+		}
+		if (!kBlur){$.Bitmap(BMP.get(0), new Object[]{"mode",blendMode,"stco", colorLine,"stwi",stwi,"ls",AOut} );}
+		else{$.Bitmap(BMP.get(0), new Object[]{"mode",blendMode,"bl",new int[]{1,1}, "stco", colorLine,"stwi",stwi,"ls",AOut} );}
+}
+void horizontalLine(int xHalfUnit, int colorLine, boolean kBlur){
+		float stp=hMM*xHalfUnit; int l=(int)Math.ceil(H/stp)+1; int AL=l*4;  AOut=new float[AL];
+		for (int i=0;i<l;i++){
+			switch (Ymode){ case 0:zV=i*stp;break;   case 1:zV=(i-l/2)*stp+hH;break;   case 2:zV=H-1-i*stp;break; }
+			AOut[i*4+1]=zV; AOut[i*4+3]=zV; AOut[i*4+2]=W;
+		}
+		if (!kBlur){$.Bitmap(BMP.get(0), new Object[]{"mode",blendMode,"stco", colorLine,"stwi",stwi,"ls",AOut} );}
+		else{$.Bitmap(BMP.get(0), new Object[]{"mode",blendMode,"bl",new int[]{1,1},"stco", colorLine,"stwi",stwi,"ls",AOut} );}
+}
+void angleRuler(int cx, int cy, int l, int color, int rSta, boolean kBlur, double degRotate){
+	float mDeg=l/360.0f; ADeg=new float[l]; for (int i=0;i<l;i++){ADeg[i]=(float)(degRotate +i/mDeg);}
+	AOut=new float[l*4]; float zDeg=0; double zR2=W+H;
+				for (int i=0;i<l;i++){ zDeg=ADeg[i];
+						if (Ymode==0){ADeg[i]-=90;}
+						AOut[i*4]=(float)(cx+(Math.cos(-ADeg[i]/180.0*Math.PI)*rSta  ));
+						if (Xmode==2){AOut[i*4]=cx*2-AOut[i*4];}
+						AOut[i*4+1]=(float)(cy+(Math.sin(-ADeg[i]/180.0*Math.PI)*rSta  ));
+						AOut[i*4+2]=(float)(cx+(Math.cos(-ADeg[i]/180.0*Math.PI)*zR2));
+						if (Xmode==2){AOut[i*4+2]=cx*2-AOut[i*4+2];}
+						AOut[i*4+3]=(float)(cy+(Math.sin(-ADeg[i]/180.0*Math.PI)*zR2));
+				}
+	if (!kBlur){$.Bitmap(BMP.get(0), new Object[]{"mode",blendMode,"stco", color,"stwi",stwi,"ls",AOut });}
+	else {$.Bitmap(BMP.get(0), new Object[]{"mode",blendMode,"bl",new int[]{1,1},"stco", color,"stwi",stwi,"ls",AOut });}
+}
+void angleRuler(int cx, int cy, int l, int color, int rSta, boolean kBlur){angleRuler(cx, cy, l, color, rSta, kBlur, 0);}
+void polygonLine(int xHalfUnit, int cx, int cy, int color, int l, int rApplyMode, int lJump, double degRotate, boolean kBlur){
+	float stp; int lPoly; int ALOut,ALLine;float[] ALine;
+	if (xHalfUnit==0){stp=hMM*20;stp=(float)(Math.floor(($.Min(W,H)/2)/stp)*stp); lPoly=1; ALOut=lPoly*l*2; ALLine=lPoly*l*4; AOut=new float[ALOut]; ALine=new float[ALLine];}
+	else {stp=hMM*xHalfUnit; lPoly=(int)Math.ceil(Math.sqrt(W*W+H*H)/stp)+1; ALOut=lPoly*l*2; ALLine=lPoly*l*4; AOut=new float[ALOut]; ALine=new float[ALLine];}
+	int psOut=0,psLine=0;  double rPoint=0; boolean[] kPoint;
+	for (int j=0;j<lPoly;j++){rPoint=(j+1)*stp;
+		psOut=j*l*2; psLine=j*l*4;
+		int AL=l*2; double degR=degRotate+90; float zDeg=0;
+		if (rApplyMode==1){rPoint=rPoint/Math.cos(1.0/l*Math.PI);degR=degRotate-90;}
+		else if (rApplyMode==2){rPoint=(rPoint+rPoint/Math.cos(1.0/l*Math.PI))/2;}
+		float mDeg=360.0f/l; ADeg=new float[l]; for (int i=0;i<l;i++){ADeg[i]=(float)(i*mDeg+degR);}
+		float zDeg=0;
+		for (int i=0;i<l;i++){ zDeg=ADeg[i];
+				AOut[psOut+i*2]=(float)(cx+(Math.cos(-zDeg/180.0*Math.PI)*rPoint  ));
+				AOut[psOut+i*2+1]=(float)(cy+(Math.sin(-zDeg/180.0*Math.PI)*rPoint  ));
+		}
+		if (lJump>=l){lJump=$.Max(1,lJump-(int)Math.floor(lJump/l)*l);}
+		kPoint=new boolean[l]; int iSta=0,iJump=iSta;
+		for (int i=0;i<l;i++){kPoint[iJump]=true;
+			ALine[psLine+i*4]=AOut[psOut+iJump*2];
+			ALine[psLine+i*4+1]=AOut[psOut+iJump*2+1];
+			iJump+=lJump; if (iJump>l-1){iJump=iJump-l;}
+			ALine[psLine+i*4+2]=AOut[psOut+iJump*2];
+			ALine[psLine+i*4+3]=AOut[psOut+iJump*2+1];
+			if (kPoint[iJump]){iSta+=1;iJump=iSta;}
+			kPoint[iJump]=true;
+		}
+	}
+	if (!kBlur){$.Bitmap(BMP.get(0), new Object[]{"mode",blendMode,"stco", color,"stwi",stwi,"ls",ALine} );}
+	else {$.Bitmap(BMP.get(0), new Object[]{"mode",blendMode,"bl",new int[]{1,1},"stco", color,"stwi",stwi,"ls",ALine} );}
+}
+void loadPattern(){
+	hW=W/2.0f; hH=H/2.0f;
+	rGrid=D.get(99); if (rGrid<0.01){D.set(99,0.01);rGrid=0.01;$.save(WD,"d",1,99,0.01);Cmd.add("ReloadSetting");}
+	unit=I.get(101);
+	Xmode=I.get(102); Ymode=I.get(103);
+	angleType=I.get(104);
+	kAngle=I.get(104)>0; 
+	kFullAngle=I.get(114)==1; kFullAng=kFullAngle;
+	kCircular=I.get(105); kCir=kCircular==1;
+	kGrid=I.get(106); kGrX=(kGrid==1||kGrid==3); kGrY=(kGrid==2||kGrid==3);
+	kRootText=I.get(121);
+
+	kPolygon=I.get(107)==1;
+	nSidePoly=I.get(117);
+	polySizeMode=I.get(118);
+	polyJumpStep=I.get(119);
+	polyRotate=D.get(101);
+	polyResolution=I.get(120);
+	kPolyALine=I.get(108); 
+	blendMode=I.get(71);
+
+	if (kSetting){updateUI();}
+
+	switch (unit){
+		case 0: textUnit="mm";rUnit=1.0f;x10=10; break;
+		case 1: textUnit="cm";rUnit=1.0f;x10=1; break;
+		case 2: textUnit="inch";rUnit=2.54f;x10=1; break;
+		case 3: textUnit="pica";rUnit=2.54f/6.0f;x10=1; break;
+		case 4: textUnit="lps";rUnit=0.299792458f;x10=10; break;
+		case 5: textUnit="px";rUnit=(float)(10000.0/$.MM(1000));x10=100; break;
+	}
+	kRulerRatio=I.get(70);
+	hMM=($.MM(100)/200.0f)*(float)rGrid*rUnit; // $.number $.pixel $.each $.smallest $.half
+	if (kRulerRatio==1){hMM*=(float)rReso;}
+
+	float xT0=0,yT0=0,  xT1=0,yT1=0;
+	Object ATe;
+	if (angleType==1){ADeg=new float[]{5,10,15,30,45,60};}
+	else if (angleType==2){ADeg=new float[]{10, 20, 30, 40, 50, 60, 70, 80,  100,110,120,130,140,150,160,170,190,200,210,220,230,240,250,260,280,290,300,310,320,330,340,350};}
+	else if (angleType==3){ADeg=new float[]{15,30,45,60,75,  105,120,135,150,165, 195,210,225,240,255, 285,300,315,330,345};}
+	else if (angleType==4){ADeg=new float[]{30,60,120,150,210,240,300,330};}
+	else if (angleType==5){ADeg=new float[]{45,135,225,315};}
+
+	$.clearBitmap(BMP.get(0));
+	color1=$.coloReplaceA(gridColo,0.5);
+	color2=$.coloReplaceA(gridColo,0.99);
+	color0=$.coloReplaceA(gridColo,0.3);
+		
+
+		//　ＳＴＲＡＩＧＨＴ　ＲＵＬＥＲ
+		if (kGrid>0){
+		//　ＶＥＲＴＩＣＡＬ　ＬＩＮＥ
+			if (kGrid==1||kGrid==3){	
+				if (unit!=3&&unit!=4){verticalLine(1, color0, false);}
+				verticalLine(2, color1, false);
+				verticalLine(10, color1, true);
+				verticalLine(20, color2, true);
+			}
+		//　ＨＯＲＩＺＯＮＴＡＬ　ＬＩＮＥ
+			if (kGrid==2||kGrid==3){	
+				if (unit!=3&&unit!=4){horizontalLine(1, color0, false);}
+				horizontalLine(2, color1, false);
+				horizontalLine(10, color1, true);
+				horizontalLine(20, color2, true);
+			}
+		}
+
+
+		//　ＴＥＸＴ
+		float stp=hMM; int l=Math.ceil(W/stp)+1, AL=l*4;
+		if (kRootText>0){
+			switch (Xmode){ case 0: xT0=0; break;   case 1: xT0=hW; break;   case 2: xT0=W-1; break; }
+			switch (Ymode){ case 0: yT0=0; break;   case 1: yT0=hH; break;   case 2: yT0=H-1; break; }
+			$.Bitmap(BMP.get(0), new Object[]{"mode",blendMode,"stco", color2,"stwi",stwi*2,"ls",new float[]{xT0,0,xT0,H-1,  0,yT0,W-1,yT0} } );
+		}
+		if (kRootText==2){
+			switch (Xmode){
+				case 0: xT0=$.MM(1); xT1=$.MM(6);  break;
+				case 1: xT0=$.MM(1)+hW; xT1=$.MM(6)+hW;  break;
+				case 2: xT0=(float)(W-$.MM(3)*(rFosi/100)*3/4); xT1=W-$.MM(9.5);  break;
+			}
+			switch (Ymode){
+				case 0: yT0=(float)($.MM(1)+$.MM(3)*(rFosi/100)*2/3); yT1=(float)($.MM(6)+$.MM(3)*(rFosi/100)*2/3);  break;
+				case 1: yT0=hH-$.MM(1); yT1=hH-$.MM(6);   break;
+				case 2: yT0=H-$.MM(1); yT1=H-$.MM(6);  break;
+			}
+			$.Bitmap(BMP.get(0), new Object[]{"mode",blendMode,"bl",new int[]{1,1},"fico",teColo,
+				"font",$.font("mono"),"fosi",$.MM(3)*(rFosi/100),"t",new Object[]{"0", xT0, yT0}, "fico",$.coloReplaceA(teColo,0.7),"t",new Object[]{textUnit, xT1, yT1}
+			} );
+		// ＨＯＲＩＺＯＮＴＡＬ　ＴＥＸＴ
+			switch (Ymode){
+				case 0: yT0=(float)($.MM(1)+$.MM(3)*(rFosi/100)/2); break;
+				case 1: yT0=hH-$.MM(1); break;
+				case 2: yT0=H-$.MM(1); break;
+			}
+			stp=hMM*20; l=(int)Math.ceil(W/stp); AL=l*3; stwi=1;
+			ATe=new Object[AL];
+			for (int i=0;i<l;i++){
+				switch (Xmode){ case 0:zV=(i+1)*stp;zV1=(i+1)*x10;break;   case 1:zV=(i+1-l/2)*stp+hW;zV1=(i+1-l/2)*x10;break;   case 2:zV=W-1-(i+1)*stp;zV1=(i+1)*x10;break; }
+				ATe[i*3]=zV1!=0?""+zV1:""; ATe[i*3+1]=zV+$.MM(0.5); ATe[i*3+2]=yT0;
+			}
+			$.Bitmap(BMP.get(0), new Object[]{"mode",blendMode,"bl",new int[]{1,1},"fico",teColo,
+				"font",$.font("mono"),"fosi",$.MM(2)*(rFosi/100),"ts",ATe
+			} );
+		//　ＶＥＲＴＩＣＡＬ　ＴＥＸＴ
+			switch (Xmode){
+				case 0: xT0=$.MM(1);  break;
+				case 1: xT0=$.MM(1)+hW;  break;
+				case 2: xT0=(float)(W-$.MM(3)*(rFosi/100)*6/4);  break;
+			}
+			stp=hMM*20; l=(int)Math.ceil(H/stp); AL=l*3; stwi=1;
+			ATe=new Object[AL];
+			for (int i=0;i<l;i++){
+				switch (Ymode){ case 0:zV=(i+1)*stp;zV1=(i+1)*x10;break;   case 1:zV=(i+1-l/2)*stp+hH;zV1=-(i+1-l/2)*x10;break;   case 2:zV=H-1-(i+1)*stp;zV1=(i+1)*x10;break; }
+				ATe[i*3]=zV1!=0?""+zV1:""; ATe[i*3+1]=xT0; ATe[i*3+2]=zV-$.MM(0.5);
+			}
+			$.Bitmap(BMP.get(0), new Object[]{"mode",blendMode,"bl",new int[]{1,1},"fico",teColo,
+				"font",$.font("mono"),"fosi",$.MM(2)*(rFosi/100),"ts",ATe
+			} );
+		}
+
+		//　ＡＮＧＬＥ　ＬＩＮＥ
+				int cx=0,cy=0; float dx=0,dy=0; float zDeg=0;
+				switch (Xmode){ case 0: cx=0;dx=W; break;   case 1: cx=W/2;dx=W/2; break;   case 2: cx=W-1;dx=-W; break; }
+				switch (Ymode){ case 0: cy=0;dy=H; break;   case 1: cy=H/2;dy=-H/2; break;   case 2: cy=H-1;dy=-H; break; }
+				if (kAngle){
+					l=ADeg.length;
+					double zR2=W+H,zRTe=$.Min(W,H)/2;
+					AOut=new float[l*4];
+					ATe=new Object[l*3];
+					for (int i=0;i<l;i++){ zDeg=ADeg[i];
+						if (Ymode==0){ADeg[i]-=90;}
+						AOut[i*4]=cx; AOut[i*4+1]=cy;
+						AOut[i*4+2]=(float)(cx+(Math.cos(-ADeg[i]/180.0*Math.PI)*zR2));
+						if (Xmode==2){AOut[i*4+2]=cx*2-AOut[i*4+2];}
+						AOut[i*4+3]=(float)(cy+(Math.sin(-ADeg[i]/180.0*Math.PI)*zR2));
+					
+						if (zDeg>=0&&zDeg<=90){
+							ATe[i*3]=""+(int)(zDeg)+"°";
+							if (Xmode!=2){
+								ATe[i*3+1]=cx+dx-$.MM(4.5);
+								ATe[i*3+2]=(float)(cy+Math.tan(-ADeg[i]/180.0*Math.PI)*dx);
+								yT0=(float)($.MM(1)+$.MM(3)*(rFosi/100)/2);
+								if (ATe[i*3+2]<yT0||ATe[i*3+2]>H){
+									if (Ymode==0){ yT0=H-$.MM(1); ATe[i*3+2]=yT0; }
+									else{ ATe[i*3+2]=cy+dy+( (kFull?$.statusBarH_px:0)+yT0); }
+									ATe[i*3+1]=$.Min(W-$.MM(4.5), (float)(cx+dy/Math.tan(-ADeg[i]/180.0*Math.PI) ) );
+								}
+								else{ ATe[i*3+2]=$.Max((kFull?$.statusBarH_px:0)+yT0,ATe[i*3+2]); }
+							}
+							else {
+								ATe[i*3+1]=cx+dx+$.MM(1);
+								ATe[i*3+2]=(float)(cy-Math.tan(-ADeg[i]/180.0*Math.PI)*dx );
+								yT0=(float)($.MM(1)+$.MM(3)*(rFosi/100)/2);
+								if (ATe[i*3+2]<yT0||ATe[i*3+2]>H){
+									if (Ymode==0){ yT0=H-$.MM(1); ATe[i*3+2]=yT0; }
+									else{ ATe[i*3+2]=cy+dy+( (kFull?$.statusBarH_px:0)+yT0); }
+									ATe[i*3+1]=$.Max($.MM(1), (float)(cx-dy/Math.tan(-ADeg[i]/180.0*Math.PI) ) );
+								}
+								else{ ATe[i*3+2]=$.Max((kFull?$.statusBarH_px:0)+yT0,ATe[i*3+2]); }
+							}
+						}
+					}
+					$.Bitmap(BMP.get(0), new Object[]{"mode",blendMode,"bl",new int[]{1,1}, "stco", color2,"stwi",stwi,"ls",AOut} );
+					$.Bitmap(BMP.get(0), new Object[]{"mode",blendMode,"stco", color2,"stwi",stwi,"ls",AOut   ,"fico",teColo,"font",$.font("mono"),"fosi",$.MM(2)*(rFosi/100),"ts",ATe} );
+				}
+				if (kFullAngle){
+					angleRuler(cx,cy,72,$.coloReplaceA(color1,0.55),$.MM(12),false);
+					angleRuler(cx,cy,360,$.coloReplaceA(color1,0.35),$.MM(16),false);
+					angleRuler(cx,cy,720,$.coloReplaceA(color1,0.2),$.MM(28),false);
+				}
+
+
+		// ＣＩＲＣＵＬＡＲ
+				if (kCircular==1){
+					if (unit!=3&&unit!=4){
+						stp=hMM; l=(int)Math.ceil(Math.sqrt(W*W+H*H)/stp)+1; AL=l*3; stwi=1;
+						AOut=new float[AL];
+						for (int i=0;i<l;i++){zV=i*stp;
+							AOut[i*3]=cx; AOut[i*3+1]=cy; AOut[i*3+2]=zV;
+						}
+						$.Bitmap(BMP.get(0), new Object[]{"mode",blendMode,"stco", $.coloReplaceA(color1,0.2),"stwi",stwi,"cs",AOut} );
+					}
+					stp=hMM*2; l=(int)Math.ceil(Math.sqrt(W*W+H*H)/stp)+1; AL=l*3; stwi=1;
+					AOut=new float[AL];
+					for (int i=0;i<l;i++){zV=i*stp;
+						AOut[i*3]=cx; AOut[i*3+1]=cy; AOut[i*3+2]=zV;
+					}
+					$.Bitmap(BMP.get(0), new Object[]{"mode",blendMode,"stco", color1,"stwi",stwi,"cs",AOut} );
+
+					stp=hMM*10; l=(int)Math.ceil(Math.sqrt(W*W+H*H)/stp)+1; AL=l*3; stwi=1;
+					AOut=new float[AL];
+					for (int i=0;i<l;i++){zV=i*stp;
+						AOut[i*3]=cx; AOut[i*3+1]=cy; AOut[i*3+2]=zV;
+					}
+					$.Bitmap(BMP.get(0), new Object[]{"mode",blendMode,"bl",new int[]{1,1},"stco", color1,"stwi",stwi,"cs",AOut} );
+
+					stp=hMM*20; l=(int)Math.ceil(Math.sqrt(W*W+H*H)/stp)+1; AL=l*3; stwi=1;
+					AOut=new float[AL];
+					for (int i=0;i<l;i++){zV=i*stp;
+						AOut[i*3]=cx; AOut[i*3+1]=cy; AOut[i*3+2]=zV;
+					}
+					$.Bitmap(BMP.get(0), new Object[]{"mode",blendMode,"bl",new int[]{1,1},"stco", color2,"stwi",stwi,"cs",AOut} );
+				}
+	
+
+		// $.POLYGONS
+		if (kPolygon){
+			if (kPolyALine==1){angleRuler(cx,cy,nSidePoly,color1,0,false,polyRotate+(polySizeMode==1?-90:90));}
+			if (polyResolution>3){ if (unit!=3&&unit!=4){
+				polygonLine(1, cx, cy, $.coloReplaceA(color1,0.2), nSidePoly, polySizeMode, polyJumpStep, polyRotate,  false);
+			}}
+			if (polyResolution>2){polygonLine(2, cx, cy, color1, nSidePoly, polySizeMode, polyJumpStep, polyRotate,  false);}
+			if (polyResolution>1){polygonLine(10, cx, cy, color1, nSidePoly, polySizeMode, polyJumpStep, polyRotate,  true);}
+			if (polyResolution>0){polygonLine(20, cx, cy, color2, nSidePoly, polySizeMode, polyJumpStep, polyRotate,  true);}
+			if (polyResolution==0){polygonLine(0, cx, cy, color2, nSidePoly, polySizeMode, polyJumpStep, polyRotate,  true);}
+		}
+		
+	if (!kSetting){	$.load(Screen,BMP.get(0));}
+	else {$.load(IMG.get(0),BMP.get(0));}
+}
+loadPattern();W=(int)(W*rReso); H=(int)(H*rReso);
+if (rReso!=D.get(110)|| kRulerRatio!=I.get(70)){
+	rReso=D.get(110); if (rReso<0.1){D.set(110,0.1);rReso=0.1;$.save(WD,"d",1,110,0.1);Cmd.add("ReloadSetting");}
+	W=(int)(W*rReso); H=(int)(H*rReso);
+	$.PXpMM1=$.PXpMM*rReso;
+	$.addBitmap(0,W,H,BMP);
+	$.addBitmap(1,W,H,BMP);
+	loadPattern();
+}
+if ( rGrid!=D.get(99) || unit!=I.get(101) || Xmode!=I.get(102) || Ymode!=I.get(103) 
+		|| kGrid!=I.get(106) || kFullAngle!=(I.get(114)==1) || kCircular!=I.get(105)
+		|| angleType!=I.get(104) || kRootText!=I.get(121)
+		|| kPolygon!=(I.get(107)==1) || nSidePoly!=I.get(117) || polyJumpStep!=I.get(119) || polyResolution!=I.get(120)	|| polySizeMode!=I.get(118) || kPolyALine!=I.get(108)
+		|| blendMode!=I.get(71)
+){
+	loadPattern();
+}
+if (CordMode!=I.get(130)){updateCordBT();}
+
+if (aBacolo!=D.get(100)||!$.comS(sBacolo,S.get(0))||gridColo!=$.hsl(S.get(1))||teColo!=$.hsl(S.get(2))||autoColor!=I.get(100) ){
+	loadColor();
+	updateUI();
+	loadPattern();
+}

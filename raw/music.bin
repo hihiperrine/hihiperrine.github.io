@@ -1,0 +1,562 @@
+100,105,117,277,29758,30466,                                                                        Musicraw.wav_iconnew Object[][]{
+	new Object[]{"Theme Color","string",0,"hsl(195,50,40)",  3}
+	,new Object[]{"Dark Mod",0,0,1,  2,new Object[]{"Disable",false,"Enable",true}}
+
+}
+//
+//    *.✧ Music v1.0 - 2021.07.27 ✧*。
+//
+//    by  Phung Phan  pearthq@gmail.com
+//
+
+$.updateFPS(50,FPS); int intW=(int)W,intH=(int)H,zintW=intW,zintH=intH;
+//String toString(double[] ad){String s=""+ad.length+": ";for (double a:ad){s+=" "+round(a);}return s;}
+WD.dim(); Cmd.add("NoReset"); $.RatRun(Touch,$.ERUN);
+WD.traceLimit(1);//WD.traceTime(30000);
+Object browseRoot=$.FILE_ADMIN()?$.HYPER_ROOT():$.ROOT();
+Object PathPlay=browseRoot,crPath=PathPlay;
+
+
+
+//　⭐　ＢＡＳＩＣ　ＴＨＥＭＥ　ＡＮＤ　ＳＩＺＥ　ＶＡＲＩＡＢＬＥ　⭐
+
+double[] AHslHx=$.ahsl(S.get(0));
+int hueGA=AHslHx[0],satGA=AHslHx[1],lumGA=AHslHx[2],lumDarkGA=B.get(0)?100:0,inlumDarkGA=100-lumDarkGA;
+int lumView=14,lumView_l=B.get(0)?0:79;
+int coloP=$.hsla(0,0,0,0.2);
+int coloBTV=$.hsla(0,0,0,0.5);
+int coloF=$.hsl(hueGA,100,50);
+int coloTrack=$.hsla(0,0,lumDarkGA,0.1);
+int coloMax=$.hsl(0,0,lumDarkGA);
+int[] graP=new int[]{B.get(0)?7:3,$.hsla(0,0,lumDarkGA,0.1),$.hsla(0,0,lumDarkGA,0.0625),$.hsla(0,0,lumDarkGA,0.05)};
+int[] graBg=new int[]{B.get(0)?3:7,$.hsla(0,0,lumView+lumView_l,1),$.hsla(0,0,lumView*0.225+lumView_l,1),$.hsla(0,0,lumView*0.1+lumView_l,1)};
+int[] graVol=new int[]{B.get(0)?7:3,$.hsla(0,0,lumView+lumView_l,1),$.hsla(0,0,lumView*0.7+lumView_l,0.9) };
+
+int mmL=$.mm(0.2);
+int xxWH=$.Min(3200,(int)$.Max($.screenW_px,$.screenH_px)*3);
+double W4=minWH/13.0, W4n=minWH/14.0, hW4n=W4n/2, W1=W4/4, W2=W4/2, W3=W4*3.0/4, hW3=W3/2, W5=W4*5/4, W8=W4*2, W12=W4*3, W16=W4*4,  Hfs=W4/2.1;
+int fs=(int)(Hfs),hfs=fs/2,fs3p4=fs*3/4,fs2=fs*2,fs3=fs*3,hfs3=fs3/2;
+double WTrack=W-W8*2-W8;
+
+int WFolderList=(int)(minWH/13.0*2.5);
+int WFolderIcon=WFolderList-$.mm(1);
+int maFL_W=$.mm(0.5), maFL_H=$.mm(1), yFL=0;//maFL_H;
+
+int[] LAPA_M=new int[]{$.FR.M,$.FR.M,$.GRA.LT};
+
+
+Object player=$.loadSound(raw.snd_photon);WD.reg_release(player);
+void loadPlayer(String sPath){ player.release();
+	player=$.loadSound($.URI_PATH($.PATH(sPath)) ); WD.reg_release(player);
+	player.setLooping(kLoop); player.setVolume(rVol,rVol);
+	$.rate(player,ARRate[rateMode]);
+	player.start();
+	kPlaying=true;$.ePic(PicPlay,new Object[]{"src",raw.pause});
+}
+//　⭐　ＳＴＡＴＩＣ　ＬＡＹＯＵＴ　⭐
+
+Object bg=$.aFrLay(Touch,$.o("lapa",new int[]{$.FR.M,$.FR.M,$.GRA.LT},"bacolo", new int[]{B.get(0)?3:7,$.hsla(hueGA,satGA,lumGA*0.5+(100-lumDarkGA)*0.5,1),$.hsla(hueGA,satGA,lumGA*0.625+(100-lumDarkGA)*0.375,1),$.hsla(hueGA,satGA,lumGA,1)} ));
+	Object FrMainList=$.aFrLay(bg,new Object[]{"lapa",LAPA_M,"magi",new int[]{WFolderList,0,0,0}  });
+		Object ScMain = $.aScrV2(FrMainList,new Object[]{"lapa",LAPA_M });
+		Object FrScMain = $.aFrLay(ScMain,new Object[]{"lapa",new int[]{$.FR.M,$.FR.W,$.GRA.LT} });
+	Object FrFolderList=$.aFrLay(bg,new Object[]{"lapa",new int[]{WFolderList,$.FR.M,$.GRA.LB},"magi",new int[]{0,(int)(WFolderList*0.75),0,0}  });
+		Object ScFolder = $.aScrV2(FrFolderList,new Object[]{"lapa",LAPA_M });
+		Object FrScFolder = $.aFrLay(ScFolder,new Object[]{"lapa",new int[]{$.FR.M,$.FR.W,$.GRA.LT} });
+	Object FrBackFolder=$.aFrLay(bg,new Object[]{"lapa",new int[]{WFolderList,(int)(WFolderList*0.75),$.GRA.LT },"dipl",-1});
+		$.aPic(FrBackFolder,new Object[]{"lapa",new int[]{$.FR.M,$.FR.M,$.GRA.C },"src",raw.play,"sc",0.7,"r",180 });
+
+Object bmpBT=$.filt($.Bitmap(raw.button_c),$.o("hue",hueGA));
+Object bmpBT1=$.filt(bmpBT,$.o("gamma",100));
+Object bmpRepeat0=$.Bitmap(raw.repeat);
+Object bmpRepeat1=$.filt(bmpRepeat0,new Object[]{"to_red",100,"hue",hueGA});
+Object bmpShuffle0=$.Bitmap(raw.shuffle);
+Object bmpShuffle1=$.filt(bmpShuffle0,new Object[]{"to_red",100,"hue",hueGA});
+Object bmpCursor1=$.filt($.Bitmap(raw.play),new Object[]{"to_red",100,"hue",hueGA});
+Object bgView=$.aFrLay(Touch,$.o("lapa",new int[]{$.FR.M,$.FR.M,$.GRA.LT},"bacolo", graBg,"dipl",-1 ));
+Object bmpSeleSE0=$.Bitmap(raw.select_sta);
+Object bmpSeleSE1=$.filt(bmpSeleSE0,new Object[]{"to_red",100,"hue",hueGA});
+Object bmpSeleCr0=$.Bitmap(raw.cursor_select);
+Object bmpSeleCr1=$.filt(bmpSeleCr0,new Object[]{"to_red",100,"hue",hueGA});
+Object bmpReso0=$.Bitmap(raw.resolution);
+Object bmpReso1=$.filt(bmpReso0,new Object[]{"to_red",100,"hue",hueGA});
+
+	//Object PicView=aPic(bgView,new Object[]{"lapa",new int[]{FR.M,FR.M,GRA.C } });
+
+	Object FrTitle=$.aFrLay(bgView,new Object[]{"lapa",new int[]{$.FR.M,W8,$.GRA.TC},"magi",new int[]{W8,0,W8,0} });
+		Object TeTitle=$.aText(FrTitle,new Object[]{"te","","ty",fs/2,"tecolo",$.CL.W,"font","mono","fosi",fs*1.2,"lapa",new int[]{$.FR.W,$.FR.W,$.GRA.C},"scr",2 });	
+
+	Object FrController=$.aFrLay(bgView,new Object[]{"lapa",new int[]{$.FR.M,W8*3,$.GRA.BC} });
+		Object FrPlay=$.aFrLay(FrController,new Object[]{"lapa",new int[]{W8*2,(int)(W8*2),$.GRA.CT} });
+			Object DiPlay=$.SFH_Loading();
+			DiPlay.kDim=0; DiPlay.maxStroke=0.32; DiPlay.minStroke=0.32; DiPlay.minIncPercent=0.001;
+			DiPlay.licolo=$.hsl(hueGA,100,50); DiPlay.bacolo=$.CL.T; DiPlay.kFront=false; DiPlay.alphaTrack=0.15;
+			DiPlay.displayText(-1).create(FrPlay,(double)(W8*2.3)/$.mm(1)).centerArc();
+			Object PicPlayBT=$.aPic(FrPlay,new Object[]{"lapa",new int[]{$.FR.M,$.FR.M,$.GRA.C },"sc",0.95,"src",bmpBT,"opac",0.7 });
+			Object PicPlay=$.aPic(FrPlay,new Object[]{"lapa",new int[]{$.FR.M,$.FR.M,$.GRA.C },"sc",0.45,"src",raw.pause });
+		Object FrNext=$.aFrLay(FrController,new Object[]{"lapa",new int[]{W8*2,(int)(W8*2),$.GRA.CT},"tx",W8*2 });
+			Object PicNext=$.aPic(FrNext,new Object[]{"lapa",new int[]{$.FR.M,$.FR.M,$.GRA.C },"sc",0.3,"src",raw.next });
+		Object FrBack=$.aFrLay(FrController,new Object[]{"lapa",new int[]{W8*2,(int)(W8*2),$.GRA.CT},"tx",-W8*2 });
+			Object PicBack=$.aPic(FrBack,new Object[]{"lapa",new int[]{$.FR.M,$.FR.M,$.GRA.C },"sc",0.3,"src",raw.next,"r",180 });
+		Object FrRepeat=$.aFrLay(FrController,new Object[]{"lapa",new int[]{W8*2,(int)(W8),$.GRA.CB},"tx",-W8 });
+			Object PicRepeat=$.aPic(FrRepeat,new Object[]{"lapa",new int[]{$.FR.M,$.FR.M,$.GRA.C },"sc",0.65,"src",bmpRepeat0 });
+		Object FrShuffle=$.aFrLay(FrController,new Object[]{"lapa",new int[]{W8*2,(int)(W8),$.GRA.CB},"tx",W8 });
+			Object PicShuffle=$.aPic(FrShuffle,new Object[]{"lapa",new int[]{$.FR.M,$.FR.M,$.GRA.C },"sc",0.65,"src",bmpShuffle0 });
+
+	Object FrSelectMode=$.aFrLay(bgView,new Object[]{"lapa",new int[]{W8,H-(int)(W8*2.5),$.GRA.TR},"magi",new int[]{0,W8,0,0} });
+		Object FrSeleSta=$.aFrLay(FrSelectMode,new Object[]{"lapa",new int[]{W8,W8,$.GRA.C},"ty",-W8*1.5 });
+			Object PicSeleSta=$.aPic(FrSeleSta,new Object[]{"lapa",new int[]{$.FR.M,$.FR.M,$.GRA.C },"sc",0.5,"src",raw.select_sta });
+		Object FrSeleCr=$.aFrLay(FrSelectMode,new Object[]{"lapa",new int[]{W8,W8,$.GRA.C},"ty",-W8*0.5 });
+			Object PicSeleCr=$.aPic(FrSeleCr,new Object[]{"lapa",new int[]{$.FR.M,$.FR.M,$.GRA.C },"sc",0.5,"src",bmpSeleCr1 });
+		Object FrSeleEnd=$.aFrLay(FrSelectMode,new Object[]{"lapa",new int[]{W8,W8,$.GRA.C},"ty",W8*0.5 });
+			Object PicSeleEnd=$.aPic(FrSeleEnd,new Object[]{"lapa",new int[]{$.FR.M,$.FR.M,$.GRA.C },"sc",0.5,"src",raw.select_sta,"r",180 });
+		Object FrReso=$.aFrLay(FrSelectMode,new Object[]{"lapa",new int[]{W8,W8,$.GRA.C},"ty",W8*1.5 });
+			Object PicReso=$.aPic(FrReso,new Object[]{"lapa",new int[]{$.FR.M,$.FR.M,$.GRA.C },"sc",0.5,"src",bmpReso0 });
+
+	Object FrSpeedMode=$.aFrLay(bgView,new Object[]{"lapa",new int[]{W8,H-(int)(W8*2.5),$.GRA.TL},"magi",new int[]{0,W8,0,0} });
+		Object FrSlower=$.aFrLay(FrSpeedMode,new Object[]{"lapa",new int[]{W8,W8,$.GRA.C},"ty",-W8*1.5 });
+			Object PicSlower=$.aPic(FrSlower,new Object[]{"lapa",new int[]{$.FR.M,$.FR.M,$.GRA.C },"sc",0.5,"src",raw.faster,"r",180 });
+		Object FrSpeed=$.aFrLay(FrSpeedMode,new Object[]{"lapa",new int[]{W8,W8,$.GRA.C},"ty",-W8*0.5 });
+			Object TeSpeed=$.aText(FrSpeed,new Object[]{"te","×1","tecolo",$.CL.W,"font","white_rabbit","fosi",fs,"lapa",new int[]{$.FR.W,$.FR.W,$.GRA.C} });	
+		Object FrFaster=$.aFrLay(FrSpeedMode,new Object[]{"lapa",new int[]{W8,W8,$.GRA.C},"ty",W8*0.5 });
+			Object PicFaster=$.aPic(FrFaster,new Object[]{"lapa",new int[]{$.FR.M,$.FR.M,$.GRA.C },"sc",0.5,"src",raw.faster });
+
+	Object FrTrackPanel=$.aFrLay(bgView,new Object[]{"lapa",new int[]{$.FR.M,$.FR.M,$.GRA.TC},"magi",new int[]{W8,(int)(W8*1.2),W8,(int)(W8*3.2)} });
+		Object ScTrack = $.aScrV2(FrTrackPanel,new Object[]{"lapa",LAPA_M });
+			Object FrScTrack = $.aFrLay(ScTrack,new Object[]{"lapa",new int[]{$.FR.M,$.FR.W,$.GRA.LT} });
+				$.aPic(FrScTrack,new Object[]{"lapa",new int[]{1000,1000,$.GRA.C },"src",raw.faster });
+
+	Object FrClose=$.aFrLay(bgView,new Object[]{"lapa",new int[]{W8,W8,$.GRA.LT}  });
+		Object PicClose=$.aPic(FrClose,new Object[]{"lapa",new int[]{$.FR.M,$.FR.M,$.GRA.C },"sc",0.7,"src",raw.back_l });
+	Object FrInfo=$.aFrLay(bgView,new Object[]{"lapa",new int[]{W8,W8,$.GRA.RB}  });
+		Object PicInfo=$.aPic(FrInfo,new Object[]{"lapa",new int[]{$.FR.M,$.FR.M,$.GRA.C },"sc",1,"src",raw.info });
+	//Object FrToWin=aFrLay(bgView,new Object[]{"lapa",new int[]{W8,W8,GRA.LB},"magi",new int[]{0,0,0,W8}  });
+		//Object PicToWin=aPic(FrToWin,new Object[]{"lapa",new int[]{FR.M,FR.M,GRA.C },"sc",1,"src",raw.button_r_ring_l });
+	Object FrVolumeBg0=$.aFrLay(bgView,new Object[]{"lapa",new int[]{$.FR.M,$.FR.M,$.GRA.LB},"dipl",-1  });
+		Object FrVolumeBg=$.aFrLay(FrVolumeBg0,new Object[]{"lapa",new int[]{W8,W8*5+W2,$.GRA.LB},"bacolo",graVol  });
+		Object FrVolumeLine0=$.aFrLay(FrVolumeBg,new Object[]{"lapa",new int[]{mmL*3,W8*4-W4,$.GRA.CB},"magi",new int[]{0,0,0,W2+W8},"bacolo",coloBTV  });
+		Object FrVolumeLine=$.aFrLay(FrVolumeBg,new Object[]{"lapa",new int[]{mmL*3,W8*4-W4,$.GRA.CB},"magi",new int[]{0,0,0,W2+W8},"bacolo",coloF  });
+		Object PicVolumeCs=$.aPic(FrVolumeBg,new Object[]{"lapa",new int[]{W3,W3,$.GRA.CB},"magi",new int[]{0,0,0,W1/2+W8+W8*4-W4},"src",bmpBT1  });
+	Object FrVolume=$.aFrLay(bgView,new Object[]{"lapa",new int[]{W8,W8,$.GRA.LB}  });
+		Object PicVolume=$.aPic(FrVolume,new Object[]{"lapa",new int[]{$.FR.M,$.FR.M,$.GRA.C },"sc",1,"src",raw.speaker_0 });
+
+boolean kPlayMini=false;
+void exitMini(){
+	if (kPlayMini){kPlayMini=false;
+		$.teleport(FrPlay,bg,FrController);
+		$.eLay(FrPlay,new Object[]{"lapa",new int[]{W8*2,(int)(W8*2),$.GRA.CT} });
+	}
+}
+$.RatRun(bgView,$.ERUN);
+$.RatRun(FrClose,new Runnable(){void run(){
+	$.hide(bgView); kPlayMini=true;
+	$.teleport(FrPlay,FrController,bg);
+	$.eLay(FrPlay,new Object[]{"lapa",new int[]{W8*2,(int)(W8*2),$.GRA.RB} });
+	RCDFolder.resume(); RCDFile.resume();
+}});
+String sFile="";
+$.RatRun(FrInfo,new Runnable(){void run(){
+	$.SFH_Confirm().size(0.7).Title("Details",sFile).ExtraHeight((int)(H*0.25)).setTheme(hueGA,satGA,lumGA,lumDarkGA).FullScroll(true).ButtonName("OK","").Noti().create(Touch);
+}});
+boolean kPlaying=false;
+$.RatRun(FrPlay,new Runnable(){void run(){
+	if (!kPlaying){kPlaying=true;$.ePic(PicPlay,new Object[]{"src",raw.pause});player.start();}
+	else{kPlaying=false;$.ePic(PicPlay,new Object[]{"src",raw.play});player.pause();}
+}});
+
+$.RatRun(FrNext,new Runnable(){void run(){if (iView<lView-1){iView+=1;loadView();}}});
+$.RatRun(FrBack,new Runnable(){void run(){if (iView>0){iView-=1;loadView();}}});
+void loadView(){Object zPath;
+	if ($.FILE_MODE()==1){zPath=$.URI_PATH($.PATH(crPath+"/"+LLPic.get(0).get(iView+1).name));}
+	else {zPath=$.PATH(crPath+"/"+LLPic.get(0).get(iView+1).name);}
+	Object zInfo=LLPic.get(0).get(iView+1);
+	TeTitle.setText($.FILE_NAME_P1(zInfo.name));
+	sFile="File name  : "+zInfo.name+$.S10+"Type       : "+(zInfo.type).toUpperCase()+$.S10+"File size  : "+$.byteSize(zInfo.size)+$.S10+"Date       : "+$.msToDateTime(zInfo.date)+$.S10+$.S10+"Path : "+$.S_PATH(zPath);
+	loadPlayer(crPath+"/"+LLPic.get(0).get(iView+1).name);
+	loadTrackBar();
+	if (bgView.getVisibility()!=$.VW.V){WD.trace(zInfo.name);}
+}
+boolean kLoop=false;
+$.RatRun(FrRepeat,new Runnable(){void run(){
+	if (!kLoop){kLoop=true;$.ePic(PicRepeat,new Object[]{"src",bmpRepeat1});}
+	else{kLoop=false;$.ePic(PicRepeat,new Object[]{"src",bmpRepeat0});}
+	player.setLooping(kLoop);
+}});
+boolean kShuffle=false;
+$.RatRun(FrShuffle,new Runnable(){void run(){
+	if (!kShuffle){kShuffle=true;$.ePic(PicShuffle,new Object[]{"src",bmpShuffle1});}
+	else{kShuffle=false;$.ePic(PicShuffle,new Object[]{"src",bmpShuffle0});}
+}});
+
+//double[] ARRate=new double[]{1/32.0,1/28.0,1/24.0,1/20.0,1/16.0,1/14.0,1/12.0,1/10.0,1/8.0,1/6.0,1/5.0,1/4.0,1/3.0,1/2.0,1/1.5, 1 ,1.5,2,3,4,5,6,8,10,12,14,16,20,24,28,32};
+//String[] ASRate=new String[]{"/32","/28","/24","/20","/16","/14","/12","/10","/8","/6","/5","/4","/3","/2","/1½", "×1" ,"×1½","×2","×3","×4","×5","×6","×8","×10","×12","×14","×16","×20","×24","×28","×32"};
+double[] ARRate=new double[]{1/32.0,1/28.0,1/24.0,1/20.0,1/16.0,1/14.0,1/12.0,1/10.0,1/8.0,1/6.0,1/5.0,1/4.0,1/3.0,1/2.0,1/1.5, 1 ,1.25,1.5,1.75,2,2.5,3,4,5};
+String[] ASRate=new String[]{"/32","/28","/24","/20","/16","/14","/12","/10","/8","/6","/5","/4","/3","/2","/1½", "×1" ,"×1¼","×1½","×1¾","×2","×2½","×3","×4","×5"};
+
+int rateMode=15;
+$.RatRun(FrFaster,new Runnable(){void run(){if (rateMode<ARRate.length-1){rateMode+=1;$.rate(player,ARRate[rateMode]);if (!kPlaying){player.pause();}$.eText(TeSpeed,new Object[]{"te",ASRate[rateMode]});}}});
+$.RatRun(FrSlower,new Runnable(){void run(){if (rateMode>0){rateMode-=1;$.rate(player,ARRate[rateMode]);if (!kPlaying){player.pause();}$.eText(TeSpeed,new Object[]{"te",ASRate[rateMode]});}}});
+
+
+Runnable RBack=$.ERUN;
+$.RatRun(FrBackFolder,new Runnable(){public void run(){$.blinkFr(FrBackFolder,0);$.Run(RBack);}});
+int keyScan=0;
+int keyScan(){keyScan+=1; if (keyScan>9){keyScan=0;}return keyScan;}	
+void lauchFileSelect(){
+	keyScan();PathPlay=browseRoot;//crPath=PathPlay;
+	$.hide(FrBackFolder);
+	FrScMain.removeAllViews();
+	FrScFolder.removeAllViews();
+	Object FSL=$.SFH_FileSelectLite(bg, (int)(W),(int)(H), hueGA,satGA,lumGA,lumDarkGA, browseRoot, new Runnable(){public void run(){
+		if (!FSL.isSelectHitted){WD.hide();}
+		else {crPath=PathPlay;mediaScan();$.show(FrBackFolder);}
+	}}, new Runnable(){public void run(){PathPlay=FSL.pathOut;FSL.remove();}});
+	FSL.selectFolder().btSelect.Name("Play");
+	FSL.btCancel.Name("Exit");
+	WD.reg_remove(FSL);
+}
+lauchFileSelect();
+
+
+//　⭐　ＴＲＡＣＫ　ＢＡＲ　⭐ kkk
+int seleMode=0; //0,1,2: current,start,end
+void seleMode(int k){seleMode=k;
+	$.ePic(PicSeleSta,new Object[]{"src",seleMode==1?bmpSeleSE1:bmpSeleSE0 });
+	$.ePic(PicSeleCr,new Object[]{"src",seleMode==0?bmpSeleCr1:bmpSeleCr0 });
+	$.ePic(PicSeleEnd,new Object[]{"src",seleMode==2?bmpSeleSE1:bmpSeleSE0 });
+}
+$.RatRun(FrSeleSta,new Runnable(){void run(){seleMode(1);}});
+$.RatRun(FrSeleCr,new Runnable(){void run(){seleMode(0);}});
+$.RatRun(FrSeleEnd,new Runnable(){void run(){seleMode(2);}});
+$.RatRun(FrReso,new Runnable(){void run(){
+	$.ePic(PicReso,new Object[]{"src",bmpReso1});
+	Object bx=$.SFH_Confirm().Input("",""+nReso).Title("Resolution","Track Amount :").ButtonName("Ok","Cancel").size(0.7).setTheme(hueGA,satGA,lumGA,lumDarkGA).create(Touch).run(new Runnable(){public void run(){
+		$.ePic(PicReso,new Object[]{"src",bmpReso0});
+		int i=$.intS(bx.sOut);
+		boolean ikRange=kRange;
+		if (i>-1){nReso=i;loadTrackBar();updateTrackBar();kRange=ikRange;if(kRange){updateSeleCuso();}}
+	}},new Runnable(){public void run(){$.ePic(PicReso,new Object[]{"src",bmpReso0});}});
+}});
+
+boolean kRange=false;
+int nReso=2, msSta=0,msEnd=0;
+double[] Ams;
+Object[] bgTrack,fTrack, TeTrackSta,TeTrackEnd;
+Object FrCusoCr,FrCusoCrLine,TeCusoCr;
+Object FrCusoSta,FrCusoStaLine,TeCusoSta;
+Object FrCusoEnd,FrCusoEndLine,TeCusoEnd;
+void loadTrackBar(){kRange=false;
+	FrScTrack.removeAllViews();
+	Ams=new double[nReso+1];
+	double dura=player.getDuration();
+	for (int i=0;i<=nReso;i++){Ams[i]=$.round((double)dura*i/nReso);}
+	
+	bgTrack=new Object[nReso];
+	fTrack=new Object[nReso];
+	TeTrackSta=new Object[nReso];
+	TeTrackEnd=new Object[nReso];
+	
+	for (int i=0;i<nReso;i++){int zj=i;
+		bgTrack[i] = $.aFrLay(FrScTrack,new Object[]{"lapa",new int[]{$.FR.M,W3,$.GRA.LT},"magi",new int[]{W4,W4+W8*i,W4,W4},"bacolo",coloTrack });
+		fTrack[i] = $.aFrLay(bgTrack[i],new Object[]{"lapa",new int[]{2,W3/4,$.GRA.LC},"bacolo",coloF,"dipl",-1 });
+		TeTrackSta[i]=$.aText(FrScTrack,new Object[]{"te",""+Ams[i]/1000,"tecolo",coloF,"font","white_rabbit","fosi",fs3p4,"lapa",new int[]{$.FR.W,$.FR.W,$.GRA.LT},"magi",new int[]{0,W8+W8*i,0,0} });	
+		TeTrackEnd[i]=$.aText(FrScTrack,new Object[]{"te",""+Ams[i+1]/1000,"tecolo",coloF,"font","white_rabbit","fosi",fs3p4,"lapa",new int[]{$.FR.W,$.FR.W,$.GRA.RT},"magi",new int[]{0,W8+W8*i,0,0} });	
+		$.RatRun(bgTrack[i],new Runnable(){public void run(){
+			int msZ=(int)(Ams[zj]+(Ams[zj+1]-Ams[zj])*($.Rat1[0]/WTrack));
+			if (seleMode==0){player.seekTo(msZ);updateTrackBar();}
+			else if(seleMode==1){if (!kRange){kRange=true;msEnd=player.getDuration();} msSta=$.Max(0,$.Min(msZ,msEnd));updateSeleCuso();}
+			else if(seleMode==2){if (!kRange){kRange=true;msSta=0;} msEnd=$.Min(player.getDuration(),$.Max(msZ,msSta));updateSeleCuso();}
+		}});
+	}
+	FrCusoCr = $.aFrLay(FrScTrack,new Object[]{"lapa",new int[]{W8,W4+W2,$.GRA.LT},"magi",new int[]{0,W1,0,0} });
+	FrCusoCrLine = $.aFrLay(FrCusoCr,new Object[]{"lapa",new int[]{mmL,$.FR.M,$.GRA.CB},"bacolo",coloMax,"magi",new int[]{0,hW3,0,0} });
+	$.aPic(FrCusoCr,new Object[]{"lapa",new int[]{W1,W1,$.GRA.CT },"r",90,"src",raw.play,"magi",new int[]{0,W1,0,0} });
+	TeCusoCr=$.aText(FrCusoCr,new Object[]{"te","1234.567","tecolo",$.CL.W,"font","white_rabbit","fosi",hfs,"lapa",new int[]{$.FR.W,$.FR.W,$.GRA.CT} });	
+
+	FrCusoSta = $.aFrLay(FrScTrack,new Object[]{"lapa",new int[]{W8,W4,$.GRA.LT},"magi",new int[]{0,W3,0,0},"dipl",-1 });
+	FrCusoStaLine = $.aFrLay(FrCusoSta,new Object[]{"lapa",new int[]{mmL,$.FR.M,$.GRA.CB},"bacolo",coloMax,"magi",new int[]{0,hW3,0,0} });
+	$.aPic(FrCusoSta,new Object[]{"lapa",new int[]{W1,W1,$.GRA.CT },"r",90,"src",raw.play,"magi",new int[]{0,W1,0,0} });
+	TeCusoSta=$.aText(FrCusoSta,new Object[]{"te","1234.567","tecolo",$.CL.W,"font","white_rabbit","fosi",hfs,"lapa",new int[]{$.FR.W,$.FR.W,$.GRA.CT} });	
+
+	FrCusoEnd = $.aFrLay(FrScTrack,new Object[]{"lapa",new int[]{W8,W4,$.GRA.LT},"magi",new int[]{0,W4,0,0},"dipl",-1 });
+	FrCusoEndLine = $.aFrLay(FrCusoEnd,new Object[]{"lapa",new int[]{mmL,$.FR.M,$.GRA.CT},"bacolo",coloMax,"magi",new int[]{0,0,0,hW3} });
+	$.aPic(FrCusoEnd,new Object[]{"lapa",new int[]{W1,W1,$.GRA.CB },"r",-90,"src",raw.play,"magi",new int[]{0,0,0,W1} });
+	TeCusoEnd=$.aText(FrCusoEnd,new Object[]{"te","1234.567","tecolo",$.CL.W,"font","white_rabbit","fosi",hfs,"ty",hfs/3,"lapa",new int[]{$.FR.W,$.FR.W,$.GRA.CB} });	
+
+}
+double crPosi=0;
+void updateTrackBar(){
+	rCsPlayer=player.getCurrentPosition()/$.Max(1,(double)player.getDuration());
+	DiPlay.disLoading($.Min(0.997, rCsPlayer ));
+	crPosi=player.getCurrentPosition();
+	for (int i=0;i<nReso;i++){
+		if (crPosi>=Ams[i+1]){
+			$.eLay(fTrack[i],new Object[]{"lapa",new int[]{$.FR.M,W3/4,$.GRA.LC},"dipl",1 });
+			$.eLay(FrCusoCr,new Object[]{"magi",new int[]{WTrack,W1+W8*i,0,0} });
+		}
+		else if (crPosi<=Ams[i]){$.eLay(fTrack[i],new Object[]{"lapa",new int[]{2,W3/4,$.GRA.LC},"dipl",-1 });}
+		else {
+			$.eLay(fTrack[i],new Object[]{"lapa",new int[]{WTrack*(crPosi-Ams[i])/(Ams[i+1]-Ams[i]),W3/4,$.GRA.LC},"dipl",1 });
+			$.eLay(FrCusoCr,new Object[]{"magi",new int[]{WTrack*(crPosi-Ams[i])/(Ams[i+1]-Ams[i]),W1+W8*i,0,0} });
+		}
+		$.eText(TeCusoCr,new Object[]{"te",""+(crPosi/1000)});
+	}
+}
+void updateSeleCuso(){
+	$.eLay(FrCusoSta,new Object[]{"dipl",1 });
+	$.eLay(FrCusoEnd,new Object[]{"dipl",1 });
+	for (int i=0;i<nReso;i++){
+		if (msSta>=Ams[i+1]){$.eLay(FrCusoSta,new Object[]{"magi",new int[]{WTrack,W3+W8*i,0,0} });}
+		else if (msSta<Ams[i]){}
+		else {$.eLay(FrCusoSta,new Object[]{"magi",new int[]{WTrack*(msSta-Ams[i])/(Ams[i+1]-Ams[i]),W3+W8*i,0,0} });}
+		$.eText(TeCusoSta,new Object[]{"te",""+(msSta/1000.0)});
+
+		if (msEnd>=Ams[i+1]){$.eLay(FrCusoEnd,new Object[]{"magi",new int[]{WTrack,W4+W8*i,0,0} });}
+		else if (msEnd<=Ams[i]){}
+		else {$.eLay(FrCusoEnd,new Object[]{"magi",new int[]{WTrack*(msEnd-Ams[i])/(Ams[i+1]-Ams[i]),W4+W8*i,0,0} });}
+		$.eText(TeCusoEnd,new Object[]{"te",""+(msEnd/1000.0)});
+	}
+}
+
+//　⭐　ＶＯＬＵＭＥ　⭐
+boolean kVolume=false;
+$.RatRun(FrVolume,new Runnable(){void run(){
+	if (!kVolume){kVolume=true;FrVolumeBg0.setVisibility($.VW.V);$.ePic(PicVolume,new Object[]{"src",raw.speaker_1 });}
+	else {kVolume=false;FrVolumeBg0.setVisibility($.VW.G);$.ePic(PicVolume,new Object[]{"src",raw.speaker_0 });}
+}});
+$.RatRun(FrVolumeBg0,new Runnable(){void run(){kVolume=false;FrVolumeBg0.setVisibility($.VW.G);$.ePic(PicVolume,new Object[]{"src",raw.speaker_0 });}});
+float rVol=1f;
+int iVol=100,iiVol=iVol;
+int LTrack=W8*4-W4;
+double volY=0,ivolY=volY;
+Runnable RVol=new Runnable(){void run(){
+	volY=$.Rat1[1];
+	if (ivolY!=volY){ivolY=volY;
+		rVol=(float)$.Min(1,$.Max(0,1-((volY-W4)/LTrack)));
+		iVol=$.round(rVol*100);
+		if (iiVol!=iVol){iiVol=iVol;
+			WD.trace(iVol+"%");
+			player.setVolume(rVol,rVol);
+		}
+		updateVolume();
+	}
+}};
+$.RatRun(FrVolumeBg,$.ERUN,RVol,RVol);
+int ziVol=0;
+void updateVolume(){
+	ziVol=(int)(LTrack*rVol);
+	$.eLay(FrVolumeLine,new Object[]{"lapa",new int[]{mmL*3,ziVol,$.GRA.CB},"magi",new int[]{0,0,0,W2+W8} });
+	$.ePic(PicVolumeCs,new Object[]{"magi",new int[]{0,0,0,W1/2+W8+ziVol} });
+}
+
+//　⭐　ＢＲＯＷＳＩＮＧ　ＦＥＡＴＵＲＥ　⭐
+
+void mediaScan(){keyScan();
+	scanFolderPath(crPath,keyScan);
+	loadMainList(keyScan);
+	if (bgView.getVisibility()!=$.VW.V){WD.trace($.S_PATH(crPath));}
+}
+
+Object LLPic=$.ArrayList(4); int iView=-1,lView=0;
+Object RCDFolder;
+void scanFolderPath(Object OPath, int zKey){
+	FrScFolder.removeAllViews();LLPic=$.ArrayList(4);
+	yFL=0;
+	Object LFolder = $.DIR_ORDER(OPath,true,0,false);
+	int l=LFolder.size();
+	int buff=1,i=-1;
+	Object RCDirFolder=$.RunCycle(new Runnable(){public void run(){
+		for (int zi=0;zi<buff;zi++){i+=1;
+			if (i<l && zKey==keyScan){if (i>0){//WD.trace(FOLDER_NAME(OPath+""));
+				//if (FILE_MODE()==1){isContainSound(PATH_DIR(OPath)+"/"+LFolder.get(i).name);}
+				//else{isContainSound(PATH(S_PATH(OPath)+"/"+LFolder.get(i).name));}
+				if ($.FILE_MODE()==1){loadFolderNail($.PATH_DIR(OPath)+"/"+LFolder.get(i).name);}
+				else{loadFolderNail($.PATH($.S_PATH(OPath)+"/"+LFolder.get(i).name));}
+			}}
+			else{RCDirFolder.stop();break;}
+		}
+	}},$.FILE_MODE()==0?20:100);
+	WD.reg_release(RCDirFolder);
+	$.delayF(new Runnable(){public void run(){if (WD.kShow){RCDirFolder.runSafe();}}},20);
+	isContainSound(OPath);
+	RBack=new Runnable(){public void run(){RBack=$.ERUN;
+		if ((OPath+"").length()<=(PathPlay+"").length()){
+			lauchFileSelect();
+			FrPlay.bringToFront();
+		}
+		else{
+			if ($.FILE_MODE()==1){crPath=$.PATH_DIR($.PATH($.FOLDER_NAME($.S_PATH(OPath))));}
+			else{crPath=$.FOLDER_NAME(OPath);}
+			mediaScan();
+		}
+	}};
+	RCDFolder=RCDirFolder;
+}
+void isContainSound(Object OPath){// Add <Object>{Path,PicInfo1,...PicInfoN}
+	Object LFile = $.DIR_ORDER(OPath,false,2,false);
+	Object LPic=$.ArrayList(4);
+	String zS=""; boolean k=false;
+	for (int i=1;i<LFile.size();i++){
+		zS=LFile.get(i).type.toUpperCase();
+		if ($.comS(zS,"MP3")||$.comS(zS,"WAV")||$.comS(zS,"OGG")){
+			if (!k){k=true;LPic.add(OPath);}
+			LPic.add(LFile.get(i));
+		}
+	}
+	if (k){LLPic.add(LPic);}
+}
+Object RCDFile;
+void loadMainList(int zKey){FrScMain.removeAllViews();Object RCDirFile; if (LLPic.size()>0){
+	Object LFile=LLPic.get(0),zPath;
+	int l=LFile.size(),maW=$.mm(0.5),maH=$.mm(0.5), yA=maH;
+	int buff=1,i=0; int[] zWH; double zr; lView=l-1;
+	int zH=W4,zW=(W-WFolderList-maW*4)/3;
+	Object zPic,zFr;
+	int resIcon=raw.mp3_icon; String zS;
+	RCDirFile=$.RunCycle(new Runnable(){public void run(){
+		for (int zi=0;zi<buff;zi++){i+=1;
+			if (i<l && zKey==keyScan){
+				if ($.FILE_MODE()==1){zPath=$.URI_PATH($.PATH(crPath+"/"+LFile.get(i).name));}
+				else {zPath=$.PATH(crPath+"/"+LFile.get(i).name);}
+				Object viewPath=zPath; int idView=i-1;
+				Object zInfo=LFile.get(i);//WD.trace(zPath);
+				resIcon=raw.mp3_icon;
+				zS=zInfo.type.toUpperCase();
+				if ($.comS(zS,"WAV")){resIcon=raw.wav_icon;} else if ($.comS(zS,"OGG")){resIcon=raw.png_icon;}
+				zFr=$.aFrLay(FrScMain,new Object[]{"lapa",new int[]{$.FR.M,zH,$.GRA.LT },"magi",new int[]{0,yA,0,0},"padi",new int[]{0,0,maW,0},"bacolo",graP,"opac",0 }); yA+=zH+maH; 
+				$.motion(zFr, "opac",  0,1,  1,1,0.5,  0,200,20);
+				zPic=$.aPic(zFr,new Object[]{"lapa",new int[]{zH+maW*2,zH,$.GRA.LC },"src",resIcon,"sc",0.8 });
+				$.aText(zFr,new Object[]{"te",zInfo.name,"tecolo",$.CL.W,"fosi",fs*0.6,"font","mono","lapa",$.intA($.FR.W,$.FR.W,$.GRA.LC),"magi",new int[]{zH+maW*2,0,0,0} });	
+				$.RatRun(zFr,new Runnable(){void run(){
+						RCDFolder.pause(); RCDFile.pause();
+						exitMini();
+						$.show(bgView); 
+						iView=idView;
+						loadView();
+				}});
+			}
+			else{RCDirFile.stop();break;}
+		}
+	}},10);
+	WD.reg_release(RCDirFile);
+	RCDirFile.runSafe();
+} RCDFile=RCDirFile; }
+
+
+Object zLay,zFr1;
+void loadFolderNail(Object OPath){
+	Object LFile = $.DIR_FILE(OPath), zPath;
+	Object LPic=$.ArrayList(4); LPic.add(OPath);
+	String zS=""; int[] zWH;
+	for (int i=1;i<LFile.size();i++){
+		zS=$.FILE_NAME_P2($.FILE_NAME(LFile.get(i))).toUpperCase();
+		if ($.comS(zS,"MP3")||$.comS(zS,"WAV")||$.comS(zS,"OGG")){
+			LPic.add(LFile.get(i)); break;
+		}
+	}
+	zLay=$.aFrLay(FrScFolder,new Object[]{"lapa",new int[]{WFolderIcon,WFolderIcon,$.GRA.CT },"magi",new int[]{0,yFL,0,0},"bacolo",coloP,"opac",0});
+	$.motion(zLay, "opac",  0,1,  1,1,0.5,  0,500,20);
+	boolean kAddPic=false;
+	if (LPic.size()>1){kAddPic=true;
+		/*if (FILE_MODE()==1){zPath=URI_PATH(PATH(LPic.get(0)+"/"+LPic.get(1) ));}
+		else {zPath=PATH(LPic.get(0)+"/"+LPic.get(1) );}
+		zWH=getImageSize(zPath);
+		if (zWH[0]>0&&zWH[1]>0){kAddPic=true;aPic(zLay,new Object[]{"lapa",new int[]{FR.M,FR.M,GRA.C },"src",Bitmap(zPath,WFolderIcon,WFolderIcon) }); }
+		*/
+		$.aPic(zLay,new Object[]{"lapa",new int[]{$.FR.M,$.FR.M,$.GRA.C },"src",raw.mp3_icon,"opac",0.9,"sc",0.8 });
+	}
+	if (!kAddPic){$.aPic(zLay,new Object[]{"lapa",new int[]{$.FR.M,$.FR.M,$.GRA.C },"src",raw.open,"opac",0.9,"sc",0.8 }); }
+	zFr1=$.aFrLay(zLay,new Object[]{"lapa",new int[]{WFolderIcon,fs,$.GRA.LB },"padi",new int[]{maFL_W,0,maFL_W,0},"bacolo",coloP});
+	$.aText(zFr1,new Object[]{"te",$.FILE_NAME(""+OPath),"tecolo",$.CL.W,"fosi",fs*0.5,"font","mono","lapa",$.intA($.FR.M,$.FR.M,$.GRA.LC) });	
+	$.RatRun(zLay,new Runnable(){public void run(){
+		crPath=$.PATH_DIR(OPath); 
+		mediaScan();
+	}});
+
+	yFL+=WFolderIcon+maFL_H;
+}
+
+double rCsPlayer=0;
+
+
+void updateSize(){
+	W4=minWH/13.0; W4n=minWH/14.0; hW4n=W4n/2; W1=W4/4; W2=W4/2; W3=W4*3.0/4; hW3=W3/2; W5=W4*5/4; W8=W4*2; W12=W4*3; W16=W4*4;  Hfs=W4/2.1;
+	fs=(int)(Hfs);hfs=fs/2;fs3p4=fs*3/4;fs2=fs*2;fs3=fs*3;hfs3=fs3/2;
+	WTrack=W-W8*2-W8;
+
+	WFolderList=(int)(minWH/13.0*2.5);
+	WFolderIcon=WFolderList-$.mm(1);
+
+	$.eLay(FrMainList,new Object[]{"magi",new int[]{WFolderList,0,0,0}  });
+	$.eLay(FrFolderList,new Object[]{"lapa",new int[]{WFolderList,$.FR.M,$.GRA.LB},"magi",new int[]{0,(int)(WFolderList*0.75),0,0}  });
+	$.eLay(FrBackFolder,new Object[]{"lapa",new int[]{WFolderList,(int)(WFolderList*0.75),$.GRA.LT }});
+
+	$.eLay(FrTitle,new Object[]{"lapa",new int[]{$.FR.M,W8,$.GRA.TC},"magi",new int[]{W8,0,W8,0} });
+		$.eText(TeTitle,new Object[]{"ty",fs/2,"fosi",fs*1.2});	
+
+	$.eLay(FrController,new Object[]{"lapa",new int[]{$.FR.M,W8*3,$.GRA.BC} });
+		if (!kPlayMini){$.eLay(FrPlay,new Object[]{"lapa",new int[]{W8*2,(int)(W8*2),$.GRA.CT} });}
+		else {$.eLay(FrPlay,new Object[]{"lapa",new int[]{W8*2,(int)(W8*2),$.GRA.RB} });}
+			FrPlay.removeView(DiPlay.BGLoading);
+			DiPlay=$.SFH_Loading();
+			DiPlay.kDim=0; DiPlay.maxStroke=0.32; DiPlay.minStroke=0.32; DiPlay.minIncPercent=0.001;
+			DiPlay.licolo=$.hsl(hueGA,100,50); DiPlay.bacolo=$.CL.T; DiPlay.kFront=false; DiPlay.alphaTrack=0.15;
+			DiPlay.displayText(-1).create(FrPlay,(double)(W8*2.3)/$.mm(1)).centerArc();
+		$.eLay(FrNext,new Object[]{"lapa",new int[]{W8*2,(int)(W8*2),$.GRA.CT},"tx",W8*2 });
+		$.eLay(FrBack,new Object[]{"lapa",new int[]{W8*2,(int)(W8*2),$.GRA.CT},"tx",-W8*2 });
+		$.eLay(FrRepeat,new Object[]{"lapa",new int[]{W8*2,(int)(W8),$.GRA.CB},"tx",-W8 });
+		$.eLay(FrShuffle,new Object[]{"lapa",new int[]{W8*2,(int)(W8),$.GRA.CB},"tx",W8 });
+
+	$.eLay(FrSelectMode,new Object[]{"lapa",new int[]{W8,H-(int)(W8*2.5),$.GRA.TR},"magi",new int[]{0,W8,0,0} });
+		$.eLay(FrSeleSta,new Object[]{"lapa",new int[]{W8,W8,$.GRA.C},"ty",-W8*1.5 });
+		$.eLay(FrSeleCr,new Object[]{"lapa",new int[]{W8,W8,$.GRA.C},"ty",-W8*0.5 });
+		$.eLay(FrSeleEnd,new Object[]{"lapa",new int[]{W8,W8,$.GRA.C},"ty",W8*0.5 });
+		$.eLay(FrReso,new Object[]{"lapa",new int[]{W8,W8,$.GRA.C},"ty",W8*1.5 });
+		
+	$.eLay(FrSpeedMode,new Object[]{"lapa",new int[]{W8,H-(int)(W8*2.5),$.GRA.TL},"magi",new int[]{0,W8,0,0} });
+		$.eLay(FrSlower,new Object[]{"lapa",new int[]{W8,W8,$.GRA.C},"ty",-W8*1.5 });
+		$.eLay(FrSpeed,new Object[]{"lapa",new int[]{W8,W8,$.GRA.C},"ty",-W8*0.5 });
+		$.eLay(FrFaster,new Object[]{"lapa",new int[]{W8,W8,$.GRA.C},"ty",W8*0.5 });
+
+	$.eLay(FrTrackPanel,new Object[]{"magi",new int[]{W8,(int)(W8*1.2),W8,(int)(W8*3.2)} });
+
+	$.eLay(FrClose,new Object[]{"lapa",new int[]{W8,W8,$.GRA.LT}  });
+	$.eLay(FrInfo,new Object[]{"lapa",new int[]{W8,W8,$.GRA.RB}  });
+
+		$.eLay(FrVolumeBg,new Object[]{"lapa",new int[]{W8,W8*5+W2,$.GRA.LB} });
+		$.eLay(FrVolumeLine0,new Object[]{"lapa",new int[]{mmL*3,W8*4-W4,$.GRA.CB},"magi",new int[]{0,0,0,W2+W8} });
+		$.eLay(FrVolumeLine,new Object[]{"lapa",new int[]{mmL*3,W8*4-W4,$.GRA.CB},"magi",new int[]{0,0,0,W2+W8} });
+		$.ePic(PicVolumeCs,new Object[]{"lapa",new int[]{W3,W3,$.GRA.CB},"magi",new int[]{0,0,0,W1/2+W8+W8*4-W4} });
+	$.eLay(FrVolume,new Object[]{"lapa",new int[]{W8,W8,$.GRA.LB}  });
+
+	if (FrBackFolder.getVisibility()==$.VW.V){mediaScan();}
+	if (bgView.getVisibility()==$.VW.V){RCDFolder.pause(); RCDFile.pause();}
+
+}
+
+int cUpSi=0;try{
+	if (WD.kShow){
+		if (player.isPlaying()){
+			updateTrackBar();
+			//if (kLoop&&kRange&&player.getCurrentPosition()>=msEnd){player.seekTo(msSta);}
+			if (kLoop&&kRange&&player.getCurrentPosition()>=msEnd){player.pause();player.seekTo(msSta);player.start();}
+		}
+		else {
+			//if (kPlaying && FrBackFolder.getVisibility()!=VW.V){exitMini();}
+			if (kPlaying==true){
+				if (!kLoop){
+					if (!kShuffle){if (iView<lView-1){iView+=1;}else{iView=0;}loadView();}
+					else {iView=$.round($.ran(lView-1));loadView();}
+				}
+			}
+		}
+	}
+}catch(Exception e){}
+
+
+//　⭐　ＲＥＳＩＺＥ　⭐
+intW=(int)W;intH=(int)H;
+cUpSi+=1; if (cUpSi>10){cUpSi=0;
+	if (zintW!=intW||zintH!=intH){zintW=intW;zintH=intH;
+		updateSize();
+	}   
+}

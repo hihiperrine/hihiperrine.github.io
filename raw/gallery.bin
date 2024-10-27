@@ -1,0 +1,451 @@
+100,107,123,284,20289,20406,                                                                        Galleryraw.gallery_iconnew Object[][]{
+	new Object[]{"Theme Color","string",0,"hsl(175,100,20)",  3}
+	,new Object[]{"Dark Mod",0,0,1,  2,new Object[]{"Disable",false,"Enable",true}}
+
+}
+//
+//    *.✧ Gallery v1.2 - 2021.07.27 ✧*。
+//
+//    by  Phung Phan  pearthq@gmail.com
+//
+
+$.updateFPS(2,FPS); int intW=(int)W,intH=(int)H,zintW=intW,zintH=intH;
+//String toString(double[] ad){String s=""+ad.length+": ";for (double a:ad){s+=" "+round(a);}return s;}
+WD.dim(); Cmd.add("NoReset"); $.RatRun(Touch,$.ERUN);
+WD.traceLimit(1);//WD.traceTime(30000);
+Object browseRoot=$.FILE_ADMIN()?$.HYPER_ROOT():$.ROOT();
+Object PathPlay=browseRoot,crPath=PathPlay;
+
+
+
+//　⭐　ＢＡＳＩＣ　ＴＨＥＭＥ　ＡＮＤ　ＳＩＺＥ　ＶＡＲＩＡＢＬＥ　⭐
+
+double[] AHslHx=$.ahsl(S.get(0));
+int hueGA=AHslHx[0],satGA=AHslHx[1],lumGA=AHslHx[2],lumDarkGA=B.get(0)?100:0;
+int lumView=14,lumView_l=B.get(0)?0:79;
+int coloP=$.hsla(0,0,0,0.2);
+int coloBTV=$.hsla(0,0,0,0.5);
+int xxWH=$.Min(3200,(int)$.Max($.screenW_px,$.screenH_px)*3);
+double W4=minWH/13.0, W4n=minWH/14.0, hW4n=W4n/2, W3=W4*3.0/4, W5=W4*5/4, W8=W4*2, W12=W4*3, W16=W4*4,  Hfs=W4/2.1;
+int fs=(int)(Hfs),fs2=fs*2,fs3=fs*3,hfs3=fs3/2;
+
+int WFolderList=(int)(minWH/13.0*2.5);
+int WFolderIcon=WFolderList-$.mm(1);
+int maFL_W=$.mm(0.5), maFL_H=$.mm(1), yFL=0;//maFL_H;
+
+int[] LAPA_M=new int[]{$.FR.M,$.FR.M,$.GRA.LT};
+
+
+
+//　⭐　ＳＴＡＴＩＣ　ＬＡＹＯＵＴ　⭐
+
+Object bg=$.aFrLay(Touch,$.o("lapa",new int[]{$.FR.M,$.FR.M,$.GRA.LT},"bacolo", new int[]{B.get(0)?3:7,$.hsla(hueGA,satGA,lumGA*0.5+(100-lumDarkGA)*0.5,1),$.hsla(hueGA,satGA,lumGA*0.625+(100-lumDarkGA)*0.375,1),$.hsla(hueGA,satGA,lumGA,1)} ));
+	Object FrMainList=$.aFrLay(bg,new Object[]{"lapa",LAPA_M,"magi",new int[]{WFolderList,0,0,0}  });
+		Object ScMain = $.aScrV2(FrMainList,new Object[]{"lapa",LAPA_M });
+		Object FrScMain = $.aFrLay(ScMain,new Object[]{"lapa",new int[]{$.FR.M,$.FR.W,$.GRA.LT} });
+	Object FrFolderList=$.aFrLay(bg,new Object[]{"lapa",new int[]{WFolderList,$.FR.M,$.GRA.LB},"magi",new int[]{0,(int)(WFolderList*0.75),0,0}  });
+		Object ScFolder = $.aScrV2(FrFolderList,new Object[]{"lapa",LAPA_M });
+		Object FrScFolder = $.aFrLay(ScFolder,new Object[]{"lapa",new int[]{$.FR.M,$.FR.W,$.GRA.LT} });
+	Object FrBack=$.aFrLay(bg,new Object[]{"lapa",new int[]{WFolderList,(int)(WFolderList*0.75),$.GRA.LT },"dipl",-1});
+		$.aPic(FrBack,new Object[]{"lapa",new int[]{$.FR.M,$.FR.M,$.GRA.C },"src",raw.play,"sc",0.7,"r",180 });
+
+Object bgView=$.aFrLay(Touch,$.o("lapa",new int[]{$.FR.M,$.FR.M,$.GRA.LT},"bacolo", new int[]{B.get(0)?3:7,$.hsla(0,0,lumView+lumView_l,1),$.hsla(0,0,lumView*0.225+lumView_l,1),$.hsla(0,0,lumView*0.1+lumView_l,1)},"dipl",-1 ));
+	Object PicView=$.aPic(bgView,new Object[]{"lapa",new int[]{$.FR.M,$.FR.M,$.GRA.C } });
+	Object FrNextPic=$.aFrLay(bgView,new Object[]{"lapa",new int[]{W8,$.FR.M,$.GRA.RC},"bacolo",coloBTV  });
+		Object FrFrNextPic=$.aFrLay(FrNextPic,new Object[]{"lapa",new int[]{$.FR.M,W8*3,$.GRA.C} });
+			Object PicNextPic=$.aPic(FrFrNextPic,new Object[]{"lapa",new int[]{$.FR.M,$.FR.M,$.GRA.C },"sc",0.7,"src",raw.play });
+	Object FrBackPic=$.aFrLay(bgView,new Object[]{"lapa",new int[]{W8,$.FR.M,$.GRA.LC},"bacolo",coloBTV  });
+		Object FrFrBackPic=$.aFrLay(FrBackPic,new Object[]{"lapa",new int[]{$.FR.M,W8*3,$.GRA.C} });
+			Object PicBackPic=$.aPic(FrFrBackPic,new Object[]{"lapa",new int[]{$.FR.M,$.FR.M,$.GRA.C },"sc",0.7,"src",raw.play,"r",180 });
+	Object FrClosePic=$.aFrLay(bgView,new Object[]{"lapa",new int[]{W8,W8,$.GRA.LT}  });
+		Object PicClosePic=$.aPic(FrClosePic,new Object[]{"lapa",new int[]{$.FR.M,$.FR.M,$.GRA.C },"sc",0.7,"src",raw.cross_m });
+	Object FrInfoPic=$.aFrLay(bgView,new Object[]{"lapa",new int[]{W8,W8,$.GRA.RB}  });
+		Object PicInfoPic=$.aPic(FrInfoPic,new Object[]{"lapa",new int[]{$.FR.M,$.FR.M,$.GRA.C },"sc",1,"src",raw.info });
+
+
+$.RatRun(FrClosePic,new Runnable(){void run(){
+	$.hide(bgView);
+	RCDFolder.resume(); RCDFile.resume();
+}});
+String sFile="";
+$.RatRun(FrInfoPic,new Runnable(){void run(){
+	$.SFH_Confirm().size(0.7).Title("Details",sFile).ExtraHeight((int)(H*0.25)).setTheme(hueGA,satGA,lumGA,lumDarkGA).FullScroll(true).ButtonName("OK","").Noti().create(Touch);
+}});
+$.RatRun(FrFrNextPic,new Runnable(){void run(){if (iView<lView-1){iView+=1;loadView();}}});
+$.RatRun(FrFrBackPic,new Runnable(){void run(){if (iView>0){iView-=1;loadView();}}});
+void loadView(){Object zPath;
+	if ($.FILE_MODE()==1){zPath=$.URI_PATH($.PATH(crPath+"/"+LLPic.get(0).get(iView+1).name));}
+	else {zPath=$.PATH(crPath+"/"+LLPic.get(0).get(iView+1).name);}
+	int[] zWH=$.getImageSize(zPath);
+	if (zWH[0]>0&&zWH[1]>0){
+		Object zInfo=LLPic.get(0).get(iView+1);
+		sFile="File name  : "+zInfo.name+$.S10+"Image size : "+zWH[0]+" x "+zWH[1]+" px   "+(zWH[0]*(long)zWH[1])+" px"+$.S10+"Type       : "+(zInfo.type).toUpperCase()+$.S10+"File size  : "+$.byteSize(zInfo.size)+$.S10+"Date       : "+$.msToDateTime(zInfo.date)+$.S10+$.S10+"Path : "+$.S_PATH(zPath);
+		loadPicView(zPath);
+	}
+}
+
+Runnable RBack=$.ERUN;
+$.RatRun(FrBack,new Runnable(){public void run(){$.blinkFr(FrBack,0);$.Run(RBack);}});
+int keyScan=0;
+int keyScan(){keyScan+=1; if (keyScan>9){keyScan=0;}return keyScan;}	
+void lauchFileSelect(){
+	keyScan();PathPlay=browseRoot;crPath=PathPlay;
+	$.hide(FrBack);
+	FrScMain.removeAllViews();
+	FrScFolder.removeAllViews();
+	Object FSL=$.SFH_FileSelectLite(bg, (int)(W),(int)(H), hueGA,satGA,lumGA,lumDarkGA, browseRoot, new Runnable(){public void run(){
+		if (!FSL.isSelectHitted){WD.hide();}
+		else {crPath=PathPlay;galleryScan();$.show(FrBack);}
+	}}, new Runnable(){public void run(){PathPlay=FSL.pathOut;FSL.remove();}});
+	FSL.selectFolder().btSelect.Name("Play");
+	FSL.btCancel.Name("Exit");
+	WD.reg_remove(FSL);
+}
+lauchFileSelect();
+
+
+
+//　⭐　ＩＭＡＧＥ　ＢＲＯＷＳＩＮＧ　ＦＥＡＴＵＲＥ　⭐
+
+void galleryScan(){keyScan();
+	scanFolderPath(crPath,keyScan);
+	loadMainList(keyScan);
+	if (bgView.getVisibility()!=$.VW.V){WD.trace($.S_PATH(crPath));}
+}
+
+Object LLPic=$.ArrayList(4); int iView=-1,lView=0;
+Object RCDFolder;
+void scanFolderPath(Object OPath, int zKey){
+	FrScFolder.removeAllViews();LLPic=$.ArrayList(4);
+	yFL=0;
+	Object LFolder = $.DIR_ORDER(OPath,true,0,false);
+	int l=LFolder.size();
+	int buff=1,i=-1;
+	Object RCDirFolder=$.RunCycle(new Runnable(){public void run(){
+		for (int zi=0;zi<buff;zi++){i+=1;
+			if (i<l && zKey==keyScan){if (i>0){//WD.trace(FOLDER_NAME(OPath+""));
+				//if (FILE_MODE()==1){isContainPic(PATH_DIR(OPath)+"/"+LFolder.get(i).name);}
+				//else{isContainPic(PATH(S_PATH(OPath)+"/"+LFolder.get(i).name));}
+				if ($.FILE_MODE()==1){loadFolderNail($.PATH_DIR(OPath)+"/"+LFolder.get(i).name);}
+				else{loadFolderNail($.PATH($.S_PATH(OPath)+"/"+LFolder.get(i).name));}
+			}}
+			else{RCDirFolder.stop();break;}
+		}
+	}},$.FILE_MODE()==0?20:100);
+	WD.reg_release(RCDirFolder);
+	$.delayF(new Runnable(){public void run(){if (WD.kShow){RCDirFolder.runSafe();}}},20);
+	isContainPic(OPath);
+	RBack=new Runnable(){public void run(){RBack=$.ERUN;
+		if ((OPath+"").length()<=(PathPlay+"").length()){
+			lauchFileSelect();
+		}
+		else{
+			if ($.FILE_MODE()==1){crPath=$.PATH_DIR($.PATH($.FOLDER_NAME($.S_PATH(OPath))));}
+			else{crPath=$.FOLDER_NAME(OPath);}
+			galleryScan();
+		}
+	}};
+	RCDFolder=RCDirFolder;
+}
+void isContainPic(Object OPath){// Add <Object>{Path,PicInfo1,...PicInfoN}
+	Object LFile = $.DIR_ORDER(OPath,false,2,false);
+	Object LPic=$.ArrayList(4);
+	String zS=""; boolean k=false;
+	for (int i=1;i<LFile.size();i++){
+		zS=LFile.get(i).type.toUpperCase();
+		if ($.comS(zS,"PNG")||$.comS(zS,"JPG")||$.comS(zS,"JPEG")||$.comS(zS,"BMP")||$.comS(zS,"GIF")){
+			if (!k){k=true;LPic.add(OPath);}
+			LPic.add(LFile.get(i));
+		}
+	}
+	if (k){LLPic.add(LPic);}
+}
+void loadPicView(Object OPath){
+	int ms=30;
+	$.delayF(new Runnable(){void run(){$.ePic(PicView,new Object[]{"opac",0.8}); }},ms);
+	$.delayF(new Runnable(){void run(){$.ePic(PicView,new Object[]{"opac",0.6}); }},ms*2);
+	$.delayF(new Runnable(){void run(){$.ePic(PicView,new Object[]{"opac",0.4}); }},ms*3);
+	$.delayF(new Runnable(){void run(){$.ePic(PicView,new Object[]{"opac",0.2}); }},ms*4);
+	$.delayF(new Runnable(){void run(){$.ePic(PicView,new Object[]{"opac",0}); }},ms*5);
+	$.delayF(new Runnable(){void run(){
+		scPicView=1;iscPicView=1;
+		txPicView=0;tyPicView=0; itxPicView=0;ityPicView=0;
+		rPicView=0;irPicView=0;
+		$.ePic(PicView,new Object[]{"sc",iscPicView,"tx",txPicView,"ty",tyPicView,"r",irPicView});
+		if ($.FILE_MODE()==1){$.ePic(PicView,new Object[]{"src",$.Bitmap(OPath,xxWH,xxWH) });}else{$.ePic(PicView,new Object[]{"src",$.Bitmap(OPath,xxWH,xxWH)});}
+	$.delayF(new Runnable(){void run(){$.ePic(PicView,new Object[]{"opac",0.2}); }},ms);
+	$.delayF(new Runnable(){void run(){$.ePic(PicView,new Object[]{"opac",0.4}); }},ms*2);
+	$.delayF(new Runnable(){void run(){$.ePic(PicView,new Object[]{"opac",0.6}); }},ms*3);
+	$.delayF(new Runnable(){void run(){$.ePic(PicView,new Object[]{"opac",0.8}); }},ms*4);
+	$.delayF(new Runnable(){void run(){$.ePic(PicView,new Object[]{"opac",1}); }},ms*5);
+  }},ms*6);
+						
+}
+
+Object RCDFile;
+void loadMainList(int zKey){FrScMain.removeAllViews();Object RCDirFile; if (LLPic.size()>0){
+	Object LFile=LLPic.get(0),zPath;
+	int l=LFile.size(),maW=$.mm(1),maH=$.mm(1), yA=maH,yB=maH,yC=maH, ch=0;
+	int buff=1,i=0; int[] zWH; double zr; lView=l-1;
+	int zH=0,zW=(W-WFolderList-maW*4)/3;
+	Object zPic;
+	RCDirFile=$.RunCycle(new Runnable(){public void run(){
+		for (int zi=0;zi<buff;zi++){i+=1;
+			if (i<l && zKey==keyScan){
+				if ($.FILE_MODE()==1){zPath=$.URI_PATH($.PATH(crPath+"/"+LFile.get(i).name));}
+				else {zPath=$.PATH(crPath+"/"+LFile.get(i).name);}
+				Object viewPath=zPath; int idView=i-1;
+				Object zInfo=LFile.get(i);
+				zWH=$.getImageSize(zPath);
+				if (zWH[0]>0&&zWH[1]>0){int zPW=zWH[0],zPH=zWH[1];
+					zr=zWH[1]/$.Max(1.0,zWH[0]); zH=(int)(zr*zW);
+					if (yA<=yB && yA<=yC){ch=0;} else if (yB<=yA && yB<=yC){ch=1;} else {ch=2;}
+					if (ch==0){ zPic=$.aPic(FrScMain,new Object[]{"lapa",new int[]{zW,zH,$.GRA.LT },"magi",new int[]{maW,yA,0,0},"src",$.Bitmap(zPath,zW,zH),"bacolo",coloP,"opac",0 }); yA+=zH+maH; }
+					else if (ch==1){ zPic=$.aPic(FrScMain,new Object[]{"lapa",new int[]{zW,zH,$.GRA.CT },"magi",new int[]{0,yB,0,0},"src",$.Bitmap(zPath,zW,zH),"bacolo",coloP,"opac",0 }); yB+=zH+maH; }
+					else if (ch==2){ zPic=$.aPic(FrScMain,new Object[]{"lapa",new int[]{zW,zH,$.GRA.RT },"magi",new int[]{0,yC,maW,0},"src",$.Bitmap(zPath,zW,zH),"bacolo",coloP,"opac",0 }); yC+=zH+maH; }
+					$.motion(zPic, "opac",  0,1,  1,1,0.5,  0,200,20);
+					$.RatRun(zPic,new Runnable(){void run(){
+						RCDFolder.pause(); RCDFile.pause();
+						$.show(bgView); iView=idView;
+						loadPicView(viewPath);
+						FrBackPic.setAlpha(1f);
+						FrNextPic.setAlpha(1f);
+						PicClosePic.setAlpha(1f);
+						PicInfoPic.setAlpha(1f);
+						$.delayF(new Runnable(){void run(){
+							$.motion(FrBackPic, "opac",  1,0,  1,1,0.5,  0,400,20);
+							$.motion(FrNextPic, "opac",  1,0,  1,1,0.5,  0,400,20);
+							$.motion(PicClosePic, "opac",  1,0,  1,1,0.5,  0,400,20);
+							$.motion(PicInfoPic, "opac",  1,0,  1,1,0.5,  0,400,20);
+						}},1000);
+						sFile="File name  : "+zInfo.name+$.S10+"Image size : "+zPW+" x "+zPH+" px   "+(zPW*(long)zPH)+" px"+$.S10+"Type       : "+(zInfo.type).toUpperCase()+$.S10+"File size  : "+$.byteSize(zInfo.size)+$.S10+"Date       : "+$.msToDateTime(zInfo.date)+$.S10+$.S10+"Path : "+$.S_PATH(viewPath);
+					}});
+				}
+			}
+			else{RCDirFile.stop();break;}
+		}
+	}},10);
+	WD.reg_release(RCDirFile);
+	RCDirFile.runSafe();
+} RCDFile=RCDirFile; }
+
+
+Object zLay,zFr1;
+void loadFolderNail(Object OPath){
+	Object LFile = $.DIR_FILE(OPath), zPath;
+	Object LPic=$.ArrayList(4); LPic.add(OPath);
+	String zS=""; int[] zWH;
+	for (int i=1;i<LFile.size();i++){
+		zS=$.FILE_NAME_P2($.FILE_NAME(LFile.get(i))).toUpperCase();
+		if ($.comS(zS,"PNG")||$.comS(zS,"JPG")||$.comS(zS,"JPEG")||$.comS(zS,"BMP")||$.comS(zS,"GIF")){
+			LPic.add(LFile.get(i)); break;
+		}
+	}
+	zLay=$.aFrLay(FrScFolder,new Object[]{"lapa",new int[]{WFolderIcon,WFolderIcon,$.GRA.CT },"magi",new int[]{0,yFL,0,0},"bacolo",coloP,"opac",0});
+	$.motion(zLay, "opac",  0,1,  1,1,0.5,  0,500,20);
+	boolean kAddPic=false;
+	if (LPic.size()>1){
+		if ($.FILE_MODE()==1){zPath=$.URI_PATH($.PATH(LPic.get(0)+"/"+LPic.get(1) ));}
+		else {zPath=$.PATH(LPic.get(0)+"/"+LPic.get(1) );}
+		zWH=$.getImageSize(zPath);
+		if (zWH[0]>0&&zWH[1]>0){kAddPic=true;$.aPic(zLay,new Object[]{"lapa",new int[]{$.FR.M,$.FR.M,$.GRA.C },"src",$.Bitmap(zPath,WFolderIcon,WFolderIcon) }); }
+	}
+	if (!kAddPic){$.aPic(zLay,new Object[]{"lapa",new int[]{$.FR.M,$.FR.M,$.GRA.C },"src",raw.open,"opac",0.9,"sc",0.8 }); }
+	zFr1=$.aFrLay(zLay,new Object[]{"lapa",new int[]{WFolderIcon,fs,$.GRA.LB },"padi",new int[]{maFL_W,0,maFL_W,0},"bacolo",coloP});
+	$.aText(zFr1,new Object[]{"te",$.FILE_NAME(""+OPath),"tecolo",$.CL.W,"fosi",fs*0.5,"font","mono","lapa",$.intA($.FR.M,$.FR.M,$.GRA.LC) });	
+	$.RatRun(zLay,new Runnable(){public void run(){
+		crPath=$.PATH_DIR(OPath); 
+		galleryScan();
+	}});
+
+	yFL+=WFolderIcon+maFL_H;
+}
+
+
+
+//　★⭐★　ＭＯＶＥ　ＺＯＯＭ　ＲＯＴＡＴＥ　ＩＭＡＧＥ　ＶＩＥＷ　ＦＥＡＴＵＲＥＳ　★⭐★
+
+double X0a=0,Y0a=0, X0b=0,Y0b=0; // First 2 fingers position
+double Xa=0,Ya=0, Xb=0,Yb=0; // Moving 2 fingers position
+double dX0=0,dY0=0,d0=1, dXn=0,dYn=0,dn=1, rd=1; // distance between 2 finger, ratio distance new/old
+double cX0=0,cY0=0, cXn=0,cYn=0; // Midpoint between 2 finger
+
+double scPicView=1,iscPicView=1; // scale ratio value for image
+double txPicView=0,tyPicView=0, itxPicView=0,ityPicView=0; // translate value for image
+double phi0=0,phiN=0,dPhi=0; // angle first, current and different between current and first
+double rPicView=0,irPicView=0; // rotate value for image
+
+double RootX0=W/2,RootY0=H/2; // Original Root position of Picture (GRA.C case)
+double RootX=W/2,RootY=H/2; // Root position of Picture when touch down (GRA.C case)
+double iRootX=W/2,iRootY=H/2; // New moved Root position around current mid point
+double dRootCX0=0,dRootCY0=0; // distance between root position and mid point
+double zDis=0,zPhi=0,zXn=0,zYn=0; // Temporary variables calculate image root position on polar coordinate of midpoint, rotate and convert back
+
+boolean bOnMove=false;
+boolean bMove=true,bZoom=true,bRotate=true; // ⭐ Switcher allow use move, zoom, rotate
+
+double[] iRat=$.Rat;
+int nRatDown=0,inRatDown=0;
+//int cou=0; int cou(){cou+=1;return cou;} // help tracking order receive touch
+$.RatRun(bgView,new Runnable(){public void run(){bOnMove=true; nRatDown+=1;
+	if (nRatDown==1 && $.Rat.length>2){$.Rat=new double[]{$.Rat[0],$.Rat[1]};}
+	if (nRatDown>1 && $.Rat.length==2){}// filt and fixxed android bug delay touch input
+	else{
+		//WD.trace(cou()+"  "+nRatDown+"  I  "+toString(Rat));// help tracking order receive touch
+		loadChangeRat($.Rat,true);
+		iRat=$.Rat;inRatDown=nRatDown;
+	}
+}},new Runnable(){public void run(){ nRatDown-=1;
+	if (nRatDown==1 && $.Rat.length==2){$.Rat=iRat;}
+	else if (nRatDown==0 && $.Rat.length>3){$.Rat=new double[]{$.Rat[0],$.Rat[1]};}
+	//WD.trace(cou()+"  "+nRatDown+"  O  "+toString(Rat));// help tracking order receive touch
+	loadChangeRat($.Rat,false);
+	iRat=$.Rat;inRatDown=nRatDown;
+}},new Runnable(){public void run(){ 
+	if (nRatDown>1 && $.Rat.length==2){$.Rat=iRat;}
+	if (!(nRatDown==1 && $.Rat.length>2)){
+		if (inRatDown==1 && nRatDown>1){// In case touch down many point too fast
+			//WD.trace(cou()+"  "+nRatDown+"  I  "+toString(Rat)+"<<<");// help tracking too fast bug
+			loadChangeRat($.Rat,true);
+			iRat=$.Rat;inRatDown=nRatDown;
+		}
+		//WD.trace(cou()+"  "+nRatDown+"  M  "+toString(Rat));// help tracking order receive touch
+		loadMovePic();
+		inRatDown=nRatDown;
+	}
+	if (nRatDown==1 && $.Rat.length==nRatDown*2){iRat=$.Rat;}
+	
+}});
+
+
+
+//　⭐　ＯＮ　ＣＨＡＮＧＥ　ＲＡＴ　⭐
+
+int kHideTool=0;
+Object R_ClickPic=new Runnable(){public void run(){
+	kHideTool+=1; if (kHideTool>9){kHideTool=0;}
+	int key=kHideTool;
+	if (FrBackPic.getAlpha()<0.9){
+		$.motion(FrBackPic, "opac",  0,1,  1,1,0.5,  0,100,20);
+		$.motion(FrNextPic, "opac",  0,1,  1,1,0.5,  0,100,20);
+		$.motion(PicClosePic, "opac",  0,1,  1,1,0.5,  0,100,20);
+		$.motion(PicInfoPic, "opac",  0,1,  1,1,0.5,  0,100,20);
+	}
+	$.delayF(new Runnable(){void run(){if (key==kHideTool){
+			$.motion(FrBackPic, "opac",  1,0,  1,1,0.5,  0,200,20);
+			$.motion(FrNextPic, "opac",  1,0,  1,1,0.5,  0,200,20);
+			$.motion(PicClosePic, "opac",  1,0,  1,1,0.5,  0,200,20);
+			$.motion(PicInfoPic, "opac",  1,0,  1,1,0.5,  0,200,20);
+	}}},1500);
+}};
+boolean iIsDown=false;// help detect touch down before move
+double[] iARat=new double[]{};
+boolean penClick=false;
+void loadChangeRat(double[] ARat, boolean isDown){
+	if (isDown){
+		if (nRatDown==1){ X0a=$.Rat1[0];Y0a=$.Rat1[1];penClick=true;}
+		else if (nRatDown>1){int inR=nRatDown;penClick=false;
+			nRatDown=0;loadChangeRat(iARat, false);nRatDown=inR;
+			X0a=$.Rat1[0];Y0a=$.Rat1[1];  X0b=$.Rat2[0];Y0b=$.Rat2[1];
+			Xa=X0a;Ya=Y0a;  Xb=X0b;Yb=Y0b;
+			cX0=(X0a+X0b)/2;cY0=(Y0a+Y0b)/2;
+			dRootCX0=RootX-cX0; dRootCY0=RootY-cY0;
+			if (bZoom){
+				dX0=X0b-X0a;dY0=Y0b-Y0a;d0=$.Max(1,$.sqrt(dX0*dX0+dY0*dY0));
+				dXn=Xb-Xa;dYn=Yb-Ya;dn=$.Max(1,$.sqrt(dXn*dXn+dYn*dYn));
+				rd=$.Max(0.01,dn/d0);
+			}
+			if (bRotate){phi0=$.getPhi(X0b-X0a,Y0b-Y0a);}
+		}
+		loadMovePic();
+	}
+	else{
+		if (nRatDown==0){ if (penClick && $.abs(txPicView-itxPicView)+$.abs(tyPicView-ityPicView)<4){$.Run(R_ClickPic);} penClick=false;
+			txPicView=itxPicView; tyPicView=ityPicView;
+			RootX=RootX0+txPicView; RootY=RootY0+tyPicView;
+			loadMovePic();
+		}
+		else if (nRatDown>0){
+			scPicView=iscPicView;
+			rPicView=irPicView;
+			RootX=iRootX;RootY=iRootY;
+			txPicView=RootX-RootX0; tyPicView=RootY-RootY0;
+			itxPicView=txPicView; ityPicView=tyPicView;
+			$.delayF(new Runnable(){public void run(){
+				X0a=$.Rat1[0];Y0a=$.Rat1[1];isDown=true;iIsDown=isDown;
+			}},20);
+		}
+	}
+	iIsDown=isDown;
+}
+
+
+
+//　⭐　ＯＮ　ＭＯＶＥ　ＲＡＴ　⭐
+
+void loadMovePic(){loadMovePic(true);}
+void loadMovePic(boolean kDis){if (iIsDown){
+	if (nRatDown==1){
+		Xa=$.Rat1[0];Ya=$.Rat1[1];
+		if (!iIsDown){ // Filting case up rat1 instaed of rat2
+			if (iARat.length>3){
+				if ($.abs((int)Xa-(int)iARat[0])<2 && $.abs((int)Ya-(int)iARat[1])<2){X0a=iARat[0];Y0a=iARat[1];}
+				else{X0a=iARat[2];Y0a=iARat[3];}
+			}
+		}
+		itxPicView=txPicView+Xa-X0a;  ityPicView=tyPicView+Ya-Y0a;
+		$.ePic(PicView,new Object[]{"tx",itxPicView,"ty",ityPicView});
+	}
+	else if (nRatDown>1){
+		Xa=$.Rat1[0];Ya=$.Rat1[1];  Xb=$.Rat2[0];Yb=$.Rat2[1];
+		if (Xb==-1&&Yb==-1){}// Filt Android bug case receive on touch move before on touch up
+		else{
+			if (bMove){cXn=(Xa+Xb)/2;cYn=(Ya+Yb)/2;}else{cXn=cX0;cYn=cY0;}
+			if (bZoom){
+				dXn=Xb-Xa;dYn=Yb-Ya;dn=$.Max(1,$.sqrt(dXn*dXn+dYn*dYn));
+				rd=$.Max(0.01,dn/d0);
+				iscPicView=scPicView*rd; 
+			}
+			if (bRotate){
+				phiN=$.getPhi(Xb-Xa,Yb-Ya);
+				dPhi=phiN-phi0; irPicView=rPicView+dPhi;
+			}
+			zDis=$.sqrt(dRootCX0*dRootCX0 + dRootCY0*dRootCY0);
+			zPhi=$.getPhi(dRootCX0,dRootCY0)+dPhi;
+			iRootX=cXn+zDis*$.cos($.toRAD(zPhi))*rd;
+			iRootY=cYn+zDis*$.sin($.toRAD(zPhi))*rd;
+			txPicView=iRootX-RootX0; tyPicView=iRootY-RootY0;
+			if (kDis){$.ePic(PicView,new Object[]{"sc",iscPicView,"tx",txPicView,"ty",tyPicView,"r",irPicView});}
+		}
+	}
+}iARat=$.Rat;}
+
+void updateSize(){
+	W4=minWH/13.0; W4n=minWH/14.0; hW4n=W4n/2; W3=W4*3.0/4; W5=W4*5/4; W8=W4*2; W12=W4*3; W16=W4*4;  Hfs=W4/2.1;
+	fs=(int)(Hfs);fs2=fs*2;fs3=fs*3;hfs3=fs3/2;
+
+	WFolderList=(int)(minWH/13.0*2.5);
+	WFolderIcon=WFolderList-$.mm(1);
+
+	$.eLay(FrMainList,new Object[]{"magi",new int[]{WFolderList,0,0,0}  });
+		$.eLay(FrFolderList,new Object[]{"lapa",new int[]{WFolderList,$.FR.M,$.GRA.LB},"magi",new int[]{0,(int)(WFolderList*0.75),0,0}  });
+	$.eLay(FrBack,new Object[]{"lapa",new int[]{WFolderList,(int)(WFolderList*0.75),$.GRA.LT }});
+	
+	$.eLay(FrNextPic,new Object[]{"lapa",new int[]{W8,$.FR.M,$.GRA.RC}  });
+		$.eLay(FrFrNextPic,new Object[]{"lapa",new int[]{$.FR.M,W8*3,$.GRA.C}});
+	$.eLay(FrBackPic,new Object[]{"lapa",new int[]{W8,$.FR.M,$.GRA.LC}  });
+		$.eLay(FrFrBackPic,new Object[]{"lapa",new int[]{$.FR.M,W8*3,$.GRA.C}});
+	$.eLay(FrClosePic,new Object[]{"lapa",new int[]{W8,W8,$.GRA.LT}  });
+	$.eLay(FrInfoPic,new Object[]{"lapa",new int[]{W8,W8,$.GRA.RB}  });
+	
+	if (FrBack.getVisibility()==$.VW.V){galleryScan();}
+	if (bgView.getVisibility()==$.VW.V){RCDFolder.pause(); RCDFile.pause();}
+
+	RootX0=W/2;RootY0=H/2;
+}//　⭐　ＲＥＳＩＺＥ　⭐
+intW=(int)W;intH=(int)H;
+if (zintW!=intW||zintH!=intH){zintW=intW;zintH=intH;
+	updateSize();
+}   
+
+    

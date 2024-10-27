@@ -1,0 +1,73 @@
+100,113,531,1123,1375,1756,                                                                         Bouncing Ball$.Bitmap($.mm(8),$.mm(8),new Object[]{"bl",new int[]{1,1},
+	"fico", $.hsla(340,100,50,1),"c",new int[]{$.mm(6),$.mm(5),$.mm(1)},
+	"fico", $.hsla(60,100,50,0.7),"c",new int[]{$.mm(5),$.mm(6),$.mm(1)},
+	"fico", $.hsla(120,100,50,0.4),"c",new int[]{$.mm(4),$.mm(5),$.mm(1)},
+	"fico", $.hsla(180,100,50,0.2),"c",new int[]{$.mm(3),$.mm(4),$.mm(1)},
+	"fico", $.hsla(340,100,50,0.1),"c",new int[]{$.mm(2),$.mm(3),$.mm(1)},
+})new Object[][]{   new Object[]{"Ball Size (%)",2,0,8, 1,0,100,0.1} 
+	,new Object[]{"Velocity X",1,0,85, 1,2,100,1}
+	,new Object[]{"Bouncing 45 deg",0,0,0,  2,new Object[]{"Disable",false,"Enable",true}}
+	,new Object[]{"Velocity Y",1,1,75, 1,2,100,1}
+	,new Object[]{"Erase",0,1,0,  2,new Object[]{"Disable",false,"Enable",true}}
+	,new Object[]{"Black Background",0,2,0,  2,new Object[]{"Disable",false,"Enable",true}}
+	,new Object[]{"Start X",1,2,50, 1,0,100,1}
+	,new Object[]{"Start Y",1,3,50, 1,0,100,1}
+	,new Object[]{"Lum",1,4,80, 1,0,100,1}
+	,new Object[]{"Opacity",2,1,0.5, 1,0,1,0.01}
+}W/=4;H/=4;
+v.x=W*(I.get(2)/100.0);
+v.y=H*(I.get(3)/100.0);
+v.x1=W/(100-I.get(0));
+v.y1=B.get(0)?v.x1:H/(100-I.get(1));
+v.v=(int)(minWH*D.get(0)/200.0);
+if(B.get(2)){Cmd.add("black");}
+$.addBitmap(0,W,H,BMP);
+$.updateFPS(50,FPS);
+v.i=0;
+Cmd.add("deco");W/=4;H/=4;
+v.x+=v.x1; v.y+=v.y1; v.i+=20;if (v.i>360){v.i-=360;}
+if (v.x>W-v.v||v.x<v.v){v.x1*=-1;}
+if (v.y>H-v.v||v.y<v.v){v.y1*=-1;}
+if(B.get(1)){$.clearBitmap(BMP.get(0));}
+$.load(Screen,$.Bitmap(BMP.get(0),new Object[]{
+	"er","","fico",$.hsla(0,0,0,0.2),
+	"r",new int[]{0,0,W,H},"dr","",
+	"fico", $.hsla(v.i,100,I.get(4),D.get(1)),
+	"c",new int[]{(int)v.x, (int)v.y, v.v} 
+}));100,113,531,1123,1375,1756,                                                                         Bouncing Ball$.Bitmap($.mm(8),$.mm(8),new Object[]{"bl",new int[]{1,1},
+	"fico", $.hsla(340,100,50,1),"c",new int[]{$.mm(6),$.mm(5),$.mm(1)},
+	"fico", $.hsla(60,100,50,0.7),"c",new int[]{$.mm(5),$.mm(6),$.mm(1)},
+	"fico", $.hsla(120,100,50,0.4),"c",new int[]{$.mm(4),$.mm(5),$.mm(1)},
+	"fico", $.hsla(180,100,50,0.2),"c",new int[]{$.mm(3),$.mm(4),$.mm(1)},
+	"fico", $.hsla(340,100,50,0.1),"c",new int[]{$.mm(2),$.mm(3),$.mm(1)},
+})new Object[][]{   new Object[]{"Ball Size (%)",2,0,8, 1,0,100,0.1} 
+	,new Object[]{"Velocity X",1,0,85, 1,2,100,1}
+	,new Object[]{"Bouncing 45 deg",0,0,0,  2,new Object[]{"Disable",false,"Enable",true}}
+	,new Object[]{"Velocity Y",1,1,75, 1,2,100,1}
+	,new Object[]{"Erase",0,1,0,  2,new Object[]{"Disable",false,"Enable",true}}
+	,new Object[]{"Black Background",0,2,0,  2,new Object[]{"Disable",false,"Enable",true}}
+	,new Object[]{"Start X",1,2,50, 1,0,100,1}
+	,new Object[]{"Start Y",1,3,50, 1,0,100,1}
+	,new Object[]{"Lum",1,4,80, 1,0,100,1}
+	,new Object[]{"Opacity",2,1,0.5, 1,0,1,0.01}
+}W/=4;H/=4;
+v.x=W*(I.get(2)/100.0);
+v.y=H*(I.get(3)/100.0);
+v.x1=W/(100-I.get(0));
+v.y1=B.get(0)?v.x1:H/(100-I.get(1));
+v.v=(int)(minWH*D.get(0)/200.0);
+if(B.get(2)){Cmd.add("black");}
+$.addBitmap(0,W,H,BMP);
+$.updateFPS(50,FPS);
+v.i=0;
+Cmd.add("deco");W/=4;H/=4;
+v.x+=v.x1; v.y+=v.y1; v.i+=20;if (v.i>360){v.i-=360;}
+if (v.x>W-v.v||v.x<v.v){v.x1*=-1;}
+if (v.y>H-v.v||v.y<v.v){v.y1*=-1;}
+if(B.get(1)){$.clearBitmap(BMP.get(0));}
+$.load(Screen,$.Bitmap(BMP.get(0),new Object[]{
+	"er","","fico",$.hsla(0,0,0,0.2),
+	"r",new int[]{0,0,W,H},"dr","",
+	"fico", $.hsla(v.i,100,I.get(4),D.get(1)),
+	"c",new int[]{(int)v.x, (int)v.y, v.v} 
+}));

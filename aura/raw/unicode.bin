@@ -1,0 +1,251 @@
+100,107,118,134,12952,12988,                                                                        Unicoderaw.lang_btnew Object[][]{}Cmd.add("NoCycle");
+
+int iPage=0,lPage=65536/100;
+
+Object[] lib=new Object[]{// page1, text1,... pageN,textN
+	   0,"Page 0..1 : 032..126 Basic Latin  0x0000..0x007F"
+		,1,"Page 1..2 : 128..255 Latin-1 Supplement  0x0080..0x00FF"
+		,2,"Page 2..3 : 256..383 Latin Extended-A  0x0100..0x017F"
+		,3,"Page 3..5 : 384..591 Latin Extended-B  0x0180..0x024F"
+		,5,"Page 5..6 : 592..687 IPA Extensions  0x0260..0x02AF"
+		,6,"Page 6..7 : 688..767 Spacing Modifier Letters  0x02B0..0x02FF"
+		,7,"Page 7..8 : 768..879 Combining Marks  0x0300..0x036F"
+		,8,"Page 08..10 : 0880..1023 Greek  0x0370..0x03FF"
+		,10,"Page 10..12 : 1024..1279 Cyrillic  0x0400..0x04FF"
+		,76,"Page 76..79 : 7680..7935 Latin Extended Additional  0x1E00..0x1EFF"
+		,79,"Page 79..81 : 7936..8191 Greek Extended  0x1F00..0x1FFF"
+		,81,"Page 81..83 : 8193..8303 General Punctuation  0x2000..0x206F"
+		,83,"Page 83..83 : 8304..8351 Superscripts & Subscripts  0x2070..0x209F"
+		,83,"Page 83..83 : 8352..8399 Currency Symbols  0x20A0..0x20CF"
+		,84,"Page 84..85 : 8448..8527 Letterlike Symbols  0x2100..0x214F"
+		,85,"Page 85..85 : 8528..8591 Number Forms  0x2150..0x218F"
+		,85,"Page 85..87 : 8591..8703 Arrows  0x2190..0x21FF"
+		,87,"Page 87..89 : 8704..8959 Mathematical  Operators 0x2200..0x22FF"
+		,89,"Page 89..92 : 8960..9215 Miscellaneous Technical  0x2300..0x23FF"
+		,94,"Page 94..95 : 9472..9599 Box Drawing  0x2500..0x257F"
+		,96,"Page 96..96 : 9600..9631 Block Elements 0x2580..0x259F"
+		,96,"Page 96..97 : 9632..9727 Geometric Shapes  0x25A0..0x25FF"
+		,97,"Page 97..99 : 9728..9983 Miscellaneous Symbols  0x2600..0x26FF"
+		,614,"Page 614..616 : 61440..61695 Private Use Area  0xF000..0xF0FF"
+		,642,"Page 642..643 : 64256..64335 Alphabetic Presentation Forms  0xFB00..0xFB4F"
+		,652,"Page 652..655 : 65280..65533 Specials  0xFF00..0xFFFD"
+};
+
+int mWHTe=(int)($.Min($.screenW_px,$.screenH_px)*0.8),paWTTeL=($.screenW_px-mWHTe)/2,paWTTeT=($.screenH_px-mWHTe)/2;
+int mWH=(int)($.Min($.screenW_px,$.screenH_px)*0.9),paWTL=($.screenW_px-mWH)/2,paWTT=($.screenH_px-mWH)/2;
+int wWT1=0, hWT1=0;
+double cW=0, cH=0;
+
+Object WTray1=$.SFH_WinTray().IDTheme("Unicode").icon(raw.view_light).icon1(raw.view_dark).defaultTheme(267,75,88,0).title("Unicode Table");
+WTray1.create(paWTL,$.screenH_px-paWTL,mWH,mWH);
+WTray1.onClose(new Runnable(){public void run(){WTrayTe.close();$.removeOnScreenChange(idOSC);}});
+WTray1.onStartMiniFloat(new Runnable(){public void run(){WTrayTe.hide();}});
+WTray1.onEndMiniFloat(new Runnable(){public void run(){WTrayTe.show();}});
+WTray1.onMinimize(new Runnable(){void run(){WTray1.close();}});
+WTray1.onFullScreen(new Runnable(){void run(){WTray1.opacityBG(0.95,0.8);}});
+WTray1.onQuitFullScreen(new Runnable(){void run(){WTray1.opacityBG(0.95,0.8);}});
+WTray1.opacityBG(0.95,0.8);
+
+double hueUNI=WTray1.hue, satUNI=WTray1.sat, lumUNI=WTray1.lum, lumDarkUNI=WTray1.lumDark;
+int darkMode=WTray1.darkMode;
+
+int colo1=$.hsla(0,0,lumDarkUNI,1);
+int coloL=$.hsla(0,0,lumDarkUNI,0.3);
+int coloN=$.hsla(0,0,lumDarkUNI,0.7);
+int coloBg=$.hsla(hueUNI,satUNI,(lumUNI+lumDarkUNI)/2,0.3);
+
+Object WTrayTe=$.SFH_WinTray().IDTheme("Unicode").setTheme((int)hueUNI,(int)satUNI,(int)lumUNI,darkMode).icon(raw.view_light).icon1(raw.view_dark).title("Unicode Note");
+WTrayTe.create(paWTTeL,0,mWHTe,mWHTe);
+WTrayTe.onClose(new Runnable(){public void run(){EdNo.close();}});
+WTrayTe.onShow(new Runnable(){public void run(){kb.WT.show();}});
+WTrayTe.onMinimize(new Runnable(){public void run(){kb.WT.hide();}});
+WTrayTe.onStartMiniFloat(new Runnable(){public void run(){kb.WT.hide();}});
+WTrayTe.onEndMiniFloat(new Runnable(){public void run(){kb.WT.show();}});
+WTrayTe.onMoveDone(new Runnable(){public void run(){WTray1.toFront();kb.WT.toFront();}});
+Object EdNo=$.SFH_CodeEditor().SoftKeyboard(false).setTheme(hueUNI,satUNI,lumUNI,lumDarkUNI).create(WTrayTe.FrBody);
+EdNo.R_close(new Runnable(){public void run(){WTray1.sig("Copy Mode");kb.close();WTrayTe.close();}});
+WTrayTe.traceLimit(1);
+WTrayTe.traceTime(1000);
+
+int kbW=(int)(mWHTe*0.6),kbH=(int)(mWHTe*0.4);
+int kbX=(paWTTeL+mWHTe)-kbW/2,kbY=(int)(mWHTe*0.5);
+Object kb=$.SFH_Keyboard().showKeyLite().createSilence(EdNo.EdTe, kbX,kbY,kbW,kbH).closable(false).show().setTheme(hueUNI,satUNI,lumUNI,lumDarkUNI==100?1:0);
+kb.R_onRunEsc=new Runnable(){public void run(){}};
+void type(String s){kb.type(s);}
+
+wWT1=WTray1.bodyW; hWT1=WTray1.bodyH;
+cW=wWT1/10.0; cH=hWT1/11.0;
+int hPic=(int)(hWT1-cH);
+double cWDH=wWT1/6.0,cWBT=(wWT1-cWDH)/3.0;
+
+double W4=W/13.0, W4n=W/14.0, hW4n=W4n/2, W3=W4*3.0/4, W5=W4*5/4, W8=W4*2, Hfs=W4/2.1;
+int fs=(int)(Hfs),fs2=fs*2,fs3=fs*3,hfs3=fs3/2,hfs=fs/2,tfs=fs/3,qfs=fs/4, fw=(int)(fs*1.2),hfw=fw/2,hfw11=hfw*11,tfw=fw/3,qfw=fw/4,pfw=fw/5,ofw=fw/8;
+
+//　⭐　ＨＥＸ　ＣＯＮＶＥＲＴＥＲ　⭐
+String[] sH=new String[]{"0","1","2","3","4","5","6","7","8","9","A","B","C","D","E","F"};
+String sHex256(int x){return sH[x/16]+sH[x%16];}
+String hexX(int iDec){ Object ai=$.ArrayList(1); String s="";
+	while (iDec>0){ai.add(iDec%16);iDec=iDec/16;} for (int i:ai){s=sH[i]+s;}
+	return s;
+}
+
+boolean kHex=false;
+Object charTable(int wT,int hT){int m=$.Min(wT,hT);
+	double resoCT=1;
+	double fosi=m/18;//15.5
+	double fosiS=fosi*resoCT*0.6,fosiL=fosi*resoCT;
+	
+	Object[] zCTa=new Object[100*3],zCTb=new Object[100*3];
+	float[] zLH=new float[11*4],zLV=new float[11*4];
+	int j=0;
+	double wCT=wT/10.0,hCT=hT/10.0;
+	int maL=(wCT-fosiL*0.6)/2,qmaL=maL/4,maB=(int)(fosiS*0.3);
+	int zM,zN;
+	int iP=iPage*100;
+	for (int i=0;i<100;i++){zN=i/10;zM=i%10; j=i*3;
+			zCTa[j]=(char)(i+iP); zCTb[j]=kHex?hexX(i+iP):(i+iP);
+			zCTa[j+1]=wCT*zM+maL; zCTb[j+1]=wCT*zM+qmaL;
+			zCTa[j+2]=hCT*(zN+0.55); zCTb[j+2]=hCT*(zN+1)-maB;
+	}
+	for (int i=0;i<11;i++){j=i*4;zLH[j]=0;zLH[j+1]=(float)(i*hCT)-1;zLH[j+2]=wT;zLH[j+3]=zLH[j+1];}
+	for (int i=0;i<11;i++){j=i*4;zLV[j]=(float)(i*wCT);zLV[j+1]=0;zLV[j+2]=zLV[j];zLV[j+3]=hT-1;}
+	Object bmpCT=$.Bitmap(wT,hT,new Object[]{"fico",colo1,"fo","mono","fosi",fosiL,"ts",zCTa,"fico",coloN,"fosi",fosiS,"ts",zCTb,"stco",coloL,"stwi",1,"ls",zLH,"ls",zLV});
+	return bmpCT;
+}
+
+
+	Object FrBg,zFrDH,FrDH,FrLeft,FrRight,FrCenter;
+	FrBg=$.aFrLay(WTray1.FrBody,$.o("bacolo",coloBg,"lapa",new int[]{wWT1,cH,$.GRA.LB}));
+	zFrDH=$.aFrLay(WTray1.FrBody,$.o("bacolo",coloBg,"lapa",new int[]{cWDH,cH,$.GRA.LB}));
+	FrDH=$.aFrLay(WTray1.FrBody,$.o("lapa",new int[]{cWDH,cH,$.GRA.LB}));
+	FrLeft=$.aFrLay(WTray1.FrBody,$.o("lapa",new int[]{cWBT,cH,$.GRA.LB},"tx",cWDH));
+	FrRight=$.aFrLay(WTray1.FrBody,$.o("lapa",new int[]{cWBT,cH,$.GRA.RB}));
+	FrCenter=$.aFrLay(WTray1.FrBody,$.o("lapa",new int[]{cWBT,cH,$.GRA.LB},"tx",cWDH+cWBT));
+	Object TeDH=$.aText(FrDH,new Object[]{"te",kHex?"HEX":"DEC","tecolo",colo1,"fosi",fs*0.8,"font","mono","lapa",$.intA($.FR.W,$.FR.W,$.GRA.C)});
+	Object TeLeft=$.aText(FrLeft,new Object[]{"te","◀","tecolo",colo1,"fosi",fs,"font","courier","lapa",$.intA($.FR.W,$.FR.W,$.GRA.C)});
+	Object TeRight=$.aText(FrRight,new Object[]{"te","▶","tecolo",colo1,"fosi",fs,"font","courier","lapa",$.intA($.FR.W,$.FR.W,$.GRA.C)});
+	Object TeCenter=$.aText(FrCenter,new Object[]{"te",iPage+" / "+lPage,"tecolo",colo1,"fosi",fs*0.7,"font","mono","lapa",$.intA($.FR.W,$.FR.W,$.GRA.C)});
+	Object TeHold=$.aText(FrCenter,new Object[]{"te","Hold for map","tecolo",coloN,"fosi",fs*0.4,"font","mono","lapa",$.intA($.FR.W,$.FR.W,$.GRA.TL)});
+
+	$.RatRun(FrDH,new Runnable(){void run(){$.blinkFr(FrDH,0);if (!kHex){kHex=true;} else {kHex=false;}$.eText(TeDH,$.o("te",kHex?"HEX":"DEC"));updatePicCT();}});
+	$.RatRun(FrLeft,new Runnable(){void run(){if (iPage>0){iPage-=1;updatePicCT();$.blinkFr(FrLeft,0); }}});
+	$.RatRun(FrRight,new Runnable(){void run(){if (iPage<lPage){iPage+=1;updatePicCT();$.blinkFr(FrRight,0); }}});
+	int kHold1=0;	boolean kGoto=true;
+	$.RatRun(FrCenter,new Runnable(){void run(){kHold1+=1;int crKey=kHold1;kGoto=true;
+		$.delayF(new Runnable(){public void run(){if (crKey==kHold1){kGoto=false;
+			Object zPN=$.SFH_Panel().size(0.7).Title("Map").ExtraHeight((int)((hWT1)*0.5)).setTheme(hueUNI,satUNI,lumUNI,lumDarkUNI).create(WTray1.FrBody);			
+			int nSec=lib.length/2;
+			Object ScV_Map, ScH_Map, FrScV_Map, zTeSec;
+			ScV_Map = $.aScrV2(zPN.FrBody,new Object[]{"lapa",new int[]{$.FR.M,$.FR.M,$.GRA.LT} });
+			ScH_Map = $.aScrH2(ScV_Map,new Object[]{"lapa",new int[]{$.FR.M,$.FR.M,$.GRA.LT} });
+			FrScV_Map = $.aFrLay(ScH_Map,new Object[]{"lapa",new int[]{$.FR.M,$.FR.W,$.GRA.LT} });
+			for (int i=0;i<nSec;i++){int csLib=i*2;
+				zTeSec=$.aText(FrScV_Map,new Object[]{"te",lib[i*2+1],"tecolo",colo1,"fosi",fs*0.6,"font","mono","lapa",$.intA($.FR.W,$.FR.W,$.GRA.LT),"magi",new int[]{0,(int)(fs*1.8*i),0,0} });
+				$.RatRun(zTeSec,new Runnable(){void run(){iPage=lib[csLib];updatePicCT();WTray1.sig(lib[csLib+1],2000);zPN.remove();}});
+			}
+		}}},300);
+	}},new Runnable(){void run(){kHold1+=1;$.blinkFr(FrCenter,0);if (kGoto){
+		Object bx=$.SFH_Confirm().Input("",""+iPage).Title("Goto","Page (maximum "+lPage+") :").ButtonName("Go","Cancel").size(0.7).setTheme(hueUNI,satUNI,lumUNI,lumDarkUNI).create(WTray1.FrBody).run(new Runnable(){public void run(){
+			int i=$.intS(bx.sOut);
+			if (i>-1&&i<=lPage){iPage=i;updatePicCT();}
+		}},$.ERUN);
+	}}},$.ERUN);
+
+	
+Object csCT1=$.aFrLay(WTray1.FrBody,$.o("lapa",new int[]{(int)cW,(int)cH,$.GRA.LT}));
+Object PicCT1=$.aPic(WTray1.FrBody,$.o("lapa",new int[]{wWT1,hPic,$.GRA.LT}));
+	
+void updatePicCT(){$.ePic(PicCT1,$.o("src",charTable(wWT1,hPic)));$.eText(TeCenter,new Object[]{"te",iPage+" / "+lPage});}
+updatePicCT();
+
+	$.RatRun(PicCT1,new Runnable(){void run(){
+			int i=(int)($.Rat1[0]/cW)+(int)($.Rat1[1]/cH)*10,zN=i/10,zM=i%10;
+			$.eLay(csCT1,$.o("magi",new int[]{(int)(zM*cW),(int)(zN*cH),0,0}));
+			$.blinkFr(csCT1,0);
+			int zI=i+iPage*100; String zS=""+(char)(zI);
+			if (WTrayTe.kCreated && WTrayTe.kShow==1 && EdNo.created){
+				if (WTrayTe.miniFloatMode){WTrayTe.endMiniFloatMode();}
+				type(zS); WTrayTe.trace("Typed:            "+zS+"      "+$.S10+"Dec: "+zI+$.S10+"Hex: "+hexX(zI));
+			}
+			else{ $.copy(zS); WTray1.sig("Copied:            "+zS+"      "+$.S10+"Dec: "+zI+$.S10+"Hex: "+hexX(zI)); }
+	}});
+
+
+		WTray1.onResizeDone(new Runnable(){void run(){
+				wWT1=WTray1.bodyW; hWT1=WTray1.bodyH;
+				cW=wWT1/10.0; cH=hWT1/11.0;
+				hPic=(int)(hWT1-cH);
+				cWDH=wWT1/6.0; cWBT=(wWT1-cWDH)/3.0;
+				W=WTray1.bodyW; H=WTray1.bodyH;
+				W4=W/13.0; W4n=W/14.0; hW4n=W4n/2; W3=W4*3.0/4; W5=W4*5/4; W8=W4*2; Hfs=W4/2.1;
+				fs=(int)(Hfs); fs2=fs*2; fs3=fs*3; hfs3=fs3/2; hfs=fs/2; tfs=fs/3; qfs=fs/4; fw=(int)(fs*1.2); hfw=fw/2; hfw11=hfw*11; tfw=fw/3; qfw=fw/4; pfw=fw/5; ofw=fw/8;
+
+				$.eLay(FrBg,$.o("lapa",new int[]{wWT1,cH,$.GRA.LB}));
+				$.eLay(zFrDH,$.o("lapa",new int[]{cWDH,cH,$.GRA.LB}));
+				$.eLay(FrDH,$.o("lapa",new int[]{cWDH,cH,$.GRA.LB}));
+				$.eLay(FrDH,$.o("lapa",new int[]{cWDH,cH,$.GRA.LB}));
+				$.eLay(FrLeft,$.o("lapa",new int[]{cWBT,cH,$.GRA.LB},"tx",cWDH));
+				$.eLay(FrRight,$.o("lapa",new int[]{cWBT,cH,$.GRA.RB}));
+				$.eLay(FrCenter,$.o("lapa",new int[]{cWBT,cH,$.GRA.LB},"tx",cWDH+cWBT));
+				
+				$.eText(TeDH,new Object[]{"fosi",fs*0.8});
+				$.eText(TeLeft,new Object[]{"fosi",fs});
+				$.eText(TeRight,new Object[]{"fosi",fs});
+				$.eText(TeCenter,new Object[]{"fosi",fs*0.7});
+				$.eText(TeHold,new Object[]{"fosi",fs*0.4});
+
+				$.eLay(csCT1,$.o("lapa",new int[]{(int)cW,(int)cH,$.GRA.LT}));
+				$.ePic(PicCT1,$.o("lapa",new int[]{wWT1,hPic,$.GRA.LT}));
+				updatePicCT();
+		}});
+
+
+int idOSC=$.onScreenChange(WTray1.FrMain,new Runnable(){public void run(){
+		WTray1.screenChange();
+		WTrayTe.screenChange();
+		kb.WT.screenChange();
+}});
+
+void reloadTheme(){
+	darkMode=WTray1.darkMode;
+	colo1=$.hsla(0,0,lumDarkUNI,1);
+	coloL=$.hsla(0,0,lumDarkUNI,0.3);
+	coloN=$.hsla(0,0,lumDarkUNI,0.7);
+	coloBg=$.hsla(hueUNI,satUNI,(lumUNI+lumDarkUNI)/2,0.3);
+	EdNo.setTheme(hueUNI,satUNI,lumUNI,lumDarkUNI);
+	$.eLay(FrBg,$.o("bacolo",coloBg));
+	$.eLay(zFrDH,$.o("bacolo",coloBg));
+	$.eText(TeLeft,new Object[]{"tecolo",colo1});
+	$.eText(TeRight,new Object[]{"tecolo",colo1});
+	$.eText(TeCenter,new Object[]{"tecolo",colo1});
+	$.eText(TeHold,new Object[]{"tecolo",coloN});
+	updatePicCT();
+}
+void updateTheme(double dh, double ds, double dl, double dld ){
+	if (hueUNI!=dh||satUNI!=ds||lumUNI!=dl||lumDarkUNI!=dld){
+		hueUNI=dh;satUNI=ds;lumUNI=dl;lumDarkUNI=dld;
+		reloadTheme();
+		kb.setTheme(hueUNI,satUNI,lumUNI,lumDarkUNI==100?1:0);
+		WTray1.setTheme(hueUNI,satUNI,lumUNI,lumDarkUNI==100?1:0);
+		WTray1.opacityBG(0.95,0.8);
+		WTrayTe.setTheme(hueUNI,satUNI,lumUNI,lumDarkUNI==100?1:0);
+	}
+}
+WTrayTe.onChangeTheme(new Runnable(){void run(){updateTheme(WTrayTe.hue,WTrayTe.sat,WTrayTe.lum,WTrayTe.lumDark);}});
+WTray1.onChangeTheme(new Runnable(){void run(){updateTheme(WTray1.hue,WTray1.sat,WTray1.lum,WTray1.lumDark);}});
+kb.WT.onChangeTheme(new Runnable(){void run(){updateTheme(kb.WT.hue,kb.WT.sat,kb.WT.lum,kb.WT.lumDark);}});
+
+$.eEdText(EdNo.EdTe,$.o("fosi",fs));
+WD.hide();
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    

@@ -1,0 +1,30 @@
+100,110,121,365,835,1274,                                                                           Glisteningraw.glistennew Object[][]{  
+	new Object[]{"n Star","int",100,20, 1,0,50,1}
+	,new Object[]{"Size Limit (mm)","double",101,5, 1,  1,20,0.5}
+	,new Object[]{"Fade Step","int",101,12, 1,0,20,1}
+	,new Object[]{"Dim Background","double",100,0.4, 1,  0,1,0.05}
+}$.updateFPS(50,FPS);
+int nStar=I.get(100);
+int step=I.get(101);
+
+	$.addImage(nStar,Monitor,IMG);
+	for (int i=0;i<=nStar;i++){
+		$.edit(IMG.get(i),new Object[]{"lapa",new int[]{$.mm(3),$.mm(3),$.GRA.LT},
+			"src",raw.glisten,"magi",new int[]{Math.random()*W,Math.random()*H,0,0}});
+	}
+	$.edit(Display,new Object[]{"bacolo",$.hsla(0,0,0,D.get(100))});
+	Cmd.add("deco");
+	int j=0;
+	for (int i=0;i<=nStar;i++){j+=1; if (j>step){j=0;}
+		I.set(i,(int)(Math.random()*step));
+	}for (int i=0;i<=nStar;i++){
+   I.set(i,I.get(i)+1);
+	if (I.get(i)>=step){ I.set(i,0);
+		v.i1=(0.2+Math.random())*$.mm(D.get(101));
+		$.edit(IMG.get(i),new Object[]{
+			"lapa",new int[]{v.i1,v.i1,$.GRA.LT},
+			"magi",new int[]{Math.random()*W,Math.random()*H,0,0}});
+	}
+	//$.edit(IMG.get(i),new Object[]{"opac",(step-I.get(i))/(double)step});
+$.edit(IMG.get(i),new Object[]{"opac",Math.pow(1-Math.abs(I.get(i)*2-step)/(double)step, 2) });
+}

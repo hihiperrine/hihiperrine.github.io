@@ -1,0 +1,1055 @@
+100,109,121,282,55793,56024,                                                                        Code Drawraw.bmp_iconnew Object[][]{
+	new Object[]{"Theme Color","string",0,"hsl(175,100,20)",  3}
+	,new Object[]{"Dark Mod",0,0,1,  2,new Object[]{"Disable",false,"Enable",true}}
+
+}
+//
+//    *.✧ Code Draw v1.2 - 2021.08.23 ✧*。
+//
+//    by  Phung Phan  pearthq@gmail.com
+//
+
+String[] ASLib=new String[]{// Name1, CodeStatic1, CodeRepeat1
+	" (This program is in developing for fully example and function.)","","",
+	"","","",
+	"1. Let's draw and code.", "","",
+	"2. This manual contains example in each line, you may click it to spawn code to current tab and run it.", "WD.sig("+$.tx("Hello World!")+");","",
+	"3. The code in all tab will be saved automatically when you hit play or close editor back to view screen.", "","",
+	"4. You can assign data to Bitmap bmp variable to draw small artwork", "bmp=Bitmap(raw.svg_icon,100,100); paint();","",
+	"5. And use Drawing Knowledge in Aura Lesson to draw.", "bmp=Bitmap(mm(8),mm(8),new Object[]{"+$.S10+$.S9+$.tx("stco")+",CL.G,"+$.tx("r")+",new int[]{mm(1),mm(1), mm(3),mm(3)},"+$.S10+$.S9+$.tx("fico")+",CL.G,"+$.tx("r")+",new int[]{mm(3.5),mm(3.5),mm(7),mm(7)},"+$.S10+$.S9+$.tx("fico")+",CL.Y,"+$.tx("r")+",new int[]{mm(3.5),mm(1),mm(7),mm(3)},"+$.tx("r")+",new int[]{mm(1),mm(3.5),mm(3),mm(7)}"+$.S10+"});"+$.S10+"PAINT();","",
+	"6. Some available methods are Bitmap(), Path(), mm(), CL, Math Pack, Color Pack, filt(), PATH()", "","",
+	"7. Other limited functions need to be call $. parent object.", "$.sig(1111);","",
+	"8. Maximum resolution is depending on device configuration.", "","",
+	"9. There are special methods that help you draw faster. Please read step by step to understand the way it work :", "","",
+	"   1. paint() : paint bitmap bmp to screen for preview. We made this method separately because it will slow when call it frequently in big artwork.", "","",
+	"   2. newPage(int L_px) : create new canvas to bmp with specific size.", "newPage(320); paint();","",
+	"   3. newPage(int Wpx, int Hpx) : create new canvas to bmp with specific width and height.", "newPage(720,480); paint();","",
+	"   4. Wpx, Hpx : variables contain width and height of bitmap bmp after newPage", "newPage(720,480); paint();","",
+	"     a. WD.trace(Object obj) : log data", "newPage(720,480); paint(); WD.trace(Wpx+"+$.tx(" × ")+"+Hpx);","",
+	"   5. LDraw : variable that stores drawing commands before apply to bmp.","","",
+	"   6. applyDraw(), draw() : launch drawing LDraw to bmp.","","",
+	"   7. PAINT() : draw LDraw to bmp and paint to display, then reset zoom status.","","",
+	"   8. bg(int iColor), backgroundColor(i), bacolo(i), pageColor(i) : paint background color to bitmap", "newPage(100); pageColor(CL.G); PAINT();","",
+	"     a. hsla(hue,sat,lum,alpha) : return int color in HSL color space", "newPage(100); pageColor(hsla(345,80,90,0.8)); PAINT();","",
+	"     b. rgb(red,green,blue) : return int color in RGB color space", "newPage(100); pageColor(rgb(255,255,192)); PAINT();","",
+	"     c. hsv(hue, sat, value) : return int color in RGB color space", "newPage(100); pageColor(hsv(200,100,100)); PAINT();","",
+	"     d. HX(sHex) : int color via HEX name", "newPage(100); pageColor(HX("+$.tx("00FEFE")+")); PAINT();","",
+	"     e. Other way to access color can be found in Aura Lesson (rgba(), hsva(),...)", "","",
+	"   9. draw(String cmd), draw(String cmd, Object DrawDat) : add drawing command and data to LDraw. Details content input can be found in Aura Lesson: Basic Drawing.","","",
+	"   10. Shorter form to add drawing command (the shorter the faster) : ","","",
+	"     a. tr(dX,dY), translate(dX,dY) : translate.","","",
+	"     b. sc(rX,rY), scale(rX,rY), sc(rX,rY, pX,pY), scale(rX,rY, pX,pY) : scale.","","",
+	"     c. sk(rX,rY), skew(rX,rY) : skew.","","",
+	"     d. rt(rDeg), rota(rDeg), rotate(rDeg), rt(rDeg,pX,pY), rota(rDeg,pX,pY), rotate(rDeg,pX,pY) : rotate.","","",
+	"     e. save() : save status canvas.","","",
+	"     f. restore() : restore status canvas.","","",
+	"","","",
+	"     g. mode(o), logic(o) : set logic blend (src,dst,add,xor,..).","","",
+	"     h. bl(iW_px, kType), blur(iW_px, kType): set blur.","","",
+	"     i. gacolo(x1, y1, x2, y2, AColor, APosi, kTileMode), gradientColor(x1, y1, x2, y2, AColor, APosi, kTileMode) : set gradientColor.","","",
+	"     j. fico(i) : set fill color.","","",
+	"     k. stco(i), lico(i) : set stroke line color.","","",
+	"     l. stwi(dW), strokeWidth(dW) : set stroke width.","","",
+	"     m. cap(int k), stjo(int k), strokeJoin(int k) : k=0,1,2 (line mode).","","",
+	"     n. l(x1,y1, x2,y2), line(x1,y1, x2,y2) : draw line.","","",
+	"     o. r(x1,y1, x2,y2), rect(x1,y1, x2,y2) : draw rectangle.","","",
+	"     p. c(x,y,r), circle(x,y,r) : draw circle.","","",
+	"     q. oval(x1,y1, x2,y2), elip(x1,y1, x2,y2) : draw elip.","","",
+	"     r. a(x1,y1, x2,y2, startAngle, sweepAngle, kDrawCenter), elip(x1,y1, x2,y2, startAngle, sweepAngle, kDrawCenter) : draw arc.","","",
+	"     s. zigzag(ADPoint : draw zigzag.","","",
+	"","","",
+	"     t. fo(sFontName), font(sFontName) : set font.","","",
+	"     u. fosi(dSize), fontSize(dSize) : set text size.","","",
+	"     v. t(s,x,y), text(s,x,y) : draw text.","","",
+	"     w. foal(kMode), fontAlign(kMode), teal(kMode), textAlign(kMode) : set text align.","","",
+	"     x. fosp(dSize), fontSpacing(dSize), spacing(dSize), tesp(dSize), lesp(dSize), textSpacing(dSize) : set text spacing.","","",
+	"     y. fosc(dSize), fontScaleX(dSize), tesc(dSize), textScaleX(dSize) : set text scale X.","","",
+	"     z. fosk(dSize), fontSkewX(dSize), tesk(dSize), textSkewX(dSize) : set text skew X.","","",
+	"     aa. unli(k), foul(k), teun(k), underline(k) : set underline.","","",
+	"     ab. mili(k), middleLine(k) : set middleline.","","",
+	"     ac. fb(k), fakeBold(k) : set middleline.","","",
+	"","","",
+	"     ad. drawPath(), drawPath(p) : draw Path (complex curve,...).","","",
+	"     ae. bitmap(idRes, int x, y, w, h) : paste bitmap resource.","","",
+	"     af. bitmap(bitmapOrImageView, x, y, w, h) : paste bitmap resource.","","",
+	"     ag. bitmap(idRes,  X1cut,Y1cut,X2cut,Y2cut,  X1paste,Y1paste,X2paste,Y2paste) : paste bitmap resource.","","",
+	"     ah. bitmap(bitmapOrImageView,  X1cut,Y1cut,X2cut,Y2cut,  X1paste,Y1paste,X2paste,Y2paste) : paste bitmap resource.","","",
+	"     ai. bitmap(int x, y, w, h, Object AIColor) : paste bitmap resource.","","",
+	"","","",
+	"   11. LCombo : combo Array Object data for using in multiple drawing command (texts,ts,...).","","",
+	"   12. C : combo Array Real Number data for using in multiple drawing command (lines,ls,zigzag,...).","","",
+	"   13. path : default variable contain graphic Path data to use with default drawPath() method.","","",
+	"     a. newPath(), newPath(Object p) : new graphic Path","","",
+	"     b. setPath(String sCmd, Object eDat), setPath(Object p, String sCmd, Object eDat) : setting path content","","",
+	"     c. setPathC(String sCmd), setPathC(Object p, String sCmd) : setting path content with data automatic from C. Thus you'll need to create data for C before calling this method.","","",
+	"   14. Command to draw multiple objects (ls,rs,cs,...) is NOT a good choice when working with large bitmap. You'll use Cycle Render feature instead.","","",
+	"","","",
+	"10. When you hitting new page, it will create a template code with built in repeat code zone for large artwork.","","",
+	"11. Cycle Render line contains four parameter following order: iStart, iStop, maxBufferSize, peak_ms. It'll loop the code bellow with i variable, which have value increasing in each cycle from iStart to iStop.","","",
+	"12. bufferSize will force program to repeat run the code in bufferSize time synchornously without waiting, the speed is equal to launch multiple draw in single call.","","",
+	"13. peak_ms will decide the maximum interval clock speed.","","",// The load_ms variable is calculated base on bitmap size, you may increase the ratio in formual to make it compatible with low configuration device.","","",
+	//"14. The accelerate ratio decide how fast it reach the buffer peak and speed peak.","","",
+	"","","",
+	"14. You should export the code for future reuse, and use few tab for fast working.","","",
+	"15. In large artwork, it may crash due to overflow device memory (yes, we had overclock it to let you go as far as posible). You can open another window or restart the app to try render again.","","",
+	"","","",
+	"16. Export as JPG format doesn't mean the file output will smaller than PNG format.","","",
+	"17. After finish and exported your art work, please upload to DeviantArt group AuraLeague with hashtag #AuraStudio #AuraLeague","","",
+	"    🌟 AuraLeague.DeviantArt.com","","",
+	"18. Then you can expose yourself and selling your masterpieces.","","",
+	"","","",
+};
+String[] ASVip=new String[]{// Name1, CodeStatic1, CodeRepeat1
+	"　★⭐★ ＶＩＰ　ＭＥＭＢＥＲ　★⭐★ ","","",
+	"","","",
+	" 🌟 HiPerrine : HiPerrine.DeviantArt.com","","",
+	"","","",
+	"","","",
+	"   It's because of the generosity","","",
+	" of people like you that we can do","","",
+	" any extraordinary solution at all.","","",
+	"","","",
+	"   For this, we thank you and greatly","","",
+	" appreciate your support.","","",
+	"","","",
+	"","","",
+	"","","",
+	"","","",
+	" ♥ You can be featured on the list above by donate to our project or be the first 50 members join in the group and post artwork.","","",
+	"    🌟 AuraLeague.DeviantArt.com","","",
+	"","","",
+	"","","",
+};
+
+//　⭐　ＳＹＳＴＥＭ　ＦＵＮＣＴＩＯＮ　⭐
+
+double mm(double x){return $.mm_MR(x);}
+
+Object CL = $.CL_MR;
+int HX(String colo){return $.HX_MR(colo);}
+int rgb(int r,int g,int b){return $.rgb_MR(r,g,b);}
+int rgba(int r,int g,int b,double a){return $.rgba_MR(r,g,b,a);}
+int hsl(double h,double s,double l){return $.hsl_MR(h,s,l);}
+int hsla(double h,double s,double l,double a){return $.hsla_MR(h,s,l,a);}
+int hsva(double h,double s,double v,double a){return $.hsva_MR(h,s,v,a);}
+int hsv(double h,double s,double v){return $.hsv_MR(h,s,v);}
+/*
+//int rgbA(int r,int g,int b,int a){return rgbA_MR(r,g,b,a);}
+//double coloGetA(int colo){return coloGetA_MR(colo);}
+//int coloAddA(int colo,double a){return coloAddA_MR(colo,a);}
+//int coloReplaceA(int colo,double a){return coloReplaceA_MR(colo,a);}
+//float hue2rgb(float p,float q,float t){return hue2rgb_MR(p,q,t);}
+//Object HSL_RGB(float h, float s, float l){return HSL_RGB_MR(h,s,l);}
+//Object hslToRgb(float h,float s,float l){return hslToRgb_MR(h,s,l);}
+//Object rgbToHsl(int r0, int g0, int b0){return rgbToHsl_MR(r0,g0,b0);}
+//Object SVtoSL(double s,double v){return SVtoSL_MR(s,v);}
+//Object SLtoSV(double s,double l){return SLtoSV_MR(s,l);}
+//Object SV_SL(float s,float v){return SV_SL_MR(s,v);}
+//Object SL_SV(float s,float l){return SL_SV_MR(s,l);}
+//Object getRGBA(int iColo){return getRGBA_MR(iColo);}
+//Object getRGB(int iColo){return getRGB_MR(iColo);}
+//int hsla(String S_HSLA){return hsla_MR(S_HSLA);}
+//int hsl(String S_HSL){return hsl_MR(S_HSL);}
+//Object ahsla(String S_HSLA){return ahsla_MR(S_HSLA);}
+//Object ahsl(String S_HSL){return ahsl_MR(S_HSL);}
+*/
+
+// MATH
+
+double ran(){return Math.random();}
+int ran(int N){return (int)(Math.random()*N);}
+int ran(int X, int Y){return (int)(Math.random()*(Y-X)+X);}
+long ran(long N){return (long)(Math.random()*N);}
+//double rnd(){return Math.random();}
+//double rand(){return Math.random();}
+//int rnd(int N){return (int)(Math.random()*N);}
+//int rand(int N){return (int)(Math.random()*N);}
+//long rnd(long N){return (long)(Math.random()*N);}
+//long rand(long N){return (long)(Math.random()*N);}
+	
+double getPhi(double dx, double dy){
+		double phi=Math.atan(dy/dx)*180/Math.PI;
+		if (dx<0){phi+=180;} else if(dy<0){phi=360+phi;}
+		return phi;
+}
+double getPhi(long dx, long dy){
+		double phi=Math.atan(dy/dx)*180/Math.PI;
+		if (dx<0){phi+=180;} else if(dy<0){phi=360+phi;}
+		return phi;
+}
+double hypot(double x, double y){return Math.hypot(x,y);}
+double hypot(long x, long y){return Math.hypot(x,y);}
+
+
+/*
+long Mod(long a, long b){long l=a-(a/b)*b;if (l==-0){return 0;}return l;}
+long Div(long a, long b){long l=a/b;if (l==-0){return 0;}return l;}
+double logPosi(double base,double x){//logarite positive
+	return Math.log(Math.max(1,x))/Math.log(base);
+}
+Object booBinDec(long iDec){
+				int nBit=Max(0,(int)Math.floor(logPosi(2,iDec)))+1;
+				boolean[] AOut=new boolean[nBit];
+				for (int i=0;i<nBit;i++){AOut[i]=false;}
+				long zDec=0;
+				for (int i=nBit-1;i>-1;i--){
+						zDec=iDec-(long)Math.pow(2,i);
+						if (zDec>0){iDec=zDec; AOut[i]=true;}
+						else if (zDec==0){iDec=zDec; AOut[i]=true; break;}
+					}
+				return AOut;
+}
+Object intBinDec(long iDec){// convert dec to array int binary
+				int nBit=Max(0,(int)Math.floor(logPosi(2,iDec)))+1;
+				int[] AOut=new int[nBit];
+				for (int i=0;i<nBit;i++){AOut[i]=0;}
+				long zDec=0;
+				for (int i=nBit-1;i>-1;i--){
+						zDec=iDec-(long)Math.pow(2,i);
+						if (zDec>0){iDec=zDec; AOut[i]=1;}
+						else if (zDec==0){iDec=zDec; AOut[i]=1; break;}
+					}
+				return AOut;
+			}
+double Factorial(double n){// 0!=1; n! = 1x2x3x...xn
+		int ne=1;
+		if (n<0){ne=-1;n=-n;}
+		double dOut=1;
+		for (int i=1;i<=n;i++){dOut=dOut*i;}
+		return dOut*ne;
+	}
+double Combination(double n, double r){return Factorial(n)/(Factorial(r)*Factorial(n-r));}
+double Permutation(double n, double r){return Factorial(n)/Factorial(n-r);}
+//double acsch(double x){return Math.log((1+Math.sqrt(1+x*x))/x);}
+//double asech(double x){return Math.log((1+Math.sqrt(1-x*x))/x);}
+//double acoth(double x){return 0.5*Math.log((x+1)/(x-1)); }
+double cot(double x){return 1/Math.tan(x);}
+double csc(double x){return 1/Math.sin(x);}
+double sec(double x){return 1/Math.cos(x);}
+
+double coth(double x){return 1/Math.tanh(x);}
+double csch(double x){return 1/Math.sinh(x);}
+double sech(double x){return 1/Math.cosh(x);}
+
+double acot(double x){return Math.atan(1/x);}
+double acsc(double x){return Math.asin(1/x);}
+double asec(double x){return Math.acos(1/x);}
+//double sqr(double x){return x*x;}
+//long sqr(long x){return x*x;}
+
+*/
+
+double asinh(double x){return Math.log(x+Math.sqrt(x*x+1));}
+double acosh(double x){return Math.log(x+Math.sqrt(x*x-1));}
+double atanh(double x){return 0.5*Math.log((1+x)/(1-x)); }
+	
+double log(double x){return Math.log(x);}
+double log10(double x){return Math.log10(x);}
+double log(double base,double x){return Math.log(x)/Math.log(base);}
+
+double log(long x){return Math.log(x);}
+double log10(long x){return Math.log10(x);}
+double log(long base, long x){return Math.log(x)/Math.log(base);}
+	
+int abs(int x){if (x<0){return -x;} return x;}
+float abs(float x){if (x<0){return -x;} return x;}
+long abs(long x){if (x<0){return -x;} return x;}
+double abs(double x){if (x<0){return -x;} return x;}
+double sin(double x){return Math.sin(x);}
+double cos(double x){return Math.cos(x);}
+double tan(double x){return Math.tan(x);}
+double sinh(double x){return Math.sinh(x);}
+double cosh(double x){return Math.cosh(x);}
+double tanh(double x){return Math.tanh(x);}
+double asin(double x){return Math.asin(x);}
+double acos(double x){return Math.acos(x);}
+double atan(double x){return Math.atan(x);}
+
+	
+double pow(double x, double y){return Math.pow(x,y);}
+double sqrt(double x){return Math.sqrt(x);}
+double root(double x, double y){return Math.pow(x,1/y);}
+long pow(long x, long y){return (long)Math.pow(x,y);}
+double sqrt(long x){return Math.sqrt(x);}
+double root(long x, long y){return Math.pow(x,1/(double)y);}
+	
+double toDEG(double x){return Math.toDegrees(x);}
+double toRAD(double x){return Math.toRadians(x);}
+double toRAD(long x){return Math.toRadians(x);}
+
+double round(double x){return Math.round(x);}
+double min(double x, double y){if (x>y){return y;} return x;}
+double max(double x, double y){if (x<y){return y;} return x;}
+
+double pi=Math.PI,Pi=pi,PI=pi;
+double e=Math.E, E=e;
+double phi=0.5+sqrt(5)/2, Phi=phi, PHI=phi;
+
+Object Bitmap(double w, double h){return $.Bitmap_MR((int)w,(int)h);}
+Object Bitmap(double w, double h, Object[] AODrawData){return $.Bitmap_MR((int)w,(int)h,AODrawData);}
+Object Bitmap(Object bitmap, Object[] AODrawData){return $.Bitmap_MR(bitmap,AODrawData);}
+Object Bitmap(Object Path, int Wmax, int Hmax){return $.Bitmap_MR(Path,Wmax,Hmax);}
+Object Bitmap(Object Path){return $.Bitmap_MR(Path);}
+Object Bitmap(Object Path, int maxSize){return $.Bitmap_MR(Path,maxSize);}
+Object Bitmap(Object Path, int Wmax, int Hmax){return $.Bitmap_MR(Path,Wmax,Hmax);}
+		
+Object Path(Object[] eDat){return $.Path_MR(eDat);}
+Object Path(Object oPath, Object[] eDat){return $.Path_MR(oPath,eDat);}
+
+Object RunCycle(){return $.RunCycle_MR();}
+Object RunCycle(Runnable r, long i_ms){return $.RunCycle_MR(r,i_ms);}
+	
+Object zRunCycle=RunCycle();
+long getTimeMS(){return $.getTimeMS_MR();}
+
+Object filt(Object bitmap, Object[] oDat){return $.filt_MR(bitmap,oDat);}
+
+String S_PATH(Object Path){return $.S_PATH_MR(Path);}
+Object URI_PATH(String sPath){return $.URI_PATH_MR(sPath);}
+Object PATH(Object Path){return $.PATH_MR(Path);}
+
+//　⭐　ＤＲＡＷＩＮＧ　ＦＵＮＣＴＩＯＮ　⭐
+/*
+//void spacing(double dSize){fosp(dSize);}
+//void tesp(double dSize){fosp(dSize);}
+//void lesp(double dSize){fosp(dSize);}
+//void textSpacing(double dSize){fosp(dSize);}
+//void tesc(double dSize){fosc(dSize);}
+//void textScaleX(double dSize){fosc(dSize);}
+//void tesk(double dDeg){fosk(dDeg);}
+//void testSkewX(double dDeg){fosk(dDeg);}
+//void foul(int k){unli(k);}
+//void teul(int k){unli(k);}
+*/
+int Wpx=1,Hpx=1;
+
+Object bmp=Bitmap(Wpx,Hpx);
+Object path=$.Path_MR();
+
+Object LDraw=$.ArrayList(4); // AODrawDat for Bitmap
+Object LCombo=$.ArrayList(4); // combo array dat for ts
+Object C=$.ArrayList(2); // combo array dat for ls,recs
+
+Object toArray(Object ListObj){int l=ListObj.size(); Object[] AOut=new Object[l]; for (int i=0;i<l;i++){AOut[i]=ListObj.get(i);}return AOut;}
+Object toArrayD(Object ListD){int l=ListD.size(); double[] AOut=new double[l];for (int i=0;i<l;i++){AOut[i]=ListD.get(i);}return AOut;}
+Object toArrayF(Object ListD){int l=ListD.size(); float[] AOut=new float[l];for (int i=0;i<l;i++){AOut[i]=ListD.get(i);}return AOut;}
+
+void newPage(int L_px){Wpx=L_px;Hpx=L_px;bmp=Bitmap(Wpx,Hpx);}
+void newPage(int W_px,int H_px){Wpx=W_px;Hpx=H_px;bmp=Bitmap(Wpx,Hpx);}
+
+void bg(int iColo){LDraw.add("MODE");LDraw.add(9);LDraw.add("FICO");LDraw.add(iColo);LDraw.add("R");LDraw.add(new double[]{0,0,Wpx,Hpx});LDraw.add("MODE");LDraw.add(4);}
+void pageColor(int iColo){bg(iColo);}
+void backgroundColor(int iColo){bg(iColo);}
+void bacolo(int iColo){bg(iColo);}
+
+//void resetDraw(){LDraw=ArrayList(4);}
+void newDraw(){LDraw=$.ArrayList(4);}
+void applyDraw(){bmp=Bitmap(bmp,toArray(LDraw));LDraw=$.ArrayList(4);}// launch all draw command store in LDraw
+void paint(){$.ePic(PicView,new Object[]{"src",bmp});}// paint bitmap data to display
+void PAINT(){$.delayF(new Runnable(){void run(){applyDraw();loadPicView(bmp);}},40);}// draw and paint with reset zoom
+void draw(String cmd){LDraw.add(cmd);LDraw.add("");}// add command 1 key to LDraw
+void draw(String cmd, Object DrawDat){LDraw.add(cmd);LDraw.add(DrawDat);} // add command with data to LDraw
+void draw(){bmp=Bitmap(bmp,toArray(LDraw));LDraw=$.ArrayList(4);}// launch all draw command store in LDraw
+
+void tr(double dX, double dY){LDraw.add("TR");LDraw.add(new double[]{dX,dY});}
+void translate(double dX, double dY){sc(new double[]{dX,dY});}
+void sc(double rX, double rY){LDraw.add("SC");LDraw.add(new double[]{rX,rY});}
+void sc(double rX, double rY, double pX, double pY){LDraw.add("SC"); LDraw.add(new double[]{rX,rY, pX,pY});}
+void scale(double rX, double rY){sc(new double[]{rX,rY});}
+void scale(double rX, double rY, double pX, double pY){sc(new double[]{rX,rY,pX,pY});}
+void sk(double rX, double rY){LDraw.add("SK");LDraw.add(new double[]{rX,rY});}
+void skew(double rX, double rY){sc(new double[]{rX,rY});}
+void rt(double rDeg){LDraw.add("RT");LDraw.add(rDeg);}
+void rt(double rDeg, double pX, double pY){LDraw.add("RT");LDraw.add(new double[]{rDeg,pX,pY});}
+void rota(double rDeg){rt(rDeg);}
+void rota(double rDeg, double pX, double pY){rt(rDeg,pX,pY);}
+void rotate(double rDeg){rt(rDeg);}
+void rotate(double rDeg, double pX, double pY){rt(rDeg,pX,pY);}
+void save(){LDraw.add("SAVE");LDraw.add(0);}
+void restore(){LDraw.add("RESTORE");LDraw.add(0);}
+
+void fico(int iColo){LDraw.add("FICO");LDraw.add(iColo);}
+void stco(int iColo){LDraw.add("STCO");LDraw.add(iColo);}
+void lico(int iColo){LDraw.add("STCO");LDraw.add(iColo);}
+void stwi(double dW){LDraw.add("STWI");LDraw.add(dW);}
+void strokeWidth(double dW){stwi(dW);}
+void cap(int k){LDraw.add("CAP");LDraw.add(k);}
+void stjo(int k){LDraw.add("STJO");LDraw.add(k);}
+void strokeJoin(int k){stjo(k);}
+
+void fo(String sName){LDraw.add("FO");LDraw.add(sName);}
+void font(String sName){LDraw.add("FO");LDraw.add(sName);}
+void fosi(double dSize){LDraw.add("FOSI");LDraw.add(dSize);}
+void fontSize(double dSize){LDraw.add("FOSI");LDraw.add(dSize);}
+void foal(int k){LDraw.add("FOAL");LDraw.add(k);}
+void fontAlign(int k){foal(k);}
+void teal(int k){foal(k);}
+void textAlign(int k){foal(k);}
+void fosp(double dSize){LDraw.add("FOSP");LDraw.add(dSize);}
+void fontSpacing(double dSize){fosp(dSize);}
+void fosc(double dSize){LDraw.add("FOSC");LDraw.add(dSize);}
+void fontScaleX(double dSize){fosc(dSize);}
+void fosk(double dDeg){LDraw.add("FOSK");LDraw.add(dSize);}
+void fontSkewX(double dDeg){fosk(dDeg);}
+void unli(int k){LDraw.add("UNLI");LDraw.add(k);}
+void underline(int k){unli(k);}
+void mili(int k){LDraw.add("MILI");LDraw.add(k);}
+void middleLine(int k){mili(k);}
+void fb(int k){LDraw.add("FB");LDraw.add(k);}
+void fakeBold(int k){fb(k);}
+void bl(int iW_px, int kType){ LDraw.add("BLUR");LDraw.add(new int[]{iW_px,kType}); }
+void blur(int iW_px, int kType){ LDraw.add("BLUR");LDraw.add(new int[]{iW_px,kType}); }
+void gacolo(int x1, int y1, int x2, int y2, int[] AColor, float[] APosi, int kTileMode){ LDraw.add("GACOLO");LDraw.add(new Object[]{x1,y1,x2,y2, AColor, APosi,kTileMode}); }
+void garadientColor(int x1, int y1, int x2, int y2, int[] AColor, float[] APosi, int kTileMode){ gacolo(x1,y1,x2,y2, AColor, APosi,kTileMode); }
+
+void line(double x1, double y1, double x2, double y2){LDraw.add("L");LDraw.add(new double[]{x1,y1,x2,y2});}
+void l(double x1, double y1, double x2, double y2){LDraw.add("L");LDraw.add(new double[]{x1,y1,x2,y2});}
+void rect(double x1, double y1, double x2, double y2){LDraw.add("R");LDraw.add(new double[]{x1,y1,x2,y2});}
+void r(double x1, double y1, double x2, double y2){LDraw.add("R");LDraw.add(new double[]{x1,y1,x2,y2});}
+void circle(double x, double y, double r){LDraw.add("C");LDraw.add(new double[]{x,y,r});}
+void c(double x, double y, double r){LDraw.add("C");LDraw.add(new double[]{x,y,r});}
+void oval(double x1, double y1, double x2, double y2){LDraw.add("O");LDraw.add(new double[]{x1,y1,x2,y2});}
+void elip(double x1, double y1, double x2, double y2){LDraw.add("O");LDraw.add(new double[]{x1,y1,x2,y2});}
+void a(double x1, double y1, double x2, double y2, double phiStart, double phiSweep, double kDrawCenter){LDraw.add("A");LDraw.add(new double[]{x1,y1,x2,y2,phiStart,phiSweep,kDrawCenter});}
+void arc(double x1, double y1, double x2, double y2, double phiStart, double phiSweep, double kDrawCenter){LDraw.add("A");LDraw.add(new double[]{x1,y1,x2,y2,phiStart,phiSweep,kDrawCenter});}
+void text(String s, double x, double y){LDraw.add("T");LDraw.add(new Object[]{s,x,y});}
+void t(String s, double x, double y){LDraw.add("T");LDraw.add(new Object[]{s,x,y});}
+void zigzag(double[] ADXY){LDraw.add("Z");LDraw.add(ADXY);}
+void mode(Object oIn){LDraw.add("MODE");LDraw.add(oIn);}
+void logic(Object oIn){LDraw.add("LOGIC");LDraw.add(oIn);}
+void drawPath(){LDraw.add("PATH");LDraw.add(path);}
+void drawPath(Object p){LDraw.add("PATH");LDraw.add(p);}
+
+void bitmap(int idRes, int x, int y, int w, int h){LDraw.add("BMP");LDraw.add(new int[]{idRes,x,y,w,h});}
+void bitmap(Object mapOrView, int x, int y, int w, int h){LDraw.add("BMP");LDraw.add(new Object[]{mapOrView,x,y,w,h});}
+void bitmap(int idRes,  int X1cut, int Y1cut, int X2cut, int Y2cut,   int X1paste, int Y1paste, int X2paste, int Y2paste){LDraw.add("BMP");LDraw.add(new int[]{idRes,  X1cut,Y1cut,X2cut,Y2cut,  X1paste,Y1paste,X2paste,Y2paste});}
+void bitmap(Object mapOrView,  int X1cut, int Y1cut, int X2cut, int Y2cut,   int X1paste, int Y1paste, int X2paste, int Y2paste){LDraw.add("BMP");LDraw.add(new Object[]{mapOrView,  X1cut,Y1cut,X2cut,Y2cut,  X1paste,Y1paste,X2paste,Y2paste});}
+void bitmap(int x, int y, int w, int h, Object AIColor){LDraw.add("BMP");LDraw.add(new Object[]{x,y,w,h,AIColor});}
+
+
+
+void newCombo(){LCombo=$.ArrayList(4);}
+void drawCombo(String sCmd){LDraw.add(sCmd);LDraw.add(toArray(LCombo));}
+void newC(){C=$.ArrayList(2);}
+void drawC(String sCmd){LDraw.add(sCmd);LDraw.add(toArrayF(C));}
+
+void newPath(){path=$.Path_MR();} // reset path
+Object newPath(Object p){p=$.Path_MR();return p;} // reset path
+Object setPath(String sCmd, Object eDat){Path(path,new Object[]{sCmd,eDat}); return path;}
+Object setPath(Object p, String sCmd, Object eDat){Path(p,new Object[]{sCmd,eDat}); return p;}
+Object setPathC(String sCmd){Path(path,new Object[]{sCmd,toArrayF(C)}); return path;}
+Object setPathC(Object p, String sCmd){Path(p,new Object[]{sCmd,toArrayF(C)}); return p;}
+
+
+
+
+
+$.updateFPS(2,FPS); int intW=(int)W,intH=(int)H,zintW=intW,zintH=intH;
+//String toString(double[] ad){String s=""+ad.length+": ";for (double a:ad){s+=" "+round(a);}return s;}
+WD.dim(); Cmd.add("NoReset"); $.RatRun(Touch,$.ERUN);
+WD.traceLimit(5);//WD.traceTime(30000);
+
+//Object browseRoot=FILE_ADMIN()?HYPER_ROOT():ROOT();
+//Object PathPlay=browseRoot,crPath=PathPlay;
+
+
+
+//　⭐　ＢＡＳＩＣ　ＴＨＥＭＥ　ＡＮＤ　ＳＩＺＥ　ＶＡＲＩＡＢＬＥ　⭐
+
+double[] AHslHx=$.ahsl(S.get(0));
+int hueGA=AHslHx[0],satGA=AHslHx[1],lumGA=AHslHx[2],lumDarkGA=B.get(0)?100:0,inlumDarkGA=100-lumDarkGA;
+int lumView=14,lumView_l=B.get(0)?0:79;
+int coloP=hsla(0,0,0,0.2);
+int coloBTV=hsla(0,0,0,0.5);
+int colo1=hsl(0,0,lumDarkGA);
+double aBgMo=0.8;
+int[] coloMonitor=new int[]{3,hsla(hueGA,satGA,lumGA*0.25+inlumDarkGA*0.75,aBgMo),hsla(hueGA,satGA,lumGA*0.3+inlumDarkGA*0.7,aBgMo),hsla(hueGA,satGA,lumGA*0.45+inlumDarkGA*0.55,aBgMo)};
+int[] coloView=new int[]{B.get(0)?3:7,hsla(0,0,lumView+lumView_l,1),hsla(0,0,lumView*0.225+lumView_l,1),hsla(0,0,lumView*0.1+lumView_l,1)};
+
+int[] graTab0=new int[]{hsla(hueGA,satGA,lumGA,0.4),hsla(hueGA,satGA,lumGA,0.1375),hsla(hueGA,lumGA,50,0.05)};
+int[] graTab1=new int[]{hsla(hueGA,satGA,50,0.7),hsla(hueGA,satGA,50,0.4),hsla(hueGA,satGA,50,0.3)};
+
+int mmL=mm(0.5),mmR=mm(1);//0.2
+int xxWH=$.Min(3200,(int)$.Max($.screenW_px,$.screenH_px)*3);
+double W4=minWH/13.0, W4n=minWH/14.0, Hfs=W4/2.1;
+int ihW4n=(int)(W4n/2), iW3=(int)(W4*3.0/4), iW5=(int)(W4*5/4), iW6=(int)(W4*1.5), iW8=(int)(W4*2), iW12=(int)(W4*3), iW16=(int)(W4*4), iW20=(int)(W4*5);
+int fs=(int)(Hfs),fs2=fs*2,fs3=fs*3,hfs3=fs3/2;
+Object[] FS(int iFosi){return new Object[]{$.UNIT_MM, (iFosi/$.PXpMM/2.1)*17*$.rFosi_WT};}
+
+int[] LAPA_M=new int[]{$.FR.M,$.FR.M,$.GRA.LT};
+
+
+
+//　⭐　ＳＴＡＴＩＣ　ＬＡＹＯＵＴ　⭐
+
+int nCode=0,idCode=0; String zS="";
+zS=$.loadStringData("nCodeDraw");
+if (zS.length()>0){nCode=$.intS(zS);}else{
+	$.saveData(new Object[]{"nCodeDraw",""+nCode});
+}
+int recentTab=0;
+zS=""; zS=$.loadStringData("rcTabCodeDraw");
+if (zS.length()>0){recentTab=$.intS(zS);}
+recentTab=$.Max(0,$.Min(recentTab,nCode-1));
+$.saveData(new Object[]{"rcTabCodeDraw",""+recentTab});
+String sCode="";
+
+String sCycleAp1=""+$.S10
++$.S10+"//　⚡　ＣＹＣＬＥ　ＲＥＮＤＥＲ　ＺＯＮＥ　⚡　ＣＹＣＬＥ　ＲＥＮＤＥＲ　ＺＯＮＥ　⚡　ＣＹＣＬＥ　ＲＥＮＤＥＲ　ＺＯＮＥ　⚡　ＣＹＣＬＥ　ＲＥＮＤＥＲ　ＺＯＮＥ　⚡　ＣＹＣＬＥ　ＲＥＮＤＥＲ　ＺＯＮＥ　⚡"
++$.S10+"//　⚡　ＣＹＣＬＥ　ＲＥＮＤＥＲ　ＺＯＮＥ　⚡　ＣＹＣＬＥ　ＲＥＮＤＥＲ　ＺＯＮＥ　⚡　ＣＹＣＬＥ　ＲＥＮＤＥＲ　ＺＯＮＥ　⚡　ＣＹＣＬＥ　ＲＥＮＤＥＲ　ＺＯＮＥ　⚡　ＣＹＣＬＥ　ＲＥＮＤＥＲ　ＺＯＮＥ　⚡"
++$.S10+"//　⚡　ＣＹＣＬＥ　ＲＥＮＤＥＲ　ＺＯＮＥ　⚡　ＣＹＣＬＥ　ＲＥＮＤＥＲ　ＺＯＮＥ　⚡　ＣＹＣＬＥ　ＲＥＮＤＥＲ　ＺＯＮＥ　⚡　ＣＹＣＬＥ　ＲＥＮＤＥＲ　ＺＯＮＥ　⚡　ＣＹＣＬＥ　ＲＥＮＤＥＲ　ＺＯＮＥ　⚡"
++$.S10
++$.S10+"int iStart=",sCycleAp2=", iStop=",sCycleAp3=",  i;       // ◀ SET YOUR PARAMETERS"
++$.S10+"int bufferSize=1, maxBufferSize=",sCycleAp4="; // ◀ SET YOUR PARAMETERS"
++$.S10+"double accelerateBuffer=0.1;       // ◀ SET YOUR PARAMETERS"
++$.S10+"int peak_ms=",sCycleAp5=", load_ms=0.5 *(Wpx+Hpx);// ◀ SET YOUR PARAMETERS"
++$.S10+"double accelerateClock=0.4;        // ◀ SET YOUR PARAMETERS"
++$.S10
++$.S10+"/"+"* ▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼　ＤＯ　ＮＯＴ　ＥＤＩＴ　ＴＨＩＳ　ＬＩＮＥ　▼▼▼▼▼▼▼▼▼▼ *"+"/ double buff=bufferSize,maxBuff=maxBufferSize+0.4,aBuf=accelerateBuffer,iaBuf=1-aBuf,aCyc=accelerateClock,iaCyc=1-aCyc; i=iStart-1;  long TimeStart=getTimeMS(); TeStatus.setText("+$.tx("Progress:")+"+round((i+1-iStart)*10000.0/(iStop-iStart))/100+"+$.tx("%  Time:")+"+(int)((int)(getTimeMS()-TimeStart)/100.0)/10.0+"+$.tx("s  Buffer:")+"+(int)buff+"+$.tx("/")+"+(int)maxBuff+"+$.tx("  Cycle:")+"+load_ms+"+$.tx("ms ")+"+ (int)round(1000.0/load_ms)+"+$.tx("fps/")+"+(int)round(1000.0/peak_ms)+"+$.tx("fps")+"); iStop+=1; zRunCycle.stop(); zRunCycle=RunCycle(new Runnable(){public void run(){for (int zi=0;zi<buff;zi++){i+=1;if (i<iStop){"
++$.S10+"/"+"/ ▼▼▼▼▼▼▼▼▼▼ YOUR REPEATED CODE ▼▼▼▼▼▼▼▼▼▼"
++$.S10+$.S10,sCycleA=sCycleAp1+"0"+sCycleAp2+"100"+sCycleAp3+"2"+sCycleAp4+"10"+sCycleAp5,sCycleB=""+$.S10
++$.S10+"/"+"/ ▲▲▲▲▲▲▲▲▲▲ YOUR REPEATED CODE ▲▲▲▲▲▲▲▲▲▲"
++$.S10+"/"+"* ▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲　ＤＯ　ＮＯＴ　ＥＤＩＴ　ＴＨＩＳ　ＬＩＮＥ　▲▲▲▲▲▲▲▲▲▲ *"+"/ zRunCycle.i= (int)(zRunCycle.i*iaCyc+peak_ms*aCyc);buff=buff*iaBuf+maxBuff*aBuf; TeStatus.setText("+$.tx("Progress:")+"+round((i+1-iStart)*10000.0/(iStop-iStart))/100+"+$.tx("%  Time:")+"+(int)((int)(getTimeMS()-TimeStart)/100.0)/10.0+"+$.tx("s  Buffer:")+"+(int)buff+"+$.tx("/")+"+(int)maxBuff+"+$.tx("  Cycle:")+"+zRunCycle.i+"+$.tx("ms ")+"+ (int)round(1000.0/zRunCycle.i)+"+$.tx("fps/")+"+(int)round(1000.0/peak_ms)+"+$.tx("fps")+"); }else{zRunCycle.stop();displayStopped();break;}}}},load_ms); WD.reg_release(zRunCycle); zRunCycle.runSafe();"
++$.S10+$.S10+$.S10+$.S10+$.S10+$.S10+$.S10+$.S10+$.S10+$.S10+$.S10+$.S10+$.S10+$.S10+$.S10+$.S10+$.S10+$.S10+$.S10+$.S10;
+void newCode(){
+	saveAllTab();
+	nCode+=1;
+	String zSCode="newPage(500,500);// ◀ W × H px"
+		+$.S10
+		+$.S10+"PAINT();"+$.S10
+		+$.S10+"⚡⚡ ▼ ＣＹＣＬＥ　ＲＥＮＤＥＲ ▼ ⚡⚡  1  100  2  20  ⚡⚡  START  END  BUFFER  INTERVAL_MS"+$.S10+$.S10+$.S9+"logic("+$.tx("Add")+");"
+		+$.S10+$.S9+"fico(CL.rand());"
+		+$.S10
+		+$.S10+$.S9+"line(ran(Wpx),ran(Hpx),ran(Wpx),ran(Hpx));"
+		+$.S10
+		+$.S10+$.S9+"applyDraw(); paint();";
+//		+sCycleB;
+
+	$.saveData(new Object[]{"nCodeDraw",""+nCode, "nameCodeDraw"+nCode,"Art "+nCode, "sCodeDraw"+nCode,zSCode});
+//	Object zTB = aTeBox(ScVTextBox,new Object[]{"lapa",new int[]{FR.W,FR.W,GRA.LT},"Gravity",GRA.LT,"te",zSCode,"fofa","mono","fosi",fs*3/4,"tecolo",hsla(0,0,lumDarkGA,0.9),"sele",1,"muli",1,"padi",new int[]{0,iW5*2,0,0}});
+//		WD.reg_remove(zTB);
+
+	recentTab=nCode-1;
+	loadTab();
+
+}
+
+void extractSCode(){//⚡⚡　ＣＹＣＬＥ　ＲＥＮＤＥＲ　⚡⚡  1  100  2  20
+	int iFCR=sCode.indexOf("⚡⚡"), lsCode=sCode.length();
+	String[] ASOut=new String[0];
+	if (iFCR>-1 && iFCR+35<lsCode){
+		String sEx0=sCode.substring(0,iFCR),sEx1="",sEx2=""; char zChar;
+		for (int i=iFCR+18;i<lsCode;i++){zChar=sCode.charAt(i);
+			if (zChar!=$.C10){sEx1+=zChar;}else{iFCR=i;break;}
+		}
+		sEx2=sCode.substring(iFCR,lsCode);
+		ASOut=sEx1.split("  ");
+		if (ASOut.length>4){
+			sCode=sEx0+sCycleAp1+ASOut[1]+sCycleAp2+ASOut[2]+sCycleAp3+ASOut[3]+sCycleAp4+ASOut[4]+sCycleAp5+  sEx2 +sCycleB;
+		}
+	}
+}
+
+
+Object bgView=$.aFrLay(Touch,$.o("lapa",new int[]{$.FR.M,$.FR.M,$.GRA.LT},"bacolo", coloView,"dipl",-1 ));
+	Object PicView=$.aPic(bgView,new Object[]{"lapa",new int[]{$.FR.M,$.FR.M,$.GRA.C } });
+	Object bgCtrl=$.aFrLay(bgView,$.o("lapa",new int[]{$.FR.M,$.FR.M,$.GRA.LT}));
+		Object FrBgDimL=$.aFrLay(bgCtrl,new Object[]{"lapa",new int[]{iW8,$.FR.M,$.GRA.LT},"bacolo",coloP  });
+		Object FrBgDimR=$.aFrLay(bgCtrl,new Object[]{"lapa",new int[]{iW8,$.FR.M,$.GRA.RT},"bacolo",coloP  });
+		Object FrClosePic=$.aFrLay(bgCtrl,new Object[]{"lapa",new int[]{iW8,iW8,$.GRA.LT}  });
+			Object PicClosePic=$.aPic(FrClosePic,new Object[]{"lapa",new int[]{$.FR.M,$.FR.M,$.GRA.C },"sc",0.7,"src",raw.cross_m });
+		Object FrInfoPic=$.aFrLay(bgCtrl,new Object[]{"lapa",new int[]{iW8,iW8,$.GRA.RB}  });
+			Object PicInfoPic=$.aPic(FrInfoPic,new Object[]{"lapa",new int[]{$.FR.M,$.FR.M,$.GRA.C },"sc",1,"src",raw.info });
+		Object FrSaveJPG=$.aFrLay(bgCtrl,new Object[]{"lapa",new int[]{iW8,iW8,$.GRA.RB},"magi",new int[]{0,0,0,iW8}  });
+			Object PicSaveJPG=$.aPic(FrSaveJPG,new Object[]{"lapa",new int[]{$.FR.M,$.FR.M,$.GRA.C },"sc",0.7,"src",raw.camera_jpg });
+		Object FrSave=$.aFrLay(bgCtrl,new Object[]{"lapa",new int[]{iW8,iW8,$.GRA.RB},"magi",new int[]{0,0,0,iW8*2}  });
+			Object PicSave=$.aPic(FrSave,new Object[]{"lapa",new int[]{$.FR.M,$.FR.M,$.GRA.C },"sc",0.7,"src",raw.camera_png });
+		Object FrResetPage=$.aFrLay(bgCtrl,new Object[]{"lapa",new int[]{iW8,iW8,$.GRA.RB},"magi",new int[]{0,0,0,iW8*3.5}  });
+			Object PicResetPage=$.aPic(FrResetPage,new Object[]{"lapa",new int[]{$.FR.M,$.FR.M,$.GRA.C },"sc",0.7,"src",raw.reset });
+
+
+		Object FrCodeBT=$.aFrLay(bgCtrl,new Object[]{"lapa",new int[]{iW8,iW8,$.GRA.LB}  });
+			Object PicCodeBT=$.aPic(FrCodeBT,new Object[]{"lapa",new int[]{$.FR.M,$.FR.M,$.GRA.C },"sc",0.7,"src",raw.keyboard });
+		Object FrRun=$.aFrLay(bgCtrl,new Object[]{"lapa",new int[]{iW8,iW8,$.GRA.LB},"magi",new int[]{0,0,0,iW8}  });
+			Object PicRun=$.aPic(FrRun,new Object[]{"lapa",new int[]{$.FR.M,$.FR.M,$.GRA.C },"sc",0.7,"src",raw.play });
+		Object FrPause=$.aFrLay(bgCtrl,new Object[]{"lapa",new int[]{iW8,iW8,$.GRA.LB},"magi",new int[]{0,0,0,iW8},"dipl",-1  });
+			Object PicPause=$.aPic(FrPause,new Object[]{"lapa",new int[]{$.FR.M,$.FR.M,$.GRA.C },"sc",0.7,"src",raw.pause });
+		Object FrStop=$.aFrLay(bgCtrl,new Object[]{"lapa",new int[]{iW8,iW8,$.GRA.LB},"magi",new int[]{0,0,0,iW8*2}  });
+			Object PicStop=$.aPic(FrStop,new Object[]{"lapa",new int[]{$.FR.M,$.FR.M,$.GRA.C },"sc",0.7,"src",raw.stop });
+
+
+	Object bgEditor=$.aFrLay(bgView,new Object[]{"lapa",new int[]{$.FR.M,$.FR.M,$.GRA.LT},"bacolo",coloMonitor,"padi",new int[]{mmL,mmL,mmL,mmL},"dipl",-1});
+		Object ScTextBox = $.aScrH2(bgEditor,new Object[]{"lapa",new int[]{$.FR.M,$.FR.M,$.GRA.LT} });
+			Object ScVTextBox = $.aScrV2(ScTextBox,new Object[]{"lapa",new int[]{$.FR.W,$.FR.W,$.GRA.LT} });
+			//ScScreen1.setHorizontalScrollBarEnabled(false);
+				Object FrLTextBox=$.aFrLay(ScVTextBox,new Object[]{"lapa",new int[]{$.FR.W,$.FR.W,$.GRA.LT}});
+		Object FrBgCtrlEdit=$.aFrLay(bgEditor,new Object[]{"lapa",new int[]{$.FR.M,iW6,$.GRA.LT},"bacolo",coloMonitor });
+		Object FrCloseTB=$.aFrLay(bgEditor,new Object[]{"lapa",new int[]{iW6,iW6,$.GRA.LT}  });
+				Object PicCloseTB=$.aPic(FrCloseTB,new Object[]{"lapa",new int[]{$.FR.M,$.FR.M,$.GRA.C },"sc",0.7,"src",raw.cross_m });
+		Object FrNewCode=$.aFrLay(bgEditor,new Object[]{"lapa",new int[]{iW6,iW6,$.GRA.LT},"magi",new int[]{iW6,0,0,0}  });
+			Object PicNewCode=$.aPic(FrNewCode,new Object[]{"lapa",new int[]{$.FR.M,$.FR.M,$.GRA.C },"sc",0.7,"src",raw.new_icon });
+		Object FrSaveCode=$.aFrLay(bgEditor,new Object[]{"lapa",new int[]{iW6,iW6,$.GRA.LT},"magi",new int[]{iW6*2,0,0,0}  });
+			Object PicSaveCode=$.aPic(FrSaveCode,new Object[]{"lapa",new int[]{$.FR.M,$.FR.M,$.GRA.C },"sc",0.6,"src",raw.save_as });
+		Object FrRunCode=$.aFrLay(bgEditor,new Object[]{"lapa",new int[]{iW6,iW6,$.GRA.LT},"magi",new int[]{iW6*3,0,0,0}  });
+			Object PicRunCode=$.aPic(FrRunCode,new Object[]{"lapa",new int[]{$.FR.M,$.FR.M,$.GRA.C },"sc",0.7,"src",raw.play });
+		Object FrPauseCode=$.aFrLay(bgEditor,new Object[]{"lapa",new int[]{iW6,iW6,$.GRA.LT},"magi",new int[]{iW6*3,0,0,0},"dipl",-1  });
+			Object PicPauseCode=$.aPic(FrPauseCode,new Object[]{"lapa",new int[]{$.FR.M,$.FR.M,$.GRA.C },"sc",0.7,"src",raw.pause });
+		Object FrStopCode=$.aFrLay(bgEditor,new Object[]{"lapa",new int[]{iW6,iW6,$.GRA.LT},"magi",new int[]{iW6*4,0,0,0}  });
+			Object PicStopCode=$.aPic(FrStopCode,new Object[]{"lapa",new int[]{$.FR.M,$.FR.M,$.GRA.C },"sc",0.7,"src",raw.stop });
+		Object FrRenameCode=$.aFrLay(bgEditor,new Object[]{"lapa",new int[]{iW6,iW6,$.GRA.LT},"magi",new int[]{iW6*5,0,0,0}  });
+			Object PicRenameCode=$.aPic(FrRenameCode,new Object[]{"lapa",new int[]{$.FR.M,$.FR.M,$.GRA.C },"sc",0.7,"src",raw.cursor_select });
+		Object FrHelpCode=$.aFrLay(bgEditor,new Object[]{"lapa",new int[]{iW6,iW6,$.GRA.LT},"magi",new int[]{iW6*6,0,0,0}  });
+			Object PicHelpCode=$.aPic(FrHelpCode,new Object[]{"lapa",new int[]{$.FR.M,$.FR.M,$.GRA.C },"sc",1,"src",raw.learn });
+		Object FrVIPCode=$.aFrLay(bgEditor,new Object[]{"lapa",new int[]{iW6,iW6,$.GRA.LT},"magi",new int[]{iW6*7.25,0,0,0}  });
+			Object PicVIPCode=$.aPic(FrVIPCode,new Object[]{"lapa",new int[]{$.FR.M,$.FR.M,$.GRA.C },"sc",0.65,"src",raw.x3d_icon,"r",-45,"ty",-ihW4n/3 });
+
+		Object ScTab = $.aScrH2(bgEditor,new Object[]{"lapa",new int[]{$.FR.M,iW3,$.GRA.LT},"magi",new int[]{0,iW6,0,0},"bacolo",coloMonitor });
+			ScTab.setHorizontalScrollBarEnabled(false);
+			Object FrLTab=$.aFrLay(ScTab,new Object[]{"lapa",new int[]{$.FR.W,$.FR.M,$.GRA.LT}});
+
+	Object TeStatus=$.aText(bgView,new Object[]{"te","","tecolo",colo1,"font","mono","fosi",FS(fs/2),"lapa",new int[]{$.FR.W,$.FR.W,$.GRA.CT},"scr",2 });	
+
+$.RatRun(FrClosePic,new Runnable(){void run(){WD.hide();}});
+String sDetail="";
+$.RatRun(FrInfoPic,new Runnable(){void run(){showViewCtrl();$.blinkFr(FrInfoPic,0);
+	sDetail="Image size : "+Wpx+" x "+Hpx+" px   "+(Wpx*(long)Hpx)+" px";
+	$.SFH_Confirm().size(0.7).Title("Details",sDetail).ExtraHeight((int)(H*0.25)).setTheme(hueGA,satGA,lumGA,lumDarkGA).FullScroll(true).ButtonName("OK","").Noti().create(Touch);
+}});
+
+void displayStopped(){$.show(FrRun);$.hide(FrPause); $.show(FrRunCode);$.hide(FrPauseCode);loadPicView(bmp);}
+void launchCode(){$.delayF(new Runnable(){void run(){gear.eval(sCode);}},20);}
+$.RatRun(FrSave,new Runnable(){void run(){showViewCtrl();$.blinkFr(FrSave,0); WD.sig("Exporting PNG..."); $.delayF(new Runnable(){void run(){WD.sig($.SAVE_PNG(fileName+" "+$.getHourStamp()+".png",bmp)?"Exported":("Export Failed"+$.S10+"Please Recheck Permission"));}},20); }});
+$.RatRun(FrSaveJPG,new Runnable(){void run(){showViewCtrl();$.blinkFr(FrSaveJPG,0); WD.sig("Exporting JPG..."); $.delayF(new Runnable(){void run(){WD.sig($.SAVE_JPG(fileName+" "+$.getHourStamp()+".jpg",bmp,100)?"Exported":("Export Failed"+$.S10+"Please Recheck Permission"));}},20); }});
+$.RatRun(FrResetPage,new Runnable(){void run(){newPage(1,1);paint(); }});
+$.RatRun(FrRun,new Runnable(){void run(){showViewCtrl();$.blinkFr(FrRun,0);$.blinkFr(FrPause,0); $.hide(FrRun);$.show(FrPause); $.hide(FrRunCode);$.show(FrPauseCode);  if (zRunCycle.kPaused==0||zRunCycle.kRemoved==1){launchCode();}else{zRunCycle.resume();} }});
+$.RatRun(FrPause,new Runnable(){void run(){showViewCtrl();$.blinkFr(FrRun,0);$.blinkFr(FrPause,0); $.show(FrRun);$.hide(FrPause); $.show(FrRunCode);$.hide(FrPauseCode);  zRunCycle.pause();loadPicView(bmp);}});
+$.RatRun(FrStop,new Runnable(){void run(){showViewCtrl();$.blinkFr(FrStop,0); zRunCycle.stop();displayStopped();}});
+$.RatRun(FrCodeBT,new Runnable(){void run(){openCodeBT();}});
+void openCodeBT(){showViewCtrl();$.blinkFr(FrCodeBT,0); $.show(bgEditor); 	scrScTab(); tb.EdTe.requestFocus();tb.showKeyboard();}
+
+$.RatRun(FrCloseTB,new Runnable(){void run(){saveAllTab(); sCode=tb.getText();extractSCode(); $.saveData(new Object[]{"sCodeDraw",sCode});$.hide(bgEditor);showViewCtrl();}});
+$.RatRun(FrNewCode,new Runnable(){void run(){$.blinkFr(FrNewCode,0);saveAllTab(); newCode(); sCode=tb.getText(); }});
+Object bx=$.SFH_Confirm(); String fileName="";
+$.RatRun(FrSaveCode,new Runnable(){void run(){$.blinkFr(FrSaveCode,0);saveAllTab();
+	bx=$.SFH_Confirm().Input("",fileName).Title("Save As","File name :").ButtonName("Save","Cancel").size(0.7).setTheme(hueGA,satGA,lumGA,lumDarkGA).create(Touch).run(new Runnable(){public void run(){
+		fileName=bx.sOut;
+		WD.sig("Saving...");
+		$.delayF(new Runnable(){void run(){$.SAVE(fileName+".txt",tb.getText());WD.sig("Done");}},20);
+	}},$.ERUN);
+	bx.TeIn.Keyboard.setTheme(hueGA,satGA,lumGA,lumDarkGA==100?1:0);
+}});
+$.RatRun(FrRunCode,new Runnable(){void run(){$.blinkFr(FrRunCode,0); $.blinkFr(FrPauseCode,0); saveAllTab(); sCode=tb.getText(); extractSCode(); $.saveData(new Object[]{"sCodeDraw",sCode});$.hide(FrRun);$.show(FrPause); $.hide(FrRunCode);$.show(FrPauseCode);   if (zRunCycle.kPaused==0||zRunCycle.kRemoved==1){launchCode();}else{zRunCycle.resume();} }});
+$.RatRun(FrRenameCode,new Runnable(){void run(){$.blinkFr(FrRenameCode,0);
+	bx=$.SFH_Confirm().Input("",fileName).Title("Rename","Title :").ButtonName("Done","Cancel").size(0.7).setTheme(hueGA,satGA,lumGA,lumDarkGA).create(Touch).run(new Runnable(){public void run(){
+		fileName=bx.sOut;
+		ATitle[recentTab].setText(fileName);
+		$.saveData(new Object[]{"nameCodeDraw"+recentTab, fileName});
+	}},$.ERUN);
+	bx.TeIn.Keyboard.setTheme(hueGA,satGA,lumGA,lumDarkGA==100?1:0);
+}});
+$.RatRun(FrPauseCode,new Runnable(){void run(){$.blinkFr(FrRunCode,0); $.blinkFr(FrPauseCode,0); $.show(FrRun); $.hide(FrPause); $.show(FrRunCode); $.hide(FrPauseCode);  zRunCycle.pause();loadPicView(bmp);}});
+$.RatRun(FrStopCode,new Runnable(){void run(){$.blinkFr(FrStopCode,0); zRunCycle.stop();displayStopped();}});
+
+Object zPN=$.SFH_Panel();
+void openHelpCode(){
+	$.blinkFr(FrHelpCode,0);
+	zPN=$.SFH_Panel().size(0.7).Title("Manual").ExtraHeight((int)(H*0.5)).setTheme(hueGA,satGA,lumGA,lumDarkGA).create(Touch);			
+			int nSec=ASLib.length/3;
+			Object ScV_Map, ScH_Map, FrScV_Map, zTeSec;
+			ScV_Map = $.aScrV2(zPN.FrBody,new Object[]{"lapa",new int[]{$.FR.M,$.FR.M,$.GRA.LT} });
+			ScH_Map = $.aScrH2(ScV_Map,new Object[]{"lapa",new int[]{$.FR.M,$.FR.M,$.GRA.LT} });
+			FrScV_Map = $.aFrLay(ScH_Map,new Object[]{"lapa",new int[]{$.FR.M,$.FR.W,$.GRA.LT} });
+			for (int i=0;i<nSec;i++){int csLib=i*3;
+				zTeSec=$.aText(FrScV_Map,new Object[]{"te",ASLib[csLib],"tecolo",colo1,"fosi",fs*0.8,"font","mono","lapa",new int[]{$.FR.W,$.FR.W,$.GRA.LT},"magi",new int[]{0,(int)(fs*1.8*i),0,0} });
+				$.RatRun(zTeSec,new Runnable(){void run(){ sCode=ASLib[csLib+1];
+					if (ASLib[csLib+2].length()>0){sCode+=sCycleA+ASLib[csLib+2]+sCycleB;}
+					tb.setText(sCode); zPN.remove();
+				}});
+			}
+}
+$.RatRun(FrHelpCode,new Runnable(){void run(){openHelpCode();}});
+
+void openVIPCode(){
+	$.blinkFr(FrVIPCode,0);
+	zPN=$.SFH_Panel().size(0.7).Title("Especially Thanks To").ExtraHeight((int)(H*0.5)).setTheme(hueGA,satGA,lumGA,lumDarkGA).create(Touch);			
+			int nSec=ASVip.length/3;
+			Object ScV_Map, ScH_Map, FrScV_Map, zTeSec;
+			ScV_Map = $.aScrV2(zPN.FrBody,new Object[]{"lapa",new int[]{$.FR.M,$.FR.M,$.GRA.LT} });
+			ScH_Map = $.aScrH2(ScV_Map,new Object[]{"lapa",new int[]{$.FR.M,$.FR.M,$.GRA.LT} });
+			FrScV_Map = $.aFrLay(ScH_Map,new Object[]{"lapa",new int[]{$.FR.M,$.FR.W,$.GRA.LT} });
+			for (int i=0;i<nSec;i++){int csLib=i*3;
+				zTeSec=$.aText(FrScV_Map,new Object[]{"te",ASVip[csLib],"tecolo",colo1,"fosi",fs*0.8,"font","mono","lapa",new int[]{$.FR.W,$.FR.W,$.GRA.LT},"magi",new int[]{0,(int)(fs*1.8*i),0,0} });
+				$.RatRun(zTeSec,new Runnable(){void run(){ sCode=ASVip[csLib+1];
+					if (ASVip[csLib+2].length()>0){sCode+=sCycleA+ASVip[csLib+2]+sCycleB;}
+					tb.setText(sCode); zPN.remove();
+				}});
+			}
+}
+$.RatRun(FrVIPCode,new Runnable(){void run(){openVIPCode();}});
+
+void scrScTab(){$.delayF(new Runnable(){void run(){ScTab.scrollTo(recentTab*iW20-(W-iW20)/2,0);}},20);}
+Object tb;
+Object[] AFrTab,ATitle,AFrClose, ATextBox=new Object[0];
+void loadTab(){
+	FrLTab.removeAllViews();
+	for (int i=0;i<ATextBox.length;i++){ATextBox[i].remove();}
+	FrLTextBox.removeAllViews();
+	Object zTab,zTitle,zFrClose,zPicClose, zTB;
+	int zId=0;
+	AFrTab=new Object[nCode];
+	ATitle=new Object[nCode];
+	AFrClose=new Object[nCode];
+	ATextBox=new Object[nCode];
+	for (int i=0;i<nCode;i++){zId=i+1; int j=i;
+		AFrTab[i]=$.aFrLay(FrLTab,new Object[]{"lapa",new int[]{iW20,$.FR.M,$.GRA.LT},"bacolo",CL.rand(),"magi",new int[]{iW20*i,0,0,0}});
+		$.addBackground(AFrTab[i],8, graTab0,1,new int[]{}, new float[]{mmR,mmR, mmR,mmR, 0,0,0,0} );
+			ATitle[i]=$.aText(AFrTab[i],new Object[]{"te",$.loadStringData("nameCodeDraw"+zId),"tecolo",colo1,"font","mono","fosi",FS(fs*2/3),"lapa",new int[]{$.FR.W,$.FR.W,$.GRA.CL},"1li",0,"lisp",0,"scr",2,"magi",new int[]{mmR,0,iW3,0} });	
+			AFrClose[i]=$.aFrLay(AFrTab[i],new Object[]{"lapa",new int[]{iW3,iW3,$.GRA.RT} });
+				$.aPic(AFrClose[i],new Object[]{"lapa",new int[]{$.FR.M,$.FR.M,$.GRA.C },"sc",0.5,"src",raw.cross_m });
+			ATextBox[i] = $.aTextBox(FrLTextBox,new Object[]{"lapa",new int[]{$.FR.W,$.FR.W,$.GRA.LT},"Gravity",$.GRA.LT,"te",$.loadStringData("sCodeDraw"+zId),"fofa","mono","fosi",FS(fs*3/4),"tecolo",hsla(0,0,lumDarkGA,0.9),"sele",1,"muli",1,"padi",new int[]{0,iW5*2,0,0},"dipl",-1});
+			WD.reg_remove(ATextBox[i]);
+				ATextBox[i].Keyboard.kExtraChar=false;
+				ATextBox[i].Keyboard.setTheme(hueGA,satGA,lumGA,lumDarkGA==100?1:0);
+				ATextBox[i].Keyboard.R_onImport=new Runnable(){void run(){if (ATextBox[j].Keyboard.ImportFileName.length()==0){
+					fileName=ATextBox[j].Keyboard.FileName;
+					ATitle[recentTab].setText(fileName);
+					$.saveData(new Object[]{"nameCodeDraw"+recentTab, fileName});
+				}}};
+
+		$.RatRun(AFrTab[i],new Runnable(){void run(){selectTab(j);}});
+		$.RatRun(ATitle[i],new Runnable(){void run(){selectTab(j);}});
+		$.RatRun(AFrClose[i],new Runnable(){void run(){removeTab(j);}});
+
+
+	}
+	selectTab(recentTab);
+	scrScTab();
+}
+int crTab=0;
+void selectTab(int id){crTab=id;recentTab=id; $.saveData(new Object[]{"rcTabCodeDraw",""+recentTab});
+	tb=ATextBox[id];
+	sCode=tb.getText();
+	fileName=ATitle[id].getText()+"";
+	for (int i=0;i<nCode;i++){
+		if (i!=id){$.addBackground(AFrTab[i],8, graTab0,1,new int[]{}, new float[]{mmR,mmR, mmR,mmR, 0,0,0,0} ); $.hide(ATextBox[i].EdTe);}
+		else {$.addBackground(AFrTab[i],2, graTab1,1,new int[]{}, new float[]{mmR,mmR, mmR,mmR, 0,0,0,0} ); $.show(ATextBox[i].EdTe);}
+	}
+}
+
+void removeTab(int id){
+	int zId;
+	for (int i=id;i<nCode-1;i++){zId=i+1;
+		$.saveData(new Object[]{"nameCodeDraw"+zId, $.loadStringData("nameCodeDraw"+(zId+1)),  "sCodeDraw"+zId, $.loadStringData("sCodeDraw"+(zId+1)) });
+	}
+	$.saveData(new Object[]{"nameCodeDraw"+nCode,"",  "sCodeDraw"+nCode,"" });
+	nCode-=1; $.saveData(new Object[]{"nCodeDraw",""+nCode});
+	if (id==recentTab){recentTab=$.Min(recentTab,nCode-1);}else{recentTab=$.Max(0,recentTab-1);}
+	if (nCode<=0){newCode();}else{loadTab();}
+}
+void saveAllTab(){ int zId;
+	for (int i=0;i<nCode;i++){zId=i+1;
+		$.saveData(new Object[]{"nameCodeDraw"+zId,ATitle[i].getText()+"", "sCodeDraw"+zId, ATextBox[i].getText() });
+	}
+//	WD.sig("All Saved");
+}
+
+if (nCode==0){newCode();}else{loadTab();}
+
+
+void loadPicView(Object src){
+		scPicView=1;iscPicView=1;
+		txPicView=0;tyPicView=0; itxPicView=0;ityPicView=0;
+		rPicView=0;irPicView=0;
+		$.ePic(PicView,new Object[]{"sc",iscPicView,"tx",txPicView,"ty",tyPicView,"r",irPicView});
+		$.ePic(PicView,new Object[]{"src",src});
+}
+
+
+$.show(bgView); //iView=idView;
+
+int kHideTool=0;
+void showViewCtrl(){
+	kHideTool+=1; if (kHideTool>9){kHideTool=0;}
+	int key=kHideTool;
+	if (bgCtrl.getAlpha()<0.9){
+		$.motion(bgCtrl, "opac",  0,1,  1,1,0.5,  0,100,20);
+	}
+	$.delayF(new Runnable(){void run(){if (key==kHideTool){
+		$.motion(bgCtrl, "opac",  1,0,  1,1,0.5,  0,200,20);
+	}}},1500);
+}
+showViewCtrl();
+
+WD.sig("Loading...");
+//delayF(new Runnable(){void run(){loadPicView(bmp);}},20);
+$.delayF(new Runnable(){void run(){openCodeBT();}},100);
+$.delayF(new Runnable(){void run(){showViewCtrl();$.blinkFr(FrCodeBT,0);}},500);
+//delayF(new Runnable(){void run(){openHelpCode();}},600);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//　★⭐★　ＭＯＶＥ　ＺＯＯＭ　ＲＯＴＡＴＥ　ＩＭＡＧＥ　ＶＩＥＷ　ＦＥＡＴＵＲＥＳ　★⭐★
+
+double X0a=0,Y0a=0, X0b=0,Y0b=0; // First 2 fingers position
+double Xa=0,Ya=0, Xb=0,Yb=0; // Moving 2 fingers position
+double dX0=0,dY0=0,d0=1, dXn=0,dYn=0,dn=1, rd=1; // distance between 2 finger, ratio distance new/old
+double cX0=0,cY0=0, cXn=0,cYn=0; // Midpoint between 2 finger
+
+double scPicView=1,iscPicView=1; // scale ratio value for image
+double txPicView=0,tyPicView=0, itxPicView=0,ityPicView=0; // translate value for image
+double phi0=0,phiN=0,dPhi=0; // angle first, current and different between current and first
+double rPicView=0,irPicView=0; // rotate value for image
+
+double RootX0=W/2,RootY0=H/2; // Original Root position of Picture (GRA.C case)
+double RootX=W/2,RootY=H/2; // Root position of Picture when touch down (GRA.C case)
+double iRootX=W/2,iRootY=H/2; // New moved Root position around current mid point
+double dRootCX0=0,dRootCY0=0; // distance between root position and mid point
+double zDis=0,zPhi=0,zXn=0,zYn=0; // Temporary variables calculate image root position on polar coordinate of midpoint, rotate and convert back
+
+boolean bOnMove=false;
+boolean bMove=true,bZoom=true,bRotate=true; // ⭐ Switcher allow use move, zoom, rotate
+
+double[] iRat=$.Rat;
+int nRatDown=0,inRatDown=0;
+//int cou=0; int cou(){cou+=1;return cou;} // help tracking order receive touch
+$.RatRun(bgView,new Runnable(){public void run(){bOnMove=true; nRatDown+=1;
+	if (nRatDown==1 && $.Rat.length>2){$.Rat=new double[]{$.Rat[0],$.Rat[1]};}
+	if (nRatDown>1 && $.Rat.length==2){}// filt and fixxed android bug delay touch input
+	else{
+		//WD.trace(cou()+"  "+nRatDown+"  I  "+toString(Rat));// help tracking order receive touch
+		loadChangeRat($.Rat,true);
+		iRat=$.Rat;inRatDown=nRatDown;
+	}
+}},new Runnable(){public void run(){ nRatDown-=1;
+	if (nRatDown==1 && $.Rat.length==2){$.Rat=iRat;}
+	else if (nRatDown==0 && $.Rat.length>3){$.Rat=new double[]{$.Rat[0],$.Rat[1]};}
+	//WD.trace(cou()+"  "+nRatDown+"  O  "+toString(Rat));// help tracking order receive touch
+	loadChangeRat($.Rat,false);
+	iRat=$.Rat;inRatDown=nRatDown;
+}},new Runnable(){public void run(){ 
+	if (nRatDown>1 && $.Rat.length==2){$.Rat=iRat;}
+	if (!(nRatDown==1 && $.Rat.length>2)){
+		if (inRatDown==1 && nRatDown>1){// In case touch down many point too fast
+			//WD.trace(cou()+"  "+nRatDown+"  I  "+toString(Rat)+"<<<");// help tracking too fast bug
+			loadChangeRat($.Rat,true);
+			iRat=$.Rat;inRatDown=nRatDown;
+		}
+		//WD.trace(cou()+"  "+nRatDown+"  M  "+toString(Rat));// help tracking order receive touch
+		loadMovePic();
+		inRatDown=nRatDown;
+	}
+	if (nRatDown==1 && $.Rat.length==nRatDown*2){iRat=$.Rat;}
+	
+}});
+
+
+
+//　⭐　ＯＮ　ＣＨＡＮＧＥ　ＲＡＴ　⭐
+
+
+Object R_ClickPic=new Runnable(){public void run(){showViewCtrl();}};
+boolean iIsDown=false;// help detect touch down before move
+double[] iARat=new double[]{};
+boolean penClick=false;
+void loadChangeRat(double[] ARat, boolean isDown){
+	if (isDown){
+		if (nRatDown==1){ X0a=$.Rat1[0];Y0a=$.Rat1[1];penClick=true;}
+		else if (nRatDown>1){int inR=nRatDown;penClick=false;
+			nRatDown=0;loadChangeRat(iARat, false);nRatDown=inR;
+			X0a=$.Rat1[0];Y0a=$.Rat1[1];  X0b=$.Rat2[0];Y0b=$.Rat2[1];
+			Xa=X0a;Ya=Y0a;  Xb=X0b;Yb=Y0b;
+			cX0=(X0a+X0b)/2;cY0=(Y0a+Y0b)/2;
+			dRootCX0=RootX-cX0; dRootCY0=RootY-cY0;
+			if (bZoom){
+				dX0=X0b-X0a;dY0=Y0b-Y0a;d0=$.Max(1,sqrt(dX0*dX0+dY0*dY0));
+				dXn=Xb-Xa;dYn=Yb-Ya;dn=$.Max(1,sqrt(dXn*dXn+dYn*dYn));
+				rd=$.Max(0.01,dn/d0);
+			}
+			if (bRotate){phi0=getPhi(X0b-X0a,Y0b-Y0a);}
+		}
+		loadMovePic();
+	}
+	else{
+		if (nRatDown==0){ if (penClick && abs(txPicView-itxPicView)+abs(tyPicView-ityPicView)<4){$.Run(R_ClickPic);} penClick=false;
+			txPicView=itxPicView; tyPicView=ityPicView;
+			RootX=RootX0+txPicView; RootY=RootY0+tyPicView;
+			loadMovePic();
+		}
+		else if (nRatDown>0){
+			scPicView=iscPicView;
+			rPicView=irPicView;
+			RootX=iRootX;RootY=iRootY;
+			txPicView=RootX-RootX0; tyPicView=RootY-RootY0;
+			itxPicView=txPicView; ityPicView=tyPicView;
+			$.delayF(new Runnable(){public void run(){
+				X0a=$.Rat1[0];Y0a=$.Rat1[1];isDown=true;iIsDown=isDown;
+			}},20);
+		}
+	}
+	iIsDown=isDown;
+}
+
+
+
+//　⭐　ＯＮ　ＭＯＶＥ　ＲＡＴ　⭐
+
+void loadMovePic(){loadMovePic(true);}
+void loadMovePic(boolean kDis){if (iIsDown){
+	if (nRatDown==1){
+		Xa=$.Rat1[0];Ya=$.Rat1[1];
+		if (!iIsDown){ // Filting case up rat1 instaed of rat2
+			if (iARat.length>3){
+				if (abs((int)Xa-(int)iARat[0])<2 && abs((int)Ya-(int)iARat[1])<2){X0a=iARat[0];Y0a=iARat[1];}
+				else{X0a=iARat[2];Y0a=iARat[3];}
+			}
+		}
+		itxPicView=txPicView+Xa-X0a;  ityPicView=tyPicView+Ya-Y0a;
+		$.ePic(PicView,new Object[]{"tx",itxPicView,"ty",ityPicView});
+	}
+	else if (nRatDown>1){
+		Xa=$.Rat1[0];Ya=$.Rat1[1];  Xb=$.Rat2[0];Yb=$.Rat2[1];
+		if (Xb==-1&&Yb==-1){}// Filt Android bug case receive on touch move before on touch up
+		else{
+			if (bMove){cXn=(Xa+Xb)/2;cYn=(Ya+Yb)/2;}else{cXn=cX0;cYn=cY0;}
+			if (bZoom){
+				dXn=Xb-Xa;dYn=Yb-Ya;dn=$.Max(1,sqrt(dXn*dXn+dYn*dYn));
+				rd=$.Max(0.01,dn/d0);
+				iscPicView=scPicView*rd; 
+			}
+			if (bRotate){
+				phiN=getPhi(Xb-Xa,Yb-Ya);
+				dPhi=phiN-phi0; irPicView=rPicView+dPhi;
+			}
+			zDis=sqrt(dRootCX0*dRootCX0 + dRootCY0*dRootCY0);
+			zPhi=getPhi(dRootCX0,dRootCY0)+dPhi;
+			iRootX=cXn+zDis*cos(toRAD(zPhi))*rd;
+			iRootY=cYn+zDis*sin(toRAD(zPhi))*rd;
+			txPicView=iRootX-RootX0; tyPicView=iRootY-RootY0;
+			if (kDis){$.ePic(PicView,new Object[]{"sc",iscPicView,"tx",txPicView,"ty",tyPicView,"r",irPicView});}
+		}
+	}
+}iARat=$.Rat;}
+
+
+
+
+void updateSize(){
+
+	W4=minWH/13.0; W4n=minWH/14.0; Hfs=W4/2.1;
+	ihW4n=(int)(W4n/2); iW3=(int)(W4*3.0/4); iW5=(int)(W4*5/4); iW6=(int)(W4*1.5); iW8=(int)(W4*2); iW12=(int)(W4*3); iW16=(int)(W4*4); iW20=(int)(W4*5);
+	fs=(int)(Hfs);fs2=fs*2;fs3=fs*3;hfs3=fs3/2;
+
+		$.eLay(FrBgDimL,new Object[]{"lapa",new int[]{iW8,$.FR.M,$.GRA.LT} });
+		$.eLay(FrBgDimR,new Object[]{"lapa",new int[]{iW8,$.FR.M,$.GRA.RT} });
+		
+		$.eLay(FrClosePic,new Object[]{"lapa",new int[]{iW8,iW8,$.GRA.LT}  });
+		$.eLay(FrInfoPic,new Object[]{"lapa",new int[]{iW8,iW8,$.GRA.RB}  });
+		$.eLay(FrSaveJPG,new Object[]{"lapa",new int[]{iW8,iW8,$.GRA.RB},"magi",new int[]{0,0,0,iW8}  });
+		$.eLay(FrSave,new Object[]{"lapa",new int[]{iW8,iW8,$.GRA.RB},"magi",new int[]{0,0,0,iW8*2}  });
+		$.eLay(FrResetPage,new Object[]{"lapa",new int[]{iW8,iW8,$.GRA.RB},"magi",new int[]{0,0,0,iW8*3.5}  });
+		$.eLay(FrCodeBT,new Object[]{"lapa",new int[]{iW8,iW8,$.GRA.LB}  });
+		$.eLay(FrRun,new Object[]{"lapa",new int[]{iW8,iW8,$.GRA.LB},"magi",new int[]{0,0,0,iW8}  });
+		$.eLay(FrPause,new Object[]{"lapa",new int[]{iW8,iW8,$.GRA.LB},"magi",new int[]{0,0,0,iW8}  });
+		$.eLay(FrStop,new Object[]{"lapa",new int[]{iW8,iW8,$.GRA.LB},"magi",new int[]{0,0,0,iW8*2}  });
+		
+
+		$.eLay(FrBgCtrlEdit,new Object[]{"lapa",new int[]{$.FR.M,iW6,$.GRA.LT} });
+		$.eLay(FrCloseTB,new Object[]{"lapa",new int[]{iW6,iW6,$.GRA.LT}  });
+		$.eLay(FrNewCode,new Object[]{"lapa",new int[]{iW6,iW6,$.GRA.LT},"magi",new int[]{iW6,0,0,0}  });
+		$.eLay(FrSaveCode,new Object[]{"lapa",new int[]{iW6,iW6,$.GRA.LT},"magi",new int[]{iW6*2,0,0,0}  });
+		$.eLay(FrRunCode,new Object[]{"lapa",new int[]{iW6,iW6,$.GRA.LT},"magi",new int[]{iW6*3,0,0,0}  });
+		$.eLay(FrPauseCode,new Object[]{"lapa",new int[]{iW6,iW6,$.GRA.LT},"magi",new int[]{iW6*3,0,0,0}  });
+		$.eLay(FrStopCode,new Object[]{"lapa",new int[]{iW6,iW6,$.GRA.LT},"magi",new int[]{iW6*4,0,0,0}  });
+		$.eLay(FrRenameCode,new Object[]{"lapa",new int[]{iW6,iW6,$.GRA.LT},"magi",new int[]{iW6*5,0,0,0}  });
+		$.eLay(FrHelpCode,new Object[]{"lapa",new int[]{iW6,iW6,$.GRA.LT},"magi",new int[]{iW6*6,0,0,0}  });
+		$.eLay(FrVIPCode,new Object[]{"lapa",new int[]{iW6,iW6,$.GRA.LT},"magi",new int[]{iW6*7.25,0,0,0}  });		
+			$.ePic(PicVIPCode,new Object[]{"ty",-ihW4n/3 });
+
+		$.eLay(ScTab,new Object[]{"lapa",new int[]{$.FR.M,iW3,$.GRA.LT},"magi",new int[]{0,iW6,0,0} });
+
+	$.eText(TeStatus,new Object[]{"fosi",fs/2 });	
+	
+	for (int i=0;i<nCode;i++){zId=i+1; int j=i;
+		$.eLay(AFrTab[i],new Object[]{"lapa",new int[]{iW20,$.FR.M,$.GRA.LT},"magi",new int[]{iW20*i,0,0,0}});
+			$.eText(ATitle[i],new Object[]{"fosi",fs*2/3,"magi",new int[]{mmR,0,iW3,0} });	
+			$.eLay(AFrClose[i],new Object[]{"lapa",new int[]{iW3,iW3,$.GRA.RT} });
+			$.eEdText(ATextBox[i].EdTe,new Object[]{"fosi",fs*3/4,"padi",new int[]{0,iW5*2,0,0} });
+	}
+
+	if (bx.created){bx.remove();}
+	if (zPN.created){zPN.remove();}
+
+	scrScTab();
+
+	RootX0=W/2;RootY0=H/2;
+}//　⭐　ＲＥＳＩＺＥ　⭐
+intW=(int)W;intH=(int)H;
+if (zintW!=intW||zintH!=intH){zintW=intW;zintH=intH;
+	updateSize();
+}   
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    

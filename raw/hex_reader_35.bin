@@ -1,0 +1,899 @@
+100,114,126,205,47946,47999,                                                                        HEX Reader 3.5raw.exe_iconnew Object[][]{
+	new Object[]{"Theme Color","string",0,"hsl(190,100,20)",  3}
+}//
+// by  Phung Phan  pearthq@gmail.com
+//
+WD.noReset(); $.updateFPS(1,FPS);
+double iW=W,iH=H;
+boolean kDat1=false,kDat2=false;
+byte[] dat1=new byte[0],dat2=new byte[0],datCopy=new byte[0];
+byte[] datFind1=new byte[0],datReplace1=new byte[0];
+byte[] datFind2=new byte[0],datReplace2=new byte[0];
+int csF1=-1,csF2=-1,lF1=0,lF2=0;
+Object Found1=$.ArrayList(4),Found2=$.ArrayList(4);
+int l1=0,l2=0,mL1=0,nL1=0,mL2=0,nL2=0;
+
+
+//　⭐　ＨＥＸ　ＣＯＮＶＥＲＴＥＲ　⭐
+String[] sH=new String[]{"0","1","2","3","4","5","6","7","8","9","A","B","C","D","E","F"};
+String sHex(int x){return sH[x/16]+sH[x%16];} //String sHex(byte bIn){int x=bIn&0xFF;return sH[x/16]+sH[x%16];}
+String s7="0000000";
+String hex8(int iDec){ Object ai=$.ArrayList(1); String s="";
+	while (iDec>0){ai.add(iDec%16);iDec=iDec/16;} for (int i:ai){s=sH[i]+s;}
+	return s7.substring(0,7-s.length())+s+"0";
+}
+String[] ASCII_UTF8=new String[]{
+	"","☹","☻","♥","♦","♣","♠","●","◘","○","◙","♂","♀","♪","♬","⛭",
+	"▶","◀","⇕","¶","‼","§","▂","⇕̱","⇑","⇓","⇐","⇒","ᄂ","⇔","▲","▼",
+	" ","!",""+'"',"⌗","$","%","&","'","(",")","*","+",",","-",".","/",
+	"0","1","2","3","4","5","6","7","8","9",":",";","<","=",">","?",
+	"@","A","B","C","D","E","F","G","H","I","J","K","L","M","N","O",
+	"P","Q","R","S","T","U","V","W","X","Y","Z","[",""+(char)92,"]","^","_",
+	"`","a","b","c","d","e","f","g","h","i","j","k","l","m","n","o",
+	"p","q","r","s","t","u","v","w","x","y","z","{","|","}","~","⌂",
+	"Ç","ü","é","â","ä","à","å","ç","ê","ë","è","ï","î","ì","Ä","Å",
+	"É","æ","Æ","ô","ö","ò","û","ù","ÿ","Ö","Ü","¢","£","¥","₧","ƒ",
+	"á","í","ó","ú","ñ","Ñ","ª̶","º̶","¿","⌐","¬","½","¼","¡","«","»",
+	"░","▒","▓","│","┤","╡","╢","╖","╕","╣","║","╗","╝","╜","╛","┐",
+	"└","┴","┬","├","─","┼","╞","╟","╚","╔","╩","╦","╠","═","╬","╧",
+	"╨","╤","╥","╙","╘","╒","╓","╫","╪","┘","┌","█","▄","▍","▐","▀",
+	"⍺","ß","Γ","π","Σ","σ","μ","τ","ꗞ","θ","Ω","δ","∞","Φ","Є","∩",
+	"≡","±","≥","≤","⌠","⌡","÷","≈","°","•","·","√","ⁿ","²","◼",""
+};
+
+
+double[] AHslHx=$.ahsl(S.get(0));
+int hueHx=(int)(AHslHx[0]),satHx=(int)(AHslHx[1]),lumHx=(int)(AHslHx[2]), lumDarkHx=100;
+int bacolo0=$.hsla(hueHx+10,satHx/2,(100-lumDarkHx+lumHx)/2,0.95);
+int bacolo=$.hsla(hueHx,satHx/5,lumHx,0.95);
+int colo1=$.hsla(hueHx,satHx,100-lumDarkHx,0.5);
+int colo1A=$.hsla(hueHx,satHx,(lumHx+lumDarkHx)/2,0.3);
+int tecoS=$.hsla(hueHx,satHx,lumDarkHx,0.3);
+int teco=$.hsla(hueHx,satHx,lumDarkHx,0.6);
+int teco1=$.hsl(hueHx,satHx,lumDarkHx);
+$.eLay(Touch,$.o("bacolo",bacolo0));
+
+double W4=W/13.0, W4n=W/14.0, hW4n=W4n/2, W3=W4*3.0/4, W5=W4*5/4, W8=W4*2, Hfs=W4/2.1;
+Object FrMenu1=$.aFrLay(Touch,$.o("lapa",$.intA(W,W5,$.GRA.LT),"bacolo", $.hsla(hueHx,satHx/2,lumHx*0.9+lumDarkHx*0.1,0.95) ));
+Object FrMenu2=$.aFrLay(Touch,$.o("lapa",$.intA(W,W5,$.GRA.LB),"bacolo", $.hsla(hueHx+20,satHx/2,lumHx*0.9+lumDarkHx*0.1,0.95) ));
+Object aFrBT1(double tx){return $.aFrLay(FrMenu1,$.o("lapa",$.intA(W4,W4,$.GRA.LC),"tx",tx )); }
+Object aFrBT2(double tx){return $.aFrLay(FrMenu2,$.o("lapa",$.intA(W4,W4,$.GRA.LC),"tx",tx )); }
+Object aFrBT2R(double tx){return $.aFrLay(FrMenu2,$.o("lapa",$.intA(W4,W4,$.GRA.RC),"tx",tx )); }
+int m=(int)((W5-W4)/2);
+Object FrMMNew1=aFrBT1(m),FrMMOpen1=aFrBT1(m+W4n),FrMMSaveAs1=aFrBT1(m+W4n*2),FrMMSearch1=aFrBT1(m*2+W4n*3),FrMMGoto1=aFrBT1(m*2+W4n*4),FrMMMove1=aFrBT1(m*2+W4n*5),FrMMUndo1=aFrBT1(m*3+W4n*6),FrMMRedo1=aFrBT1(m*3+W4n*7),FrMMCopy1=aFrBT1(m*4+W4n*8),FrMMCut1=aFrBT1(m*4+W4n*9),FrMMPaste1=aFrBT1(m*4+W4n*10),FrMMInsert1=aFrBT1(m*4+W4n*11)
+,FrMMNew2=aFrBT2(m),FrMMOpen2=aFrBT2(m+W4n),FrMMSaveAs2=aFrBT2(m+W4n*2),FrMMSearch2=aFrBT2(m*2+W4n*3),FrMMGoto2=aFrBT2(m*2+W4n*4),FrMMMove2=aFrBT2(m*2+W4n*5),FrMMUndo2=aFrBT2(m*3+W4n*6),FrMMRedo2=aFrBT2(m*3+W4n*7),FrMMCopy2=aFrBT2(m*4+W4n*8),FrMMCut2=aFrBT2(m*4+W4n*9),FrMMPaste2=aFrBT2(m*4+W4n*10),FrMMInsert2=aFrBT2(m*4+W4n*11),FrMMClose=aFrBT2R(-m);
+
+void loadBT(Object Fr, Object srcIcon){
+	$.aPic(Fr,$.o("lapa",new int[]{$.FR.M,$.FR.M,$.GRA.C},"sc",0.8,"src", srcIcon ));
+}
+void loadBT1(Object Fr, Object srcIcon){loadBT(Fr, srcIcon);}
+void loadBT2(Object Fr, Object srcIcon){loadBT(Fr, srcIcon);}
+Object bmpGoto=$.Bitmap($.mm(16),$.mm(16),new Object[]{"bl",new int[]{1,1},
+	"stco",$.hsla(hueHx,satHx,lumDarkHx,1),"cap",2,"stwi",$.mm(1),"z",new int[]{  $.mm(4),$.mm(5),  $.mm(4),$.mm(9),  $.mm(12),$.mm(9) },
+	"fico",$.hsla(hueHx,satHx,lumDarkHx,1),"cap",2,"stwi",$.mm(1),"path",$.Path(new Object[]{"poly",new int[]{  $.mm(14),$.mm(9),  $.mm(10),$.mm(6),  $.mm(10),$.mm(12)  }  })
+});
+loadBT1(FrMMNew1,raw.new_icon);loadBT1(FrMMOpen1,raw.open);loadBT1(FrMMSaveAs1,raw.save_as);loadBT1(FrMMSearch1,raw.search);loadBT1(FrMMGoto1,bmpGoto);loadBT1(FrMMMove1,raw.vroll);loadBT1(FrMMUndo1,raw.undo);loadBT1(FrMMRedo1,raw.redo);loadBT1(FrMMCopy1,raw.copy);loadBT1(FrMMCut1,raw.cut);loadBT1(FrMMPaste1,raw.paste);loadBT1(FrMMInsert1,raw.insert);
+loadBT2(FrMMNew2,raw.new_icon);loadBT2(FrMMOpen2,raw.open);loadBT2(FrMMSaveAs2,raw.save_as);loadBT2(FrMMSearch2,raw.search);loadBT2(FrMMGoto2,bmpGoto);loadBT2(FrMMMove2,raw.vroll);loadBT2(FrMMUndo2,raw.undo);loadBT2(FrMMRedo2,raw.redo);loadBT2(FrMMCopy2,raw.copy);loadBT2(FrMMCut2,raw.cut);loadBT2(FrMMPaste2,raw.paste);loadBT2(FrMMInsert2,raw.insert);loadBT2(FrMMClose,raw.cross_m);
+void blink(Object Fr){$.blinkFr(Fr,W4n/5);}
+$.RatRun(Touch,$.ERUN); $.RatRun(Display,$.ERUN);
+$.RatRun(FrMMClose,new Runnable(){void run(){WD.hide();}});
+
+//　⭐　ＦＲＡＭＥ　ＬＡＹＯＵＴ　⭐
+double Hstat=kFull?$.statusBarH_px:0; int[] la0=$.intA(W,1,$.GRA.LT),ma1=$.intA(0,W5,0,0), ma2=$.intA(0,0,0,W5), laM=$.intA($.FR.M,$.FR.M,$.GRA.LT);
+Object FrDat1=$.aFrLay(Touch,$.o("lapa",la0,"bacolo", $.hsla(hueHx,satHx/2,lumHx,0.95) ));
+Object FrDat2=$.aFrLay(Touch,$.o("lapa",la0,"bacolo", $.hsla(hueHx+20,satHx/2,lumHx,0.95) ));
+Object PicDat1=$.aPic(FrDat1,$.o("lapa",laM));
+Object PicDat2=$.aPic(FrDat2,$.o("lapa",laM));
+double W1=0,H1=0,W2=0,H2=0;
+void layoutDat(){layoutDat(((kDat1||onOpen1)?1:0)+((kDat2||onOpen2)?2:0));}
+void layoutDat(int kMode){//0,1,2,3 : null, 1,2 , both
+	if (kMode==0){W1=0;H1=0;W2=0;H2=0; $.eLay(FrDat1,$.o("lapa",la0,"magi",ma1 ));$.eLay(FrDat2,$.o("lapa",la0,"magi",ma2 )); }
+	else if (kMode==1){W1=W;H1=H-Hstat-W5*2;W2=0;H2=0;$.eLay(FrDat1,$.o("lapa",$.intA(W1,H1,$.GRA.LT),"magi",ma1 ));$.eLay(FrDat2,$.o("lapa",la0,"magi",ma2 ));}
+	else if (kMode==2){W2=W;H2=H-Hstat-W5*2;W1=0;H1=0;$.eLay(FrDat1,$.o("lapa",la0,"magi",ma1 ));$.eLay(FrDat2,$.o("lapa",$.intA(W2,H2,$.GRA.LB),"magi",ma2 ));}
+	else if (kMode==3){W1=W;H1=(H-Hstat)/2.0-W5;W2=W1;H2=H1;$.eLay(FrDat1,$.o("lapa",$.intA(W1,H1,$.GRA.LT),"magi",ma1 ));$.eLay(FrDat2,$.o("lapa",$.intA(W2,H2,$.GRA.LB),"magi",ma2 ));}
+	disNL1=(int)(H1/fs2+1); disNL2=(int)(H2/fs2+1);
+}
+void noti(String sTitle, String sMs, String sBT){$.SFH_Confirm().size(0.7).Title(sTitle,sMs).ButtonName(sBT,"").Noti().create(Touch);}
+Object aFrBT1In(double tx){return $.aFrLay(FrDat1,$.o("lapa",$.intA(W4n,W4n,$.GRA.LT),"tx",tx )); }
+Object aFrBT2In(double tx){return $.aFrLay(FrDat2,$.o("lapa",$.intA(W4n,W4n,$.GRA.LT),"tx",tx )); }
+Object FrMMInp1=aFrBT1In(m),FrMMSta1=aFrBT1In(m+W4n),FrMMEnd1=aFrBT1In(m+W4n*2);
+Object FrMMInp2=aFrBT2In(m),FrMMSta2=aFrBT2In(m+W4n),FrMMEnd2=aFrBT2In(m+W4n*2);
+Object bmpPre=$.filt($.Bitmap(raw.next),new Object[]{"flipV",0});
+loadBT1(FrMMInp1,raw.view_light);loadBT1(FrMMSta1,bmpPre);loadBT1(FrMMEnd1,raw.next);
+loadBT2(FrMMInp2,raw.view_light);loadBT2(FrMMSta2,bmpPre);loadBT2(FrMMEnd2,raw.next);
+
+
+double zlu=lumHx+lumDarkHx*0.1;
+double fsP=Hfs*0.7,maP=W4/6, panFS=hW4n, paLsp=W4n/4;
+//String toText(byte[] dat){int l=dat.length, lt=Min(15,dat.length);String sOut="";char zc;for (int i=0;i<lt;i++){zc=(char)(dat[i]&0xFF);if (zc==C10||zc==(char)9){zc=' ';}sOut+=zc;}if (l>lt){sOut+="...";}return sOut;}						
+String toText(byte[] dat){int l=dat.length, lt=$.Min(15,dat.length);String sOut="";int ic;for (int i=0;i<lt;i++){ic=dat[i]&0xFF;if (ic==0||ic==256){ic=32;}sOut+=ASCII_UTF8[ic];}if (l>lt){sOut+="...";}return sOut;}						
+Object BTPanel(String sTe){ return $.SFH_Button().size(0.7).fosi(panFS).Name(sTe).setTheme(hueHx,satHx,zlu,lumDarkHx);}
+
+
+void Scan(byte[] dat, byte[] datF, Runnable RDone){int l=dat.length,lF=datF.length;boolean kUn=false;
+	Object aF=$.ArrayList(4);
+	int i=-1, buff=128;
+	WD.trace("> Scan..._");
+	Object CFScan=$.RunCycle(new Runnable(){public void run(){
+		if (lF>0&&lF<=l){
+			for (int zi=0;zi<buff;zi++){i+=1;
+				if (i<l){
+					if (dat[i]==datF[0]){kUn=false;
+						for (int j=1;j<lF;j++){if (dat[i+j]!=datF[j]){kUn=true;break;}}
+						if (!kUn){aF.add(new int[]{i,i+lF-1});i=i+lF-1;continue;}
+					}
+				}
+				else{CFScan.stop();scanResult=aF;$.Run(RDone);diLoad.hide();break;}
+			}
+		diLoad.disLoading($.Max(0,(double)i/l));
+		WD.trace("Total matches: "+aF.size());
+		}
+	}},100);
+	WD.reg_release(CFScan);
+	CFScan.runSafe();
+}
+Object Scan(byte[] dat,byte[] datF){int l=dat.length,lF=datF.length;boolean kUn=false;
+	Object aF=$.ArrayList(4);
+	if (lF>0&&lF<=l){
+		for (int i=0;i<l;i++){
+			if (dat[i]==datF[0]){kUn=false;
+				for (int j=1;j<lF;j++){if (dat[i+j]!=datF[j]){kUn=true;break;}}
+				if (!kUn){aF.add(new int[]{i,i+lF-1});i=i+lF-1;continue;}
+			}
+		}
+	}
+	return aF;
+}
+
+
+void dimS1(){if (lF1>0){Search1.FrBG.setAlpha(0.7f);}else{Search1.FrBG.setAlpha(1);}}
+void disS1(){$.eText(TeNote1,$.o("Te",lF1+" "+$.ranCat()+" "+(csF1+1)+" / "+lF1));}
+void resetS1(){Found1.clear();lF1=0;csF1=-1;$.eText(TeNote1,$.o("te",""));}
+Object CFScan1;
+Object scanResult=$.ArrayList(4);
+Object diLoad=$.SFH_Loading().text("Scanning").create(Touch,20);
+diLoad.kDim=0; diLoad.minStroke=2;
+
+void dimS2(){if (lF2>0){Search2.FrBG.setAlpha(0.7f);}else{Search2.FrBG.setAlpha(1);}}
+void disS2(){$.eText(TeNote2,$.o("Te",lF2+" "+$.ranCat()+" "+(csF2+1)+" / "+lF2));}
+void resetS2(){Found2.clear();lF2=0;csF2=-1;$.eText(TeNote2,$.o("te",""));}
+Object CFScan2;
+
+int mWH=(int)($.Min($.screenW_px,$.screenH_px)*0.8),paWT=($.screenW_px-mWH)/2;
+Object charTable(int wT,int hT){int m=$.Min(wT,hT/4);
+	double resoCT=1;double fosi=m/15.5,fosiS=fosi*resoCT*0.6,fosiL=fosi*resoCT;
+	Object[] zCTa=new Object[256*3],zCTb=new Object[256*3];
+	float[] zLH=new float[33*4],zLV=new float[9*4];
+	int j=0; double wCT=wT/8.0,hCT=hT/32.0;
+	int maL=(wCT-fosiL*0.6)/2,maB=(int)(fosiS*0.3);
+	int zM,zN;
+	for (int i=0;i<256;i++){zN=i/8;zM=i%8;
+			j=i*3;
+			zCTa[j]=ASCII_UTF8[i]; zCTb[j]=sHex(i);
+			zCTa[j+1]=wCT*zM+maL; zCTb[j+1]=wCT*zM+maL;
+			zCTa[j+2]=hCT*(zN+0.55); zCTb[j+2]=hCT*(zN+1)-maB;
+	}
+	for (int i=0;i<33;i++){j=i*4;zLH[j]=0;zLH[j+1]=(float)(i*hCT);zLH[j+2]=wT;zLH[j+3]=zLH[j+1];}
+	for (int i=0;i<9;i++){j=i*4;zLV[j]=(float)(i*wCT);zLV[j+1]=0;zLV[j+2]=zLV[j];zLV[j+3]=hT;}
+	Object bmpCT=$.Bitmap(wT,hT,new Object[]{"fico",teco1,"fost",1,"fo","mono","fosi",fosiL,"ts",zCTa,"fosi",fosiS,"fost",0,"ts",zCTb,"stco",tecoS,"stwi",2,"ls",zLH,"ls",zLV});
+	return bmpCT;
+}
+
+
+
+// Search 1
+Object Search1;
+int zRP=0;
+Object TeFind1,TeReplace1,FrNote1,TeNote1,  BTPaFind1,BTPaReplace1,BTScan1,BTScanSafe1,BTReplace1, BTNext1,BTBack1;
+int kHoldRe1=0;
+
+void addSearch1(){
+	Search1=$.SFH_Panel().size(W4/57).Title("Find And Replace").setTheme(hueHx,satHx,zlu,lumDarkHx).create(Touch).hideOnClose();
+	zRP=$.mm(1.5*Search1.size);
+	Search1.hide();
+	$.addBackground(Search1.FrTray,3,$.intA($.hsla(hueHx,satHx/3,lumHx*0.8,1),$.hsla(hueHx,satHx/3,lumHx*0.4,1)),1,new int[]{}, new float[] { zRP,zRP,zRP,zRP,  zRP,zRP,zRP,zRP});
+
+	TeFind1=$.aText(Search1.FrBody,new Object[]{"te","Find : "+toText(datFind1),"tecolo",$.CL.W,"fosi",fsP,"font","courier","lapa",$.intA($.FR.M,$.FR.M,$.GRA.LT),"magi",$.intA(0,maP,0,0)});
+	TeReplace1=$.aText(Search1.FrBody,new Object[]{"te","Replace : "+toText(datReplace1),"tecolo",$.CL.W,"fosi",fsP,"font","courier","lapa",$.intA($.FR.M,$.FR.M,$.GRA.LT),"magi",$.intA(0,maP+W4+paLsp,0,0)});
+	FrNote1=$.aFrLay(Search1.FrBody,new Object[]{"lapa",new int[]{$.FR.M,W3,$.GRA.LT},"magi",$.intA(0,maP+(W4+paLsp)*3,(int)(W8*1.5),0)});
+	TeNote1=$.aText(FrNote1,new Object[]{"te",lF1+" "+$.ranCat()+" "+(csF1+1)+" / "+lF1,"tecolo",$.CL.W,"fosi",fsP,"font","courier","lapa",$.intA($.FR.W,$.FR.M,$.GRA.TC)});
+
+	BTPaFind1=BTPanel("Paste").create(Search1.FrBody,$.o("lapa",$.intA(W8,W4,$.GRA.R) )).run(new Runnable(){public void run(){datFind1=datCopy;$.eText(TeFind1,$.o("Te","Find : "+toText(datFind1)));WD.sig("Pasted");}});
+	BTPaReplace1=BTPanel("Paste").create(Search1.FrBody,$.o("lapa",$.intA(W8,W4,$.GRA.R),"magi",$.intA(0,W4+paLsp,0,0)  )).run(new Runnable(){public void run(){datReplace1=datCopy;$.eText(TeReplace1,$.o("Te","Replace : "+toText(datReplace1)));WD.sig("Pasted");}});
+	BTScan1=BTPanel("Scan").create(Search1.FrBody,$.o("lapa",$.intA(W8,W4,$.GRA.R),"magi",$.intA(0,(W4+paLsp)*2,0,0)  )).run(new Runnable(){public void run(){
+		WD.sig("Scanning...");
+		$.delayF(new Runnable(){public void run(){
+			Found1=Scan(dat1,datFind1);lF1=Found1.size();csF1=lF1>0?0:-1;
+			seleClosed1();disS1();dimS1();
+			noti("Result",lF1+" match"+(lF1>1?"es":"")+" "+$.ranCat(),"Okie");
+		}},20);
+	}});
+	BTScanSafe1=BTPanel("Scan Safe").create(Search1.FrBody,$.o("lapa",$.intA((int)(W8*1.5),W4n,$.GRA.R),"magi",$.intA(0,(W4+paLsp)*3,0,0)  )).run(new Runnable(){public void run(){
+		Scan(dat1,datFind1,new Runnable(){public void run(){
+			Found1=scanResult;
+			lF1=Found1.size();csF1=lF1>0?0:-1;
+			seleClosed1();disS1();dimS1();
+			noti("Result",lF1+" match"+(lF1>1?"es":"")+" "+$.ranCat(),"Okie");
+		}});
+	}});
+	
+	BTReplace1=BTPanel("Replace").create(Search1.FrBody,$.o("lapa",$.intA(W4*3,W4,$.GRA.L),"magi",$.intA(0,(W4+paLsp)*2,0,0)  ));
+
+	$.RatRun(BTReplace1.FrBT,new Runnable(){public void run(){
+		kHoldRe1+=1;int crKey=kHoldRe1;
+		$.delayF(new Runnable(){public void run(){if (crKey==kHoldRe1){replaceAllS1();}}},300);
+	}},new Runnable(){public void run(){kHoldRe1+=1;replaceS1();}},$.ERUN);
+	BTNext1=BTPanel("Next").create(Search1.FrBody,$.o("lapa",$.intA(W8,W4,$.GRA.CH),"tx",(W4+hW4n/4)+hW4n,"magi",$.intA(0,(W4+paLsp)*2,0,0)  )).run(new Runnable(){public void run(){seleNext1();disS1();dimS1();}});
+	BTBack1=BTPanel("Back").create(Search1.FrBody,$.o("lapa",$.intA(W8,W4,$.GRA.CH),"tx",-(W4+hW4n/4)+hW4n,"magi",$.intA(0,(W4+paLsp)*2,0,0)  )).run(new Runnable(){public void run(){seleBack1();disS1();dimS1();}});
+
+}
+addSearch1();
+
+void seleNext1(){if (csF1<lF1-1){csF1+=1; int[] zA=Found1.get(csF1);iSeleSta1=zA[0];iSeleEnd1=zA[1];goto1();}else if (lF1>0){seleClosed1();}}
+void seleBack1(){if (csF1>0){csF1-=1; int[] zA=Found1.get(csF1);iSeleSta1=zA[0];iSeleEnd1=zA[1];goto1();}else if (lF1>0){seleClosed1();}}
+void selePs1(int i){csF1=i;int[] zA=Found1.get(i);iSeleSta1=zA[0];iSeleEnd1=zA[1];goto1();}
+void seleClosed1(){boolean zK=false;for (int i=0;i<lF1;i++){if (Found1.get(i)[1]>=iSeleSta1){selePs1(i);zK=true;break;}} if (!zK&&lF1>0){selePs1(lF1-1);}}
+void replaceS1(){
+	if (lF1>0&&csF1<lF1){
+		int[] zA=Found1.get(csF1);iSeleSta1=zA[0];iSeleEnd1=zA[1]; int shf=datReplace1.length-datFind1.length;
+		WD.sig("Replacing...");
+		$.delayF(new Runnable(){void run(){replace1(datReplace1);
+			for (int i=csF1+1;i<lF1;i++){zA=Found1.get(i);zA[0]+=shf;zA[1]+=shf;Found1.set(i,zA);}
+			Found1.remove(csF1);lF1-=1;
+			if (lF1>0){if (csF1<lF1-1){csF1-=1;seleNext1();}else{selePs1(lF1-1);}}else{csF1=-1;}
+			disS1();dimS1();
+		WD.sig("Replaced");}},20);
+	}
+}
+void replaceAllS1(){
+	if (lF1>0&&csF1<lF1){
+		WD.sig("Replacing...");
+		$.delayF(new Runnable(){void run(){
+			int[] zA;int zl=lF1;
+			for (int i=lF1-1;i>-1;i--){zA=Found1.get(i);iSeleSta1=zA[0];iSeleEnd1=zA[1];replace1(datReplace1);}lF1=0;csF1=-1;
+			disS1();dimS1();
+			WD.sig("Replaced "+zl+" match"+(zl>1?"es":""));
+		}},20);
+	}
+}
+
+
+
+// Char table 1
+
+int wWT1=0, hWT1=0;
+Object WTray1=$.SFH_WinTray().IDTheme("HEXReader1").icon(raw.view_light).icon1(raw.view_dark).closable(false).title("Char Table");
+Object ScV_WT1,FrScV_WT1,FrCsCT1,PicCT1;
+
+void showCT1(){
+	if (!WTray1.kCreated){
+		WTray1.create(paWT,$.screenH_px-mWH,mWH,mWH);
+		WD.reg_remove(WTray1);
+		wWT1=WTray1.bodyW;hWT1=WTray1.bodyH;
+		ScV_WT1 = $.aScrV2(WTray1.FrBody,new Object[]{"lapa",laM,"bacolo",$.CL.Tb });
+		FrScV_WT1 = $.aFrLay(ScV_WT1,new Object[]{"lapa",new int[]{$.FR.M,$.FR.W,$.GRA.LT} });
+		FrCsCT1=$.aFrLay(FrScV_WT1,$.o("lapa",new int[]{wWT1/8,hWT1/8,$.GRA.LT}));
+		PicCT1=$.aPic(FrScV_WT1,$.o("lapa",new int[]{wWT1,hWT1*4,$.GRA.LT}));
+		$.ePic(PicCT1,$.o("src",charTable(wWT1,hWT1*4)));
+		$.RatRun(PicCT1,new Runnable(){void run(){if (kDat1){if (iSeleEnd1>-2){
+			double cW=wWT1/8.0,cH=hWT1/8.0;
+			int i=(int)($.Rat1[0]/cW)+(int)($.Rat1[1]/cH)*8,zN=i/8,zM=i%8;
+			$.eLay(FrCsCT1,$.o("magi",new int[]{(int)(zM*cW),(int)(zN*cH),0,0}));
+			$.blinkFr(FrCsCT1,0);
+			WD.sig("Inserting...");
+			$.delayF(new Runnable(){void run(){insert1(new byte[]{i});WD.sig("Inserted");resetS1();}},20);
+		}}}});
+		WTray1.onResizeDone(new Runnable(){void run(){
+			wWT1=WTray1.bodyW; hWT1=WTray1.bodyH;
+			$.eLay(FrCsCT1,$.o("lapa",new int[]{wWT1/8,hWT1/8,$.GRA.LT},"magi",new int[]{0,0,0,0}));
+			$.ePic(PicCT1,$.o("src",charTable(wWT1,hWT1*4),"lapa",new int[]{wWT1,hWT1*4,$.GRA.LT}));
+		}});
+		WTray1.onMinimize(new Runnable(){void run(){kInp1=false;bgInp1();}});
+	}else{WTray1.show();}
+}
+void hideCT1(){if (WTray1.kCreated){WTray1.hide();}}
+
+
+
+// Search 2
+Object Search2;
+Object TeFind2,TeReplace2,FrNote2,TeNote2,  BTPaFind2,BTPaReplace2,BTScan2,BTScanSafe2, BTReplace2, BTNext2, BTBack2;
+int kHoldRe2=0;
+void addSearch2(){
+	Search2=$.SFH_Panel().size(W4/57).Title("Find And Replace").setTheme(hueHx,satHx,zlu,lumDarkHx).create(Touch).hideOnClose();
+	Search2.hide();
+	$.addBackground(Search2.FrTray,3,$.intA($.hsla(hueHx,satHx/3,lumHx*0.8,1),$.hsla(hueHx,satHx/3,lumHx*0.4,1)),1,new int[]{}, new float[] { zRP,zRP,zRP,zRP,  zRP,zRP,zRP,zRP});
+
+	TeFind2=$.aText(Search2.FrBody,new Object[]{"te","Find : "+toText(datFind2),"tecolo",$.CL.W,"fosi",fsP,"font","courier","lapa",$.intA($.FR.M,$.FR.M,$.GRA.LT),"magi",$.intA(0,maP,0,0)});
+	TeReplace2=$.aText(Search2.FrBody,new Object[]{"te","Replace : "+toText(datReplace2),"tecolo",$.CL.W,"fosi",fsP,"font","courier","lapa",$.intA($.FR.M,$.FR.M,$.GRA.LT),"magi",$.intA(0,maP+W4+paLsp,0,0)});
+	FrNote2=$.aFrLay(Search2.FrBody,new Object[]{"lapa",new int[]{$.FR.M,W3,$.GRA.LT},"magi",$.intA(0,maP+(W4+paLsp)*3,(int)(W8*1.5),0)});
+	TeNote2=$.aText(FrNote2,new Object[]{"te",lF2+" "+$.ranCat()+" "+(csF2+1)+" / "+lF2,"tecolo",$.CL.W,"fosi",fsP,"font","courier","lapa",$.intA($.FR.W,$.FR.M,$.GRA.TC)});
+
+	BTPaFind2=BTPanel("Paste").create(Search2.FrBody,$.o("lapa",$.intA(W8,W4,$.GRA.R) )).run(new Runnable(){public void run(){datFind2=datCopy;$.eText(TeFind2,$.o("Te","Find : "+toText(datFind2)));WD.sig("Pasted");}});
+	BTPaReplace2=BTPanel("Paste").create(Search2.FrBody,$.o("lapa",$.intA(W8,W4,$.GRA.R),"magi",$.intA(0,W4+paLsp,0,0)  )).run(new Runnable(){public void run(){datReplace2=datCopy;$.eText(TeReplace2,$.o("Te","Replace : "+toText(datReplace2)));WD.sig("Pasted");}});
+	BTScan2=BTPanel("Scan").create(Search2.FrBody,$.o("lapa",$.intA(W8,W4,$.GRA.R),"magi",$.intA(0,(W4+paLsp)*2,0,0)  )).run(new Runnable(){public void run(){
+		WD.sig("Scanning...");
+		$.delayF(new Runnable(){public void run(){
+			Found2=Scan(dat2,datFind2);lF2=Found2.size();csF2=lF2>0?0:-1;
+			seleClosed2();disS2();dimS2();
+			noti("Result",lF2+" match"+(lF2>1?"es":"")+" "+$.ranCat(),"Okie");
+		}},20);
+	}});
+	BTScanSafe2=BTPanel("Scan Safe").create(Search2.FrBody,$.o("lapa",$.intA((int)(W8*1.5),W4n,$.GRA.R),"magi",$.intA(0,(W4+paLsp)*3,0,0)  )).run(new Runnable(){public void run(){
+		Scan(dat2,datFind2,new Runnable(){public void run(){
+			Found2=scanResult;
+			lF2=Found2.size();csF2=lF2>0?0:-1;
+			seleClosed2();disS2();dimS2();
+			noti("Result",lF2+" match"+(lF2>1?"es":"")+" "+$.ranCat(),"Okie");
+		}});
+	}});
+
+	BTReplace2=BTPanel("Replace").create(Search2.FrBody,$.o("lapa",$.intA(W4*3,W4,$.GRA.L),"magi",$.intA(0,(W4+paLsp)*2,0,0)  ));
+
+	$.RatRun(BTReplace2.FrBT,new Runnable(){public void run(){
+		kHoldRe2+=1;int crKey=kHoldRe2;
+		$.delayF(new Runnable(){public void run(){if (crKey==kHoldRe2){replaceAllS2();}}},300);
+	}},new Runnable(){public void run(){kHoldRe2+=1;replaceS2();}},$.ERUN);
+	BTNext2=BTPanel("Next").create(Search2.FrBody,$.o("lapa",$.intA(W8,W4,$.GRA.CH),"tx",(W4+hW4n/4)+hW4n,"magi",$.intA(0,(W4+paLsp)*2,0,0)  )).run(new Runnable(){public void run(){seleNext2();disS2();dimS2();}});
+	BTBack2=BTPanel("Back").create(Search2.FrBody,$.o("lapa",$.intA(W8,W4,$.GRA.CH),"tx",-(W4+hW4n/4)+hW4n,"magi",$.intA(0,(W4+paLsp)*2,0,0)  )).run(new Runnable(){public void run(){seleBack2();disS2();dimS2();}});
+}
+
+void seleNext2(){if (csF2<lF2-1){csF2+=1; int[] zA=Found2.get(csF2);iSeleSta2=zA[0];iSeleEnd2=zA[1];goto2();}else if (lF2>0){seleClosed2();}}
+void seleBack2(){if (csF2>0){csF2-=1; int[] zA=Found2.get(csF2);iSeleSta2=zA[0];iSeleEnd2=zA[1];goto2();}else if (lF2>0){seleClosed2();}}
+void selePs2(int i){csF2=i;int[] zA=Found2.get(i);iSeleSta2=zA[0];iSeleEnd2=zA[1];goto2();}
+void seleClosed2(){boolean zK=false;for (int i=0;i<lF2;i++){if (Found2.get(i)[1]>=iSeleSta2){selePs2(i);zK=true;break;}} if (!zK&&lF2>0){selePs2(lF2-1);}}
+void replaceS2(){
+	if (lF2>0&&csF2<lF2){
+		int[] zA=Found2.get(csF2);iSeleSta2=zA[0];iSeleEnd2=zA[1]; int shf=datReplace2.length-datFind2.length;
+		WD.sig("Replacing...");
+		$.delayF(new Runnable(){void run(){replace2(datReplace2);
+			for (int i=csF2+1;i<lF2;i++){zA=Found2.get(i);zA[0]+=shf;zA[1]+=shf;Found2.set(i,zA);}
+			Found2.remove(csF2);lF2-=1;
+			if (lF2>0){if (csF2<lF2-1){csF2-=1;seleNext2();}else{selePs2(lF2-1);}}else{csF2=-1;}
+			disS2();dimS2();
+		WD.sig("Replaced");}},20);
+	}
+}
+void replaceAllS2(){
+	if (lF2>0&&csF2<lF2){
+		WD.sig("Replacing...");
+		$.delayF(new Runnable(){void run(){
+			int[] zA;int zl=lF2;
+			for (int i=lF2-1;i>-1;i--){zA=Found2.get(i);iSeleSta2=zA[0];iSeleEnd2=zA[1];replace2(datReplace2);}lF2=0;csF2=-1;
+			disS2();dimS2();
+			WD.sig("Replaced "+zl+" match"+(zl>1?"es":""));
+		}},20);
+	}
+}
+addSearch2();
+
+// Char table 2
+
+int wWT2=0, hWT2=0;
+Object WTray2=$.SFH_WinTray().IDTheme("HEXReader2").icon(raw.view_light).icon1(raw.view_dark).closable(false).title("Char Table");
+Object ScV_WT2,FrScV_WT2,FrCsCT2,PicCT2;
+
+void showCT2(){
+	if (!WTray2.kCreated){
+		WTray2.create(paWT,$.screenH_px-mWH,mWH,mWH);
+		WD.reg_remove(WTray2);
+		wWT2=WTray2.bodyW;hWT2=WTray2.bodyH;
+		ScV_WT2 = $.aScrV2(WTray2.FrBody,new Object[]{"lapa",laM,"bacolo",$.CL.Tb });
+		FrScV_WT2 = $.aFrLay(ScV_WT2,new Object[]{"lapa",new int[]{$.FR.M,$.FR.W,$.GRA.LT} });
+		FrCsCT2=$.aFrLay(FrScV_WT2,$.o("lapa",new int[]{wWT2/8,hWT2/8,$.GRA.LT}));
+		PicCT2=$.aPic(FrScV_WT2,$.o("lapa",new int[]{wWT2,hWT2*4,$.GRA.LT}));
+		$.ePic(PicCT2,$.o("src",charTable(wWT2,hWT2*4)));
+		$.RatRun(PicCT2,new Runnable(){void run(){if (kDat2){if (iSeleEnd2>-2){
+			double cW=wWT2/8.0,cH=hWT2/8.0;
+			int i=(int)($.Rat1[0]/cW)+(int)($.Rat1[1]/cH)*8,zN=i/8,zM=i%8;
+			$.eLay(FrCsCT2,$.o("magi",new int[]{(int)(zM*cW),(int)(zN*cH),0,0}));
+			$.blinkFr(FrCsCT2,0);
+			WD.sig("Inserting...");
+			$.delayF(new Runnable(){void run(){insert2(new byte[]{i});WD.sig("Inserted");resetS2();}},20);
+		}}}});
+		WTray2.onResizeDone(new Runnable(){void run(){
+			wWT2=WTray2.bodyW; hWT2=WTray2.bodyH;
+			$.eLay(FrCsCT2,$.o("lapa",new int[]{wWT2/8,hWT2/8,$.GRA.LT},"magi",new int[]{0,0,0,0}));
+			$.ePic(PicCT2,$.o("src",charTable(wWT2,hWT2*4),"lapa",new int[]{wWT2,hWT2*4,$.GRA.LT}));
+		}});
+		WTray2.onMinimize(new Runnable(){void run(){kInp2=false;bgInp2();}});
+	}else{WTray2.show();}
+}
+void hideCT2(){if (WTray2.kCreated){WTray2.hide();}}
+
+
+//　⭐　ＥＤＩＴ　ＤＡＴＡ　⭐
+byte[] getDat1(){return getDat(dat1,iSeleSta1,iSeleEnd1);}
+byte[] getDat2(){return getDat(dat2,iSeleSta2,iSeleEnd2);}
+//byte[] getDat(byte[] dat, int iSta, int iEnd){iSta=Max(0,Min(iSta,dat.length-1));iEnd=Max(0,Min(iEnd,dat.length-1)); int l=iEnd-iSta+1;byte[] zOut=new byte[l];for (int i=0;i<l;i++){zOut[i]=dat[i+iSta];} return zOut;}
+byte[] getDat(byte[] dat, int iSta, int iEnd){iSta=$.Max(0,$.Min(iSta,dat.length-1));iEnd=$.Max(0,$.Min(iEnd,dat.length-1)); int l=iEnd-iSta+1;byte[] zOut=new byte[l];int i=-1; while(i<l-1){i+=1;zOut[i]=dat[i+iSta];} return zOut;}
+byte[] replace(byte[] dat, int iSta, int iEnd, byte[] datZ){
+	int lZ=datZ.length, lCut=iEnd-iSta+1, lNew=dat.length-lCut+lZ, iNewNext=iSta+lZ, iSfh=-lZ+lCut;
+	byte[] zOut=new byte[lNew];
+	for (int i=0;i<iSta;i++){zOut[i]=dat[i];}
+	for (int i=0;i<lZ;i++){zOut[iSta+i]=datZ[i];}
+	for (int i=iNewNext;i<lNew;i++){zOut[i]=dat[i+iSfh];}
+	return zOut;
+}
+void calDat1(){l1=dat1.length; mL1=l1%16; nL1=l1/16+(mL1>0?1:0);disHex1();}
+void calDatGo1(){l1=dat1.length; mL1=l1%16; nL1=l1/16+(mL1>0?1:0);goto1();}
+void replace1(byte[] datBuff){if (iSeleSta1>-1 && iSeleEnd1>-1){
+	iSeleSta1=$.Max(0,$.Min(iSeleSta1,dat1.length-1));iSeleEnd1=$.Max(0,$.Min(iSeleEnd1,dat1.length-1));
+	cleanHistory1();
+	History1.add(new Object[]{iSeleSta1,iSeleEnd1,getDat1(),datBuff}); crHis1=History1.size()-1;
+	dat1=replace(dat1,iSeleSta1,iSeleEnd1,datBuff); iSeleSta1=$.Min(dat1.length,iSeleSta1+datBuff.length); iSeleEnd1=iSeleSta1;
+	calDatGo1();
+}}
+byte[] insert(byte[] dat, int iPs, byte[] datZ){iPs-=1;
+	int lZ=datZ.length, lNew=dat.length+lZ, iNewNext=iPs+lZ+1, iSfh=-lZ;
+	byte[] zOut=new byte[lNew];
+	for (int i=0;i<=iPs;i++){zOut[i]=dat[i];}
+	for (int i=0;i<lZ;i++){zOut[iPs+1+i]=datZ[i];}
+	for (int i=iNewNext;i<lNew;i++){zOut[i]=dat[i+iSfh];}
+	return zOut;
+}
+void insert1(byte[] datBuff){if (iSeleEnd1<0||iSeleEnd1>l1){iSeleEnd1=l1;} if (iSeleEnd1>-1){
+	cleanHistory1();
+	History1.add(new Object[]{iSeleEnd1,datBuff}); crHis1=History1.size()-1;
+	dat1=insert(dat1,iSeleEnd1,datBuff); iSeleSta1=$.Min(dat1.length,iSeleSta1+datBuff.length); iSeleEnd1=iSeleSta1;
+	calDatGo1();
+}}
+
+void calDat2(){l2=dat2.length; mL2=l2%16; nL2=l2/16+(mL2>0?1:0);disHex2();}
+void calDatGo2(){l2=dat2.length; mL2=l2%16; nL2=l2/16+(mL2>0?1:0);goto2();}
+void replace2(byte[] datBuff){if (iSeleSta2>-1 && iSeleEnd2>-1){
+	iSeleSta2=$.Max(0,$.Min(iSeleSta2,dat2.length-1));iSeleEnd2=$.Max(0,$.Min(iSeleEnd2,dat2.length-1));
+	cleanHistory2();
+	History2.add(new Object[]{iSeleSta2,iSeleEnd2,getDat2(),datBuff}); crHis2=History2.size()-1;
+	dat2=replace(dat2,iSeleSta2,iSeleEnd2,datBuff); iSeleSta2=$.Min(dat2.length,iSeleSta2+datBuff.length); iSeleEnd2=iSeleSta2;
+	calDatGo2();
+}}
+void insert2(byte[] datBuff){if (iSeleEnd2<0||iSeleEnd2>l2){iSeleEnd2=l2;} if (iSeleEnd2>-1){
+	cleanHistory2();
+	History2.add(new Object[]{iSeleEnd2,datBuff}); crHis2=History2.size()-1;
+	dat2=insert(dat2,iSeleEnd2,datBuff); iSeleSta2=$.Min(dat2.length,iSeleSta2+datBuff.length); iSeleEnd2=iSeleSta2;
+	calDatGo2();
+}}
+
+
+//　⭐　ＨＩＳＴＯＲＹ　⭐
+Object History1=$.ArrayList(4);// obj<>{obj[]{sta,end,oldDat,replaceDat},obj[]{posi,insertDat}}
+Object History2=$.ArrayList(4);
+Object[] zT;
+int crHis1=-1,crHis2=-1;
+void cleanHistory1(){ while (History1.size()-1>crHis1){History1.remove(History1.size()-1);}}
+void undo1(){if (crHis1>-1){zT=History1.get(crHis1);
+		if (zT.length==4){
+			if (zT[3].length==0){dat1=insert(dat1,zT[0],zT[2]); iSeleSta1=zT[0];iSeleEnd1=zT[1];}
+			else{dat1=replace(dat1,zT[0],zT[0]+zT[3].length-1,zT[2]); iSeleSta1=zT[0];iSeleEnd1=zT[1];}
+		}
+		else{dat1=replace(dat1,zT[0],zT[0]+zT[1].length-1,new byte[0]); iSeleSta1=zT[0];iSeleEnd1=zT[0];}
+		calDat1();
+		crHis1-=1;
+}}
+void redo1(){if (crHis1<History1.size()-1){crHis1+=1;zT=History1.get(crHis1);
+		if (zT.length==4){dat1=replace(dat1,zT[0],zT[1],zT[3]); iSeleSta1=zT[0];iSeleEnd1=zT[0]+zT[3].length-1;}
+		else{dat1=insert(dat1,zT[0],zT[1]); iSeleSta1=zT[0];iSeleEnd1=zT[0]+zT[1].length-1;}
+		calDat1();	
+}}
+
+void cleanHistory2(){ while (History2.size()-1>crHis2){History2.remove(History2.size()-1);}}
+void undo2(){if (crHis2>-1){zT=History2.get(crHis2);
+		if (zT.length==4){
+			if (zT[3].length==0){dat2=insert(dat2,zT[0],zT[2]); iSeleSta2=zT[0];iSeleEnd2=zT[1];}
+			else{dat2=replace(dat2,zT[0],zT[0]+zT[3].length-1,zT[2]); iSeleSta2=zT[0];iSeleEnd2=zT[1];}
+		}
+		else{dat2=replace(dat2,zT[0],zT[0]+zT[1].length-1,new byte[0]); iSeleSta2=zT[0];iSeleEnd2=zT[0];}
+		calDat2();
+		crHis2-=1;
+}}
+void redo2(){if (crHis2<History2.size()-1){crHis2+=1;zT=History2.get(crHis2);
+		if (zT.length==4){dat2=replace(dat2,zT[0],zT[1],zT[3]); iSeleSta2=zT[0];iSeleEnd2=zT[0]+zT[3].length-1;}
+		else{dat2=insert(dat2,zT[0],zT[1]); iSeleSta2=zT[0];iSeleEnd2=zT[0]+zT[1].length-1;}
+		calDat2();	
+}}
+
+
+//　⭐　ＤＩＳＰＬＡＹ　ＤＡＴＡ　⭐
+int fs=(int)(Hfs),fs2=fs*2,fs3=fs*3,hfs3=fs3/2,hfs=fs/2,tfs=fs/3,qfs=fs/4, fw=(int)(fs*1.2),hfw=fw/2,hfw11=hfw*11,tfw=fw/3,qfw=fw/4,pfw=fw/5,ofw=fw/8;
+double pcRoundLine=0;
+int disNL1,disNL2;
+int tCom1=0,tCom2=0;//offset compare
+int iSeleSta1=-1,iSeleSta2=-1;
+int iSeleEnd1=-1,iSeleEnd2=-1;
+String sName1="",sName2="";
+void disHex1(){if (kDat1){disHex1(rLoad1);}}
+void disHex2(){if (kDat2){disHex2(rLoad2);}}
+void disHex1(double pcL){ if ((l1/16)<(H1/fs2-2)){pcL=0;rLoad1=0;} disHex(PicDat1,W1,H1,sName1,iSeleSta1,iSeleEnd1,tCom1,tCom2,dat1,dat2,pcL); }
+void disHex2(double pcL){disHex(PicDat2,W2,H2,sName2,iSeleSta2,iSeleEnd2,tCom2,tCom1,dat2,dat1,pcL);}
+void disHex(Object PicDisplay, double WP, double HP, String sName, int iSeleSta, int iSeleEnd, int tComA, int tComB, byte[] datA,byte[] datB, double pcL){
+	double r=1;//resolution
+
+	int disNL=(HP/fs2+1);
+	int lA=datA.length, mLA=lA%16, nLA=lA/16+(mLA>0?1:0);
+	int lB=datB.length;
+	double pcRound=1/(nLA-disNL/2.0); pcRoundLine=pcRound;
+	double pcMax=(nLA-disNL/2.0)/nLA; pcL=$.Max(0,$.Min(1,pcL))*pcMax;
+	int pR=(int)(fs2*((pcL/pcMax)%pcRound)/pcRound);
+	int lSta=(int)(nLA*pcL),lEnd=lSta+disNL-1;
+
+	Object zBmp=$.Bitmap((int)(WP*r),(int)(HP*r));
+	Object[] zR=new Object[48]; int j=0;
+	for (int i=0;i<16;i++){j=i*3; zR[j]=sH[i]; zR[j+1]=(i*fw+(i/4)*tfw+hfw11+ofw)*r; zR[j+2]=fs*r+qfs; }
+
+	Object[] zL=new Object[disNL*3];
+	for (int i=0;i<disNL;i++){j=i*3; zL[j]=hex8(lSta+i); zL[j+1]=hfs*r; zL[j+2]=(i*fs2+fs3-pR)*r; }
+	
+	int iSta=$.Max(0,$.Min(lA-1,lSta*16)),iEnd=$.Min(lA,iSta+16*disNL);
+	int nC=iEnd-iSta,j=0;
+	int m16;int c16=-1,d16=0,c4=-1,d4=0;
+	Object[] zD=new Object[nC*3], zC=new Object[nC*3];
+	int zi,mD=fs3+hfs-ofw-pR,mC=-fs+pfw;
+	int crPs;
+	int[] rSele=new int[]{0,0,0,0};
+	Object RsMatch=$.ArrayList(1), RsSele=$.ArrayList(1);
+	int[] rsMatch=new int[0], rsSele=new int[0];
+	
+	double cX=0,cY=0;//cell char
+	int zPs;
+	for (int i=0;i<nC;i++){j=i*3;
+		crPs=iSta+i; zi=datA[crPs]&0xFF;
+		zD[j]=sHex(zi);  zC[j]=ASCII_UTF8[zi];
+		c16+=1; if (c16>15){c16=0;d16+=1;}
+		c4+=1; if (c4>3){c4=0;d4+=1;if (d4>3){d4=0;}}
+		cX=(c16*fw+d4*tfw+hfw11)*r; cY=(d16*fs2+mD)*r;
+		zPs=crPs+tComA-tComB;
+		if (zPs>-1&&zPs<lB&&datA[crPs]==datB[zPs]){ RsMatch.add((int)(cX-ofw*r)); RsMatch.add((int)(cY+qfs*r)); RsMatch.add((int)(cX+fw*r-qfw*r)); RsMatch.add((int)(cY-fs2*r+qfs*r)); }
+		if (crPs>=iSeleSta && crPs<=iSeleEnd){ RsSele.add((int)(cX-ofw*r)); RsSele.add((int)(cY+qfs*r)); RsSele.add((int)(cX+fw*r-qfw*r)); RsSele.add((int)(cY-fs2*r+qfs*r)); }
+		zD[j+1]=cX; zC[j+1]=zD[j+1]+ofw*r;
+		zD[j+2]=cY; zC[j+2]=zD[j+2]+mC*r;
+	}
+	if (iSeleEnd>-1){int iSE=iSeleEnd-iSta;
+		c16=iSE%16; d16=iSE/16; c4=c16%4; d4=c16/4;
+		cX=(c16*fw+d4*tfw+hfw11)*r; cY=(d16*fs2+mD)*r;
+		rSele=new int[]{(int)(cX-ofw*r), (int)(cY+qfs*r), (int)(cX+fw*r-qfw*r), (int)(cY-fs2*r+qfs*r)};
+	}
+	int lRs=RsMatch.size(); rsMatch=new int[lRs];  for (int i=0;i<lRs;i++){rsMatch[i]=RsMatch.get(i);}
+	lRs=RsSele.size(); rsSele=new int[lRs];  for (int i=0;i<lRs;i++){rsSele[i]=RsSele.get(i);}
+
+	double zPC=100; if (lA>0){zPC=(int)((double)iEnd*10000/lA)/100.0;}
+	String zSSelect="-";
+	if (iSeleSta!=-1){if (iSeleSta==iSeleEnd){zSSelect=""+iSeleSta;} else {zSSelect=iSeleSta+":"+iSeleEnd;}}
+	zBmp=$.Bitmap(zBmp,new Object[]{"fico",colo1A,"rs",rsMatch,"fico",tecoS,"rs",rsSele,"stco",teco1,"r",rSele
+		,"fico",teco1,"fo","mono","fosi",fs*r
+		,"ts",zL
+		,"fosi",fs*0.7*r,"ts",zD  ,"fosi",fs*r,"fico",teco,"ts",zC
+		,"fico",tecoS,"r",new double[]{(WP-fw)*r,hfs3*r,WP*r,((HP-fs3)*(pcL/pcMax)+hfs3)*r}
+		,"r",new double[]{(WP-fw)*r,hfs3*r,WP*r,(HP-hfs3)*r}
+		,"fico",teco1,"er",0,"r",new int[]{0,0,(WP-fw)*r,hfs3*r},"r",new int[]{0,(HP-hfs3)*r,(WP-fw)*r,HP*r}
+		,"dr",0,"ts",zR
+		,"fico",colo1,"r",new int[]{0,(HP-fs)*r,WP*r,HP*r}
+		,"fico",teco1,"fosi",fs*0.7*r
+		,"t",new Object[]{iSta+":"+iEnd+"/"+lA+"  " +zPC+"%  ["+zSSelect+"]  "+sName ,hfw*r,HP-qfs*r }
+	});
+	$.load(PicDisplay,zBmp);
+
+}
+
+
+double RX0=0,RY0=0;
+double RX=0,RY=0;
+double iRX=0,iRY=0,rLoad1=0,rLoad2=0;
+
+
+
+
+//　⭐　ＦＯＲ　ＦＩＬＥ　ＤＡＴＡ　１　⭐
+
+boolean kRange1=false; int kHold1=0; int iiSeleSta1,iiSeleEnd1,zSta,zEnd;
+$.RatRun(PicDat1,new Runnable(){void run(){
+	RX=$.Rat1[0];RY=$.Rat1[1];
+	RX0=RX;RY0=RY;
+	iRX=RX;iRY=RY;
+	if (iRX>=W1-fw*1.2){rLoad1=$.Max(0,$.Min(1,(iRY-hfs3)/(H1-fs3)));disHex1(rLoad1);}
+	else{
+		kHold1+=1;int crKey=kHold1;
+		$.delayF(new Runnable(){public void run(){if (crKey==kHold1){
+			kRange1=true;		
+			zSta=(int)((RY/(double)H1)*disNL1+ ($.Max(0,$.Min(1,rLoad1))*(nL1-disNL1/2.0)/nL1) *nL1-1)*16   +   $.Max(0,$.Min(15,(int)((RX-hfw11)/(fw+tfw/4)))) ;
+			zEnd=zSta;
+			iSeleSta1=$.Min(zSta,zEnd);
+			iSeleEnd1=iSeleSta1; iiSeleSta1=iSeleSta1;iiSeleEnd1=iSeleEnd1;
+			disHex1(); $.vibrate(50);
+		}}},300);
+	}
+}},new Runnable(){void run(){kHold1+=1;
+	RX=$.Rat1[0];RY=$.Rat1[1];
+	iRX=RX;iRY=RY;
+	if (iRX>=W1-fw*1.2){rLoad1=$.Max(0,$.Min(1,(iRY-hfs3)/(H1-fs3)));disHex1(rLoad1);}
+	else{
+		if (!kRange1){
+			if ($.abs(RX0-RX0)+$.abs(RY-RY0)<2){ 
+				iSeleSta1=(int)((RY/(double)H1)*disNL1+ ($.Max(0,$.Min(1,rLoad1))*(nL1-disNL1/2.0)/nL1) *nL1-1)*16   +   $.Max(0,$.Min(15,(int)((RX-hfw11)/(fw+tfw/4)))) ;
+				iSeleEnd1=iSeleSta1;
+				disHex1();
+			}
+			else{rLoad1=$.Max(0,$.Min(1,rLoad1-((RY-RY0)/fs2)*pcRoundLine)); disHex1(rLoad1);}
+		}
+		else {
+			kRange1=false;
+			zEnd=(int)((RY/(double)H1)*disNL1+ ($.Max(0,$.Min(1,rLoad1))*(nL1-disNL1/2.0)/nL1) *nL1-1)*16   +   $.Max(0,$.Min(15,(int)((RX-hfw11)/(fw+tfw/4)))) ;
+			iSeleSta1=$.Min(zSta,zEnd); iSeleEnd1=$.Max(zSta,zEnd);
+			if (iiSeleSta1!=iSeleSta1||iiSeleEnd1!=iSeleEnd1){iiSeleSta1=iSeleSta1;iiSeleEnd1=iSeleEnd1;
+				disHex1();
+			}
+		}
+	}
+}},new Runnable(){void run(){
+	RX=$.Rat1[0];RY=$.Rat1[1];
+	if (iRY!=RY){iRX=RX;
+		if (iRY!=RY){iRY=RY;
+			if (iRX>=W1-fw*1.2){rLoad1=$.Max(0,$.Min(1,(iRY-hfs3)/(H1-fs3)));disHex1(rLoad1);}
+			else{
+				if (!kRange1){kHold1+=1;
+					disHex1(rLoad1-((RY-RY0)/fs2)*pcRoundLine);
+				}
+			}
+		}
+		if (iRX<W1-fw*1.2 && kRange1) {
+			zEnd=(int)((RY/(double)H1)*disNL1+ ($.Max(0,$.Min(1,rLoad1))*(nL1-disNL1/2.0)/nL1) *nL1-1)*16   +   $.Max(0,$.Min(15,(int)((RX-hfw11)/(fw+tfw/4)))) ;
+			iSeleSta1=$.Min(zSta,zEnd); iSeleEnd1=$.Max(zSta,zEnd);
+			if (iiSeleSta1!=iSeleSta1||iiSeleEnd1!=iSeleEnd1){iiSeleSta1=iSeleSta1;iiSeleEnd1=iSeleEnd1;
+				disHex1();
+			}
+		}
+	}
+}});
+
+boolean onOpen1=false; String sPath1="";
+$.RatRun(FrMMOpen1,new Runnable(){void run(){if (!onOpen1){onOpen1=true;blink(FrMMOpen1);
+	layoutDat((kDat2||onOpen2)?3:1);disHex2();
+   Object EX=$.SFH_FileSelectLite(FrDat1, (int)W,(int)(H-Hstat-W5*2), hueHx,satHx,lumHx, lumDarkHx, $.ROOT(), new Runnable(){public void run(){
+		EX.remove(); onOpen1=false; layoutDat(); disHex2();
+	}}, new Runnable(){public void run(){sPath1=EX.pathOut;
+			sName1=$.FILE_NAME(sPath1);
+			dat1=$.LOAD_DAT(sPath1); kDat1=true; iSeleSta1=dat1.length;iSeleEnd1=iSeleSta1;
+			rLoad1=0; calDat1();
+	}});
+	$.eLay(EX.FrTray,new Object[]{"bacolo",bacolo});
+	WD.reg_remove(EX);
+}}});
+
+void goto1(){rLoad1=$.Max(0,$.Min(1,(double)(iSeleEnd1/16)/$.Max(1,l1/16))); disHex1(rLoad1);}
+void goto1(int posi){iSeleSta1=posi;iSeleEnd1=posi; rLoad1=$.Max(0,$.Min(1,(double)(posi/16)/$.Max(1,l1/16))); disHex1(rLoad1);}
+$.RatRun(FrMMGoto1,new Runnable(){void run(){if (kDat1){blink(FrMMGoto1);
+	Object bx=$.SFH_Confirm().Input("",""+(iSeleEnd1!=-1?iSeleEnd1:0)).Title("Goto","Goto position (decimal) :").ButtonName("Go","Cancel").size(0.7).create(Touch).run(new Runnable(){public void run(){goto1($.intS(bx.sOut));}},$.ERUN);
+}}});
+$.RatRun(FrMMMove1,new Runnable(){void run(){if (kDat1){blink(FrMMMove1);
+	Object bx=$.SFH_Confirm().Input("",""+tCom1).Title("Compare Calibrate","Offset (decimal) :").ButtonName("Apply","Cancel").size(0.7).create(Touch).run(new Runnable(){public void run(){
+	tCom1=$.intS(bx.sOut);
+	disHex1(); disHex2();
+}},$.ERUN);
+}}});
+$.RatRun(FrMMCopy1,new Runnable(){void run(){if (kDat1){blink(FrMMCopy1);
+	if (iSeleSta1>=l1&&iSeleEnd1>=l1){datCopy=new byte[0];WD.sig("Copied");}
+	else {WD.sig("Copying...");$.delayF(new Runnable(){void run(){datCopy=getDat1();WD.sig("Copied");}},20);}
+}}});
+$.RatRun(FrMMCut1,new Runnable(){void run(){if (kDat1){if (iSeleSta1>-1 && iSeleEnd1>-1){blink(FrMMCut1);
+	if (iSeleSta1>=l1&&iSeleEnd1>=l1){datCopy=new byte[0];WD.sig("Copied");}
+	else{WD.sig("Cutting...");$.delayF(new Runnable(){void run(){datCopy=getDat1();replace1(new byte[0]);WD.sig("Cutted");resetS1();}},20);}
+}}}});
+$.RatRun(FrMMPaste1,new Runnable(){void run(){if (kDat1){if (iSeleSta1>-1 && iSeleEnd1>-1){blink(FrMMPaste1);
+	if (iSeleSta1<l1||iSeleEnd1<l1){WD.sig("Replacing...");$.delayF(new Runnable(){void run(){replace1(datCopy);WD.sig("Replaced");resetS1();}},20);}
+	else{WD.sig("Pasting...");$.delayF(new Runnable(){void run(){insert1(datCopy);WD.sig("Pasted");resetS1();}},20);}
+}}}});
+$.RatRun(FrMMInsert1,new Runnable(){void run(){if (kDat1){if (iSeleEnd1>-2){blink(FrMMInsert1);
+	WD.sig("Inserting...");$.delayF(new Runnable(){void run(){insert1(datCopy);WD.sig("Inserted");resetS1();}},20);
+}}}});
+$.RatRun(FrMMUndo1,new Runnable(){void run(){if (kDat1){blink(FrMMUndo1);undo1();resetS1();}}});
+$.RatRun(FrMMRedo1,new Runnable(){void run(){if (kDat1){blink(FrMMRedo1);redo1();resetS1();}}});
+$.RatRun(FrMMNew1,new Runnable(){void run(){WD.sig("New File...");if (kDat1){iSeleSta1=0; iSeleEnd1=l1-1; if (iSeleSta1>-1 && iSeleEnd1>-1){blink(FrMMNew1);
+		$.delayF(new Runnable(){void run(){replace1(new byte[0]);}},20);
+	}}
+	else{layoutDat(kDat2?3:1);disHex2(); kDat1=true; iSeleSta1=0;iSeleEnd1=0;rLoad1=0; calDat1();WD.sig("Done");}
+	resetS1();
+}});
+
+$.RatRun(FrMMSaveAs1,new Runnable(){void run(){if (kDat1){blink(FrMMSaveAs1);
+	Object bx=$.SFH_Confirm().Input("",""+sName1).Title("Save As","File name :").ButtonName("Save","Cancel").size(0.7).create(Touch).run(new Runnable(){public void run(){
+		sName1=bx.sOut;
+		WD.sig("Saving...");
+		$.delayF(new Runnable(){void run(){$.SAVE(sName1,dat1);disHex1();WD.sig("Done");}},20);
+	}},$.ERUN);
+}}});
+
+$.RatRun(FrMMSearch1,new Runnable(){void run(){if (kDat1){blink(FrMMSearch1);$.show(Search1.FrBG);dimS1(); }}});
+
+boolean kInp1=false;
+void bgInp1(){float z=(float)(W4n/5);
+	$.addBackground(FrMMInp1,1,new int[]{kInp1?tecoS:$.CL.T,kInp1?tecoS:$.CL.T},1,new int[]{}, new float[]{z,z,z,z, z,z,z,z});
+}
+$.RatRun(FrMMInp1,new Runnable(){void run(){if (kDat1){if (!kInp1){kInp1=true;showCT1();}else{kInp1=false;hideCT1();}bgInp1();}}});
+
+int iSta1=-1,iEnd1=-1;
+void disSele1(){if (iSta1>-1&&iEnd1>-1){iSeleSta1=$.Min(iSta1,iEnd1);iSeleEnd1=$.Max(iSta1,iEnd1);disHex1();}}
+$.RatRun(FrMMSta1,new Runnable(){void run(){if (kDat1){blink(FrMMSta1);iSta1=iSeleSta1;disSele1();WD.sig("Select from "+iSeleSta1+" to "+iSeleEnd1);}}});
+$.RatRun(FrMMEnd1,new Runnable(){void run(){if (kDat1){blink(FrMMEnd1);iEnd1=iSeleEnd1;disSele1();WD.sig("Select from "+iSeleSta1+" to "+iSeleEnd1);}}});
+
+
+
+
+
+
+
+
+//　⭐　ＦＯＲ　ＦＩＬＥ　ＤＡＴＡ　２　⭐
+
+
+boolean kRange2=false; int kHold2=0; int iiSeleSta2,iiSeleEnd2;
+$.RatRun(PicDat2,new Runnable(){void run(){
+	RX=$.Rat1[0];RY=$.Rat1[1];
+	RX0=RX;RY0=RY;
+	iRX=RX;iRY=RY;
+	if (iRX>=W2-fw*1.2){rLoad2=$.Max(0,$.Min(1,(iRY-hfs3)/(H2-fs3)));disHex2(rLoad2);}
+	else{
+		kHold2+=1;int crKey=kHold2;
+		$.delayF(new Runnable(){public void run(){if (crKey==kHold2){
+			kRange2=true;		
+			zSta=(int)((RY/(double)H2)*disNL2+ ($.Max(0,$.Min(1,rLoad2))*(nL2-disNL2/2.0)/nL2) *nL2-1)*16   +   $.Max(0,$.Min(15,(int)((RX-hfw11)/(fw+tfw/4)))) ;
+			zEnd=zSta;
+			iSeleSta2=$.Min(zSta,zEnd);
+			iSeleEnd2=iSeleSta2; iiSeleSta2=iSeleSta2;iiSeleEnd2=iSeleEnd2;
+			disHex2(); $.vibrate(50);
+		}}},300);
+	}
+}},new Runnable(){void run(){kHold2+=1;
+	RX=$.Rat1[0];RY=$.Rat1[1];
+	iRX=RX;iRY=RY;
+	if (iRX>=W2-fw*1.2){rLoad2=$.Max(0,$.Min(1,(iRY-hfs3)/(H2-fs3)));disHex2(rLoad2);}
+	else{
+		if (!kRange2){
+			if ($.abs(RX0-RX0)+$.abs(RY-RY0)<2){ 
+				iSeleSta2=(int)((RY/(double)H2)*disNL2+ ($.Max(0,$.Min(1,rLoad2))*(nL2-disNL2/2.0)/nL2) *nL2-1)*16   +   $.Max(0,$.Min(15,(int)((RX-hfw11)/(fw+tfw/4)))) ;
+				iSeleEnd2=iSeleSta2;
+				disHex2();
+			}
+			else{rLoad2=$.Max(0,$.Min(1,rLoad2-((RY-RY0)/fs2)*pcRoundLine)); disHex2(rLoad2);}
+		}
+		else {
+			kRange2=false;
+			zEnd=(int)((RY/(double)H2)*disNL2+ ($.Max(0,$.Min(1,rLoad2))*(nL2-disNL2/2.0)/nL2) *nL2-1)*16   +   $.Max(0,$.Min(15,(int)((RX-hfw11)/(fw+tfw/4)))) ;
+			iSeleSta2=$.Min(zSta,zEnd); iSeleEnd2=$.Max(zSta,zEnd);
+			if (iiSeleSta2!=iSeleSta2||iiSeleEnd2!=iSeleEnd2){iiSeleSta2=iSeleSta2;iiSeleEnd2=iSeleEnd2;
+				disHex2();
+			}
+		}
+	}
+}},new Runnable(){void run(){
+	RX=$.Rat1[0];RY=$.Rat1[1];
+	if (iRY!=RY){iRX=RX;
+		if (iRY!=RY){iRY=RY;
+			if (iRX>=W2-fw*1.2){rLoad2=$.Max(0,$.Min(1,(iRY-hfs3)/(H2-fs3)));disHex2(rLoad2);}
+			else{
+				if (!kRange2){kHold2+=1;
+					disHex2(rLoad2-((RY-RY0)/fs2)*pcRoundLine);
+				}
+			}
+		}
+		if (iRX<W2-fw*1.2 && kRange2) {
+			zEnd=(int)((RY/(double)H2)*disNL2+ ($.Max(0,$.Min(1,rLoad2))*(nL2-disNL2/2.0)/nL2) *nL2-1)*16   +   $.Max(0,$.Min(15,(int)((RX-hfw11)/(fw+tfw/4)))) ;
+			iSeleSta2=$.Min(zSta,zEnd); iSeleEnd2=$.Max(zSta,zEnd);
+			if (iiSeleSta2!=iSeleSta2||iiSeleEnd2!=iSeleEnd2){iiSeleSta2=iSeleSta2;iiSeleEnd2=iSeleEnd2;
+				disHex2();
+			}
+		}
+	}
+}});
+
+
+boolean onOpen2=false; String sPath2="";
+$.RatRun(FrMMOpen2,new Runnable(){void run(){if (!onOpen2){onOpen2=true;blink(FrMMOpen2);
+	layoutDat((kDat1||onOpen1)?3:2);disHex1();
+   Object EX=$.SFH_FileSelectLite(FrDat2, (int)W,(int)(H-Hstat-W5*2), hueHx,satHx,lumHx, lumDarkHx, $.ROOT(), new Runnable(){public void run(){
+		EX.remove(); onOpen2=false; layoutDat(); disHex1();
+	}}, new Runnable(){public void run(){sPath2=EX.pathOut;
+			sName2=$.FILE_NAME(sPath2);
+			dat2=$.LOAD_DAT(sPath2); kDat2=true; iSeleSta2=dat2.length;iSeleEnd2=iSeleSta2;
+			rLoad2=0; calDat2();
+	}});
+	$.eLay(EX.FrTray,new Object[]{"bacolo",bacolo});
+	WD.reg_remove(EX);
+}}});
+
+
+void goto2(){rLoad2=$.Max(0,$.Min(1,(double)(iSeleEnd2/16)/$.Max(1,l2/16))); disHex2(rLoad2);}
+void goto2(int posi){iSeleSta2=posi;iSeleEnd2=posi; rLoad2=$.Max(0,$.Min(1,(double)(posi/16)/$.Max(1,l2/16))); disHex2(rLoad2);}
+$.RatRun(FrMMGoto2,new Runnable(){void run(){if (kDat2){blink(FrMMGoto2);
+	Object bx=$.SFH_Confirm().Input("",""+(iSeleEnd2!=-1?iSeleEnd2:0)).Title("Goto","Goto position (decimal) :").ButtonName("Go","Cancel").size(0.7).create(Touch).run(new Runnable(){public void run(){goto2($.intS(bx.sOut));}},$.ERUN);
+}}});
+$.RatRun(FrMMMove2,new Runnable(){void run(){if (kDat2){blink(FrMMMove2);
+	Object bx=$.SFH_Confirm().Input("",""+tCom2).Title("Compare Calibrate","Offset (decimal) :").ButtonName("Apply","Cancel").size(0.7).create(Touch).run(new Runnable(){public void run(){
+	tCom2=$.intS(bx.sOut);
+	disHex2(); disHex1();
+}},$.ERUN);
+}}});
+$.RatRun(FrMMCopy2,new Runnable(){void run(){if (kDat2){blink(FrMMCopy2);
+	if (iSeleSta2>=l2&&iSeleEnd2>=l2){datCopy=new byte[0];WD.sig("Copied");}
+	else {WD.sig("Copying...");$.delayF(new Runnable(){void run(){datCopy=getDat2();WD.sig("Copied");}},20);}
+}}});
+$.RatRun(FrMMCut2,new Runnable(){void run(){if (kDat2){if (iSeleSta2>-1 && iSeleEnd2>-1){blink(FrMMCut2);
+	if (iSeleSta2>=l2&&iSeleEnd2>=l2){datCopy=new byte[0];WD.sig("Copied");}
+	else{WD.sig("Cutting...");$.delayF(new Runnable(){void run(){datCopy=getDat2();replace2(new byte[0]);WD.sig("Cutted");resetS2();}},20);}
+}}}});
+$.RatRun(FrMMPaste2,new Runnable(){void run(){if (kDat2){if (iSeleSta2>-1 && iSeleEnd2>-1){blink(FrMMPaste2);
+	if (iSeleSta2<l2||iSeleEnd2<l2){WD.sig("Replacing...");$.delayF(new Runnable(){void run(){replace2(datCopy);WD.sig("Replaced");resetS2();}},20);}
+	else{WD.sig("Pasting...");$.delayF(new Runnable(){void run(){insert2(datCopy);WD.sig("Pasted");resetS2();}},20);}
+}}}});
+$.RatRun(FrMMInsert2,new Runnable(){void run(){if (kDat2){if (iSeleEnd2>-2){blink(FrMMInsert2);
+	WD.sig("Inserting...");$.delayF(new Runnable(){void run(){insert2(datCopy);WD.sig("Inserted");resetS2();}},20);
+}}}});
+$.RatRun(FrMMUndo2,new Runnable(){void run(){if (kDat2){blink(FrMMUndo2);undo2();resetS2();}}});
+$.RatRun(FrMMRedo2,new Runnable(){void run(){if (kDat2){blink(FrMMRedo2);redo2();resetS2();}}});
+$.RatRun(FrMMNew2,new Runnable(){void run(){WD.sig("New File...");if (kDat2){iSeleSta2=0; iSeleEnd2=l2-1; if (iSeleSta2>-1 && iSeleEnd2>-1){blink(FrMMNew2);
+		$.delayF(new Runnable(){void run(){replace2(new byte[0]);}},20);
+	}}
+	else{layoutDat(kDat1?3:2);disHex1(); kDat2=true; iSeleSta2=0;iSeleEnd2=0;rLoad2=0; calDat2();WD.sig("Done");}
+	resetS2();
+}});
+
+$.RatRun(FrMMSaveAs2,new Runnable(){void run(){if (kDat2){blink(FrMMSaveAs2);
+	Object bx=$.SFH_Confirm().Input("",""+sName2).Title("Save As","File name :").ButtonName("Save","Cancel").size(0.7).create(Touch).run(new Runnable(){public void run(){
+		sName2=bx.sOut;
+		WD.sig("Saving...");
+		$.delayF(new Runnable(){void run(){$.SAVE(sName2,dat2);disHex2();WD.sig("Done");}},20);
+	}},$.ERUN);
+}}});
+
+$.RatRun(FrMMSearch2,new Runnable(){void run(){if (kDat2){blink(FrMMSearch2);$.show(Search2.FrBG);dimS2(); }}});
+
+boolean kInp2=false;
+void bgInp2(){float z=(float)(W4n/5);
+	$.addBackground(FrMMInp2,1,new int[]{kInp2?tecoS:$.CL.T,kInp2?tecoS:$.CL.T},1,new int[]{}, new float[]{z,z,z,z, z,z,z,z});
+}
+$.RatRun(FrMMInp2,new Runnable(){void run(){if (kDat2){if (!kInp2){kInp2=true;showCT2();}else{kInp2=false;hideCT2();}bgInp2();}}});
+
+int iSta2=-1,iEnd2=-1;
+void disSele2(){if (iSta2>-1&&iEnd2>-1){iSeleSta2=$.Min(iSta2,iEnd2);iSeleEnd2=$.Max(iSta2,iEnd2);disHex2();}}
+$.RatRun(FrMMSta2,new Runnable(){void run(){if (kDat2){blink(FrMMSta2);iSta2=iSeleSta2;disSele2();WD.sig("Select from "+iSeleSta2+" to "+iSeleEnd2);}}});
+$.RatRun(FrMMEnd2,new Runnable(){void run(){if (kDat2){blink(FrMMEnd2);iEnd2=iSeleEnd2;disSele2();WD.sig("Select from "+iSeleSta2+" to "+iSeleEnd2);}}});
+
+
+//　⭐　ＲＥＳＩＺＩＮＧ　⭐
+void eFrBT1(Object Fr, double tx){$.eLay(Fr,$.o("lapa",$.intA(W4,W4,$.GRA.LC),"tx",tx )); }
+void eFrBT2(Object Fr, double tx){$.eLay(Fr,$.o("lapa",$.intA(W4,W4,$.GRA.LC),"tx",tx )); }
+void eFrBT2R(Object Fr, double tx){$.eLay(Fr,$.o("lapa",$.intA(W4,W4,$.GRA.RC),"tx",tx )); }
+
+void eFrBT1In(Object Fr, double tx){$.eLay(Fr,$.o("lapa",$.intA(W4n,W4n,$.GRA.LT),"tx",tx )); }
+void eFrBT2In(Object Fr, double tx){$.eLay(Fr,$.o("lapa",$.intA(W4n,W4n,$.GRA.LT),"tx",tx )); }
+
+void reloadLayout(){
+	W4=W/13.0; W4n=W/14.0; hW4n=W4n/2; W3=W4*3.0/4; W5=W4*5/4; W8=W4*2; Hfs=W4/2.1;
+	$.eLay(FrMenu1,$.o("lapa",$.intA(W,W5,$.GRA.LT) ));
+	$.eLay(FrMenu2,$.o("lapa",$.intA(W,W5,$.GRA.LB) ));
+	m=(int)((W5-W4)/2);
+	eFrBT1(FrMMNew1,m);eFrBT1(FrMMOpen1,m+W4n);eFrBT1(FrMMSaveAs1,m+W4n*2);eFrBT1(FrMMSearch1,m*2+W4n*3);eFrBT1(FrMMGoto1,m*2+W4n*4);eFrBT1(FrMMMove1,m*2+W4n*5);eFrBT1(FrMMUndo1,m*3+W4n*6);eFrBT1(FrMMRedo1,m*3+W4n*7);eFrBT1(FrMMCopy1,m*4+W4n*8);eFrBT1(FrMMCut1,m*4+W4n*9);eFrBT1(FrMMPaste1,m*4+W4n*10);eFrBT1(FrMMInsert1,m*4+W4n*11);
+	eFrBT2(FrMMNew2,m);eFrBT2(FrMMOpen2,m+W4n);eFrBT2(FrMMSaveAs2,m+W4n*2);eFrBT2(FrMMSearch2,m*2+W4n*3);eFrBT2(FrMMGoto2,m*2+W4n*4);eFrBT2(FrMMMove2,m*2+W4n*5);eFrBT2(FrMMUndo2,m*3+W4n*6);eFrBT2(FrMMRedo2,m*3+W4n*7);eFrBT2(FrMMCopy2,m*4+W4n*8);eFrBT2(FrMMCut2,m*4+W4n*9);eFrBT2(FrMMPaste2,m*4+W4n*10);eFrBT2(FrMMInsert2,m*4+W4n*11);eFrBT2R(FrMMClose,-m);
+
+	Hstat=kFull?$.statusBarH_px:0; la0=$.intA(W,1,$.GRA.LT);ma1=$.intA(0,W5,0,0); ma2=$.intA(0,0,0,W5); laM=$.intA($.FR.M,$.FR.M,$.GRA.LT);
+	$.eLay(FrDat1,$.o("lapa",la0));
+	$.eLay(FrDat2,$.o("lapa",la0));
+	$.ePic(PicDat1,$.o("lapa",laM));
+	$.ePic(PicDat2,$.o("lapa",laM));
+	
+	eFrBT1In(FrMMInp1,m);eFrBT1In(FrMMSta1,m+W4n);eFrBT1In(FrMMEnd1,m+W4n*2);
+	eFrBT2In(FrMMInp2,m);eFrBT2In(FrMMSta2,m+W4n);eFrBT2In(FrMMEnd2,m+W4n*2);
+
+	fs=(int)(Hfs);fs2=fs*2;fs3=fs*3;hfs3=fs3/2;hfs=fs/2;tfs=fs/3;qfs=fs/4; fw=(int)(fs*1.2);hfw=fw/2;hfw11=hfw*11;tfw=fw/3;qfw=fw/4;pfw=fw/5;ofw=fw/8;
+
+	Search1.remove();addSearch1();
+	Search2.remove();addSearch2();
+
+	$.delayF(new Runnable(){void run(){
+		layoutDat();
+		disHex1();disHex2();
+	}},50);
+}
+if (iW!=W||iH!=H){iW=W;iH=H;
+	reloadLayout();
+}
+    
